@@ -20,3 +20,4 @@ delete.txt
 
 #Temporary files
 *.idlk #indesign
+/design assets
