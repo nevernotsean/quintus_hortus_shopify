@@ -1,3 +1,13 @@
 <!-- /templates/index.liquid -->
+{% layout 'fullpage' %}
 
-{{ content_for_index }}
+<div class="slide slide1 home">
+  <div class="row">
+    <div class="column s12 m8 l8 centered">
+      <img src="{{ 'qh-logo.svg' | asset_url }}" alt="">
+      <h1 class="h3">Chaussettes cultivees en France dans notre potager pour vous.</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      {{ content_for_index }}
+    </div>
+  </div>
+</div>

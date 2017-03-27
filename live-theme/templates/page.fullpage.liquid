@@ -1,0 +1,9 @@
+{% layout 'fullpage' %}
+{% assign content = page.content | split: '<!-- section -->'%}
+<div class="section">
+{% for slide in content %}
+  <div class="slide slide{{forloop.index}} center">
+  {{ slide }}
+  </div>
+{% endfor %}
+</div>
