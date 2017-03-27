@@ -1,1 +1,26 @@
+<<<<<<< HEAD
+=======
+.DS_Store
+node_modules
+.tmp
+npm-debug.log
+builds/production/images/**
+**.css.map
+images-working
+builds/development/css/style.css
+notes.txt
+notes/*
+_notes/*
+delete.html
+delete.txt
+
+#Video
+**/exports-high/
+**/*Previews/
+**/*Auto-Save/
+**/*AME/
+
+#Temporary files
+*.idlk #indesign
+>>>>>>> f0b4698f43aada00fb69c02fce2387bbbebda3c9
 /design assets

@@ -2,30 +2,32 @@
 
 <header class="theme-header" role="banner">
   <div class="container">
+    <div class="row collapse">
 
-    <div class="row l-table m-table">
-      <div class="column l8 m8 s12 l-left m-left s-middle">
+      <div class="column l5 m4 s12 l-left m-left s-middle">
 
-        {% if template == 'index' %}
-          <h1 class="logo" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-        {% else %}
-          <div class="h1 logo" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-        {% endif %}
-          {% if settings.logo_use_image %}
-            <a href="/" itemprop="url">
-              <img src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name }}" itemprop="logo">
-            </a>
-          {% else %}
-            <a href="/" itemprop="url">{{ shop.name }}</a>
-          {% endif %}
-        {% if template == 'index' %}
-          </h1>
-        {% else %}
-          </div>
-        {% endif %}
+        <div class="s-hide">
+          {% include 'theme-nav-main' %}
+        </div>
+        <div class="l-hide m-hide">
+          <a href="/" data-nav="#NavToggled" class="nav-toggled-link ">{{ 'common.menu' | t }}</a>
+        </div>
 
       </div>
-      <div class="column l4 m4 s12 l-right m-right s-middle">
+      <div class="column l2 m4 s12 l-middle m-middle s-middle">
+
+      <div class="h1 logo" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      {% if settings.logo_use_image %}
+        <a href="/" itemprop="url">
+          <img src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name }}" itemprop="logo">
+        </a>
+      {% else %}
+        <a href="/" itemprop="url">{{ shop.name }}</a>
+      {% endif %}
+      </div>
+
+      </div>
+      <div class="column l5 m4 s12 l-right m-right s-middle">
 
         {% if shop.customer_accounts_enabled %}
           {% if customer %}
@@ -44,25 +46,11 @@
       </div>
     </div>
 
-    <div class="row l-table m-table">
-      <div class="column l6 m6 s12 l-left m-left s-middle">
-
-        <div class="s-hide">
-          {% include 'theme-nav-main' %}
-        </div>
-        <div class="l-hide m-hide">
-          <a href="/" data-nav="#NavToggled" class="nav-toggled-link ">{{ 'common.menu' | t }}</a>
-        </div>
-
-      </div>
-      <div class="column l6 m6 s12 l-right m-right s-hide">
-
-        {% include 'search-form' %}
-
-      </div>
-    </div>
-
-    <hr>
-
+  </div>
+  <div class="border">
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="bottom"></div>
+    <div class="top"></div>
   </div>
 </header>
