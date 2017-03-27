@@ -54,9 +54,9 @@
   {% endif %}
 
   <!-- fullPage.js ================================================== -->
-  <link rel="stylesheet" type="text/css" href="jquery.fullPage.css" />
-  <script type="text/javascript" src="jquery.fullPage.js"></script>
-  
+  {{ 'jquery.fullPage.css' | asset_url | style_tag }}
+  {{ 'jquery.fullPage.js' | asset_url | script_tag }}
+
 </head>
 
 <body id="{{ page_title | handle }}" class="{% if customer %}customer-logged-in {% endif %}template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}{% if collection.template_suffix %} templet-{{ collection.template_suffix }}{% endif %}" >
@@ -76,6 +76,7 @@
   {{ 'rivets.min.js' | asset_url | script_tag }}
   {{ 'cart.js' | asset_url | script_tag }}
   {{ 'app.js' | asset_url | script_tag }}
+  {{ 'app.fullpage.js' | asset_url | script_tag }}
 
   <script type="text/javascript">
     jQuery(function() {
