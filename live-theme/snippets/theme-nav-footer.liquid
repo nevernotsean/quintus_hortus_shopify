@@ -1,0 +1,42 @@
+<!-- /snippets/theme-nav-main.liquid -->
+
+<nav class="theme-nav-footer" role="navigation">
+  <ul class="inline">
+    {% for link in linklists.footer.links %}
+      {% assign child_list_handle = link.title | handleize %}
+      {% if linklists[child_list_handle].links != blank %}
+        <li class="dropdown" aria-haspopup="true" data-id="{{ child_list_handle}}">
+          <a href="{{ link.url }}" class="nav-link {% if link.active %} active{% endif %}">
+            {{ link.title }}
+          </a>
+          <ul class="dropdown_menu hidden" id="{{ child_list_handle }}">
+            {% for childlink in linklists[child_list_handle].links %}
+              <li>
+                <a href="{{ childlink.url }}" class="nav-link{% if childlink.active %} active{% endif %}">{{ childlink.title | escape }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </li>
+      {% else %}
+        <li>
+          <a href="{{ link.url }}" class="nav-link{% if link.active %} active{% endif %}">{{ link.title }}</a>
+        </li>
+      {% endif %}
+    {% endfor %}
+    {% if settings.enable_footer_subscribe %}
+    <li>
+      <div class="subscribe">
+          <a href="#">Suivez-nous</a>
+          {% include 'subscribe-form' %}
+      </div>
+    </li>
+    {% endif %}
+    {% if settings.enable_footer_social %}
+    <li>
+      <div class="social-links">
+          {% include 'social-links' %}
+      </div>
+    </li>
+    {% endif %}
+  </ul>
+</nav>

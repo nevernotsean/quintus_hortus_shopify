@@ -403,7 +403,10 @@ select {
   line-height: ($gutter - $borderWeight*2);
   padding: 0 $gutter/1.5;
   font-size: 1.125rem;
-  color: lighten($colorBrand, 25%);
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 0.05em;
   background-color: $colorBrand;
   border: $borderWeight $borderStyle $colorBrand;
   border-radius: $borderRadius;
@@ -539,7 +542,7 @@ a.button {
 // Rows
 
 .row {
-  margin: 0 (-$gutter/2) $gutter;
+  margin: 0 (-$gutter/2);
   // Table Grid
   &.table { @include table(); }
   &.xl-table { @include xl() { @include table(); } }
@@ -902,7 +905,7 @@ body {
     cursor: default;
     white-space: initial;
     color: $colorForeground;
-    a {
+    a:not(.button) {
       color: $colorForeground;
     }
   }
@@ -1093,9 +1096,9 @@ body {
 
 //// fullpage border
 $border-width: 40px;
-.theme-header { position: fixed; top: 0; left: 0; width: 100%; }
-.theme-header a { line-height: $border-width; }
-#fullpage { padding: $border-width + 10px;}
+body { padding: $border-width + 10px; }
+.theme-header { position: fixed; top: 0; left: 0; width: 100%; z-index: 99999; }
+.theme-header a, .theme-footer a { line-height: $border-width; }
 .border {
   > div {
     background: white;
@@ -1120,8 +1123,15 @@ $border-width: 40px;
   }
 }
 
-//// dropped logo
-.logo { padding-top: $border-width - 1px; }
+//// topbar & footer bar
+.menu-links, .secondary-links > *, .theme-footer > * {
+    display: inline-block;
+}
+.secondary-links, .theme-nav-footer { float: right; }
+.account-icon span {
+  display: none;
+}
+.logo { top: $border-width - 1px; left: 50%; position: absolute; transform: translateX(-50%); }
 .logo a {
     position: relative;
     &:after {
@@ -1136,9 +1146,30 @@ $border-width: 40px;
         z-index: -1;
     }
 }
+//// footer nav
+.theme-footer {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    z-index: 99999;
+}
+.subscribe-form { display: none; }
+.payment-icons { line-height: $border-width; }
+.theme-nav-secondary li {
+  margin-right: 1rem;
+}
+.theme-nav-footer li, .account-links > a {
+  margin-right: 1rem;
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
 //// padding resets
-.theme-header { padding: 0 $border-width; }
+.theme-header, .theme-footer { padding: 0 $border-width; }
 .container { padding: 0; }
+
 //// slide content widths
 #MainContent .slide > .row {
   position: absolute;
@@ -1148,6 +1179,7 @@ $border-width: 40px;
   transform: translateY(-50%);
 }
 
+
 // Home Page ============================================================*/
 .fp-slide { width: 100%; }
 .template-index .logo { display: none; }
@@ -1156,5 +1188,24 @@ $border-width: 40px;
   background-size: 300px;
   min-height: 100vh;
   text-align: center;
-  padding-top: 50px;
+}
+
+// Concept Page
+$green: #a2c480;
+$orange: #f6b25e;
+#le-concept {
+  .section .slide {
+    color: #fff;
+    &:nth-child(1) {
+      text-align: center;
+      background: url({{ 'concept-1.jpg' | asset_url }}) no-repeat center center;
+      background-size: cover;
+    }
+    &:nth-child(2) {
+      background-color: $orange;
+    }
+    &:nth-child(3) {
+      background-color: $green;
+    }
+  }
 }

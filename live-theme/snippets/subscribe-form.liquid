@@ -1,5 +1,5 @@
 <!-- /snippets/subscribe-form.liquid -->
-
+<div class="subscribe-form">
 {% form 'customer' %}
   {{ form.errors | default_errors }}
   {% if form.posted_successfully? %}
@@ -22,3 +22,4 @@
            value="{{ 'subscribe.title' | t }}">
   {% endif %}
 {% endform %}
+</div>

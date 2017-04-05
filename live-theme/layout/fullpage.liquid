@@ -30,6 +30,7 @@
   {{ content_for_header }}
 
   <!-- CSS ================================================== -->
+  {{ 'font-awesome.min.css' | asset_url | stylesheet_tag }}
   {{ 'app.scss.css' | asset_url | stylesheet_tag }}
 
   <!-- javascript ================================================== -->
@@ -56,7 +57,7 @@
         {{ content_for_layout }}
       </div>
     </main>
-
+    {% include 'theme-footer'%}
     {% include 'theme-nav-toggled' %}
     {% include 'popup-cart' %}
     {% include 'popup-error' %}

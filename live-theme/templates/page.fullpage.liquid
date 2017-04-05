@@ -3,7 +3,28 @@
 <div class="section">
 {% for slide in content %}
   <div class="slide slide{{forloop.index}} center">
-  {{ slide }}
+
+    {% if slide contains '<!-- left-right -->' %}
+
+      {% assign splitContent = slide | split: '<!-- left-right -->' %}
+
+       <div class="splitContent">
+         <div class="left">
+           {{ splitContent[0] }}
+         </div>
+         <div class="right">
+           {{ splitContent[0] }}
+         </div>
+       </div>
+
+    {% else %}
+
+      <div class="fullContent">
+        {{ slide }}
+      </div>
+
+    {% endif %}
+
   </div>
 {% endfor %}
 </div>
