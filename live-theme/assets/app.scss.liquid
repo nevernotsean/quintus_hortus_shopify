@@ -53,8 +53,8 @@ $fontBold: 700;
 $lineHeight: 1.75;
 
 // Space & Borders
-$gutter: 50px;
-$borderRadius: 2px;
+$gutter: 30px;
+$borderRadius: 5px;
 $borderWeight: 2px;
 $borderStyle: solid;
 
@@ -290,16 +290,16 @@ h1, h2, h3, h4, h5, h6,
   display: block;
   margin-bottom: $gutter/3;
 }
-h1, .h1 { font-size: 2.5rem; }
-h2, .h2 { font-size: 2rem; }
-h3, .h3 { font-size: 1.5rem; }
-h4, .h4 { font-size: 1.2rem; }
-h5, .h5 { font-size: 1rem; }
+h1, .h1 { font-size: 2rem; }
+h2, .h2 { font-size: 1.5rem; }
+h3, .h3 { font-size: 1rem; }
+h4, .h4 { font-size: 0.875rem; }
+h5, .h5 { font-size: 0.875rem; }
 h6, .h6 { font-size: 0.875rem; }
 
 p {
   font-family: 'sofia_promedium', sans-serif;
-  font-size: 1.125rem;
+  font-size: 0.875rem;
   font-weight: $fontRegular;
   line-height: $lineHeight;
   margin-bottom: 1.4rem;
@@ -1040,6 +1040,9 @@ body {
 .social-sharing {
   margin-bottom: $gutter;
 }
+.share:not(.button) {
+  margin-right: 10px;
+}
 .button.share {
   padding: 0 $gutter/4;
   height: $gutter/1.5;
@@ -1174,7 +1177,8 @@ body { padding: $border-width + 10px; }
 #MainContent .slide > .row {
   position: absolute;
   width: 100%;
-  left: 25px;
+  // left: 25px;
+  left: 18px;
   top: 50%;
   transform: translateY(-50%);
 }
@@ -1207,5 +1211,29 @@ $orange: #f6b25e;
     &:nth-child(3) {
       background-color: $green;
     }
+  }
+}
+
+// Coming soon
+#shopify-section-password-header .h1.logo {
+  display: none;
+}
+h2.thick {
+    text-transform: uppercase;
+    font-size: 16px;
+}
+h3.byline {
+    font-family: 'sofia_prolight', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.15rem;
+    margin-bottom: 0;
+}
+#template-password {
+  padding: 0;
+}
+
+@media screen and (max-width: 640px){
+  #template-password .border {
+    display: none;
   }
 }

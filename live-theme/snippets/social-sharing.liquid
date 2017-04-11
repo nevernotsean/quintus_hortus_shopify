@@ -20,27 +20,34 @@
     {% if settings.share_facebook %}
       <a target="_blank"
          href="//www.facebook.com/sharer.php?u={{ permalinkURL }}"
-         class="button share facebook"
+         class="share facebook"
          data-social="facebook">
-        {{ 'social.share.facebook' | t }}
+         <i class="fa fa-2x fa-facebook"></i>
       </a>
     {% endif %}
 
     {% if settings.share_twitter %}
       <a target="_blank"
          href="//twitter.com/share?url={{ permalinkURL }}&amp;text={{ shareTitle | url_param_escape }}"
-         class="button share twitter"
+         class="share twitter"
          data-social="twitter">
-        {{ 'social.share.twitter' | t }}
+         <i class="fa fa-2x fa-twitter"></i>
       </a>
     {% endif %}
+
+      <a target="_blank"
+         href="//instagram.com/quintushortus"
+         class="share instagram"
+         data-social="instagram">
+         <i class="fa fa-2x fa-instagram"></i>
+      </a>
 
     {% if template contains 'product' %}
 
       {% if settings.share_pinterest %}
         <a target="_blank"
            href="//pinterest.com/pin/create/button/?url={{ permalinkURL }}&amp;media=http:{{ product.featured_image | img_url: '1024x1024' }}&amp;description={{ shareTitle | url_param_escape }}"
-           class="button share pinterest"
+           class="share pinterest"
            data-social="pinterest">
           {{ 'social.share.pinterest' | t }}
         </a>
@@ -49,7 +56,7 @@
       {% if settings.share_fancy %}
         <a target="_blank"
            href="http://www.thefancy.com/fancyit?ItemURL={{ permalinkURL }}&amp;Title={{ shareTitle | url_param_escape }}&amp;Category=Other&amp;ImageURL={{ product.featured_image | img_url: '1024x1024' }}"
-           class="button share fancy"
+           class="share fancy"
            data-social="fancy">
           {{ 'social.share.fancy' | t }}
         </a>
@@ -60,7 +67,7 @@
     {% if settings.share_google %}
       <a target="_blank"
          href="//plus.google.com/share?url={{ permalinkURL }}"
-         class="button share google"
+         class="share google"
          data-social="google">
         {{ 'social.share.google' | t }}
       </a>
