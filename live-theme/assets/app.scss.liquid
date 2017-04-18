@@ -50,7 +50,7 @@ $colorAlternate: {{ settings.color_alternate }};
 $fontLight: 300;
 $fontRegular: 400;
 $fontBold: 700;
-$lineHeight: 1.75;
+$lineHeight: 1.25;
 
 // Space & Borders
 $gutter: 30px;
@@ -718,11 +718,11 @@ a.button {
 }
 
 /* Navigation =================================================================*/
-
+$navLinkFontSize: 0.875rem;
 // Main Nav
 .theme-nav-main {
   .nav-link {
-    font-size: 1.1rem;
+    font-size: $navLinkFontSize;
     font-weight: $fontBold;
     margin-right: $gutter/3;
   }
@@ -751,6 +751,12 @@ a.button {
         }
       }
     }
+  }
+}
+
+.theme-nav-secondary, .theme-nav-footer {
+  .nav-link {
+    font-size: $navLinkFontSize;
   }
 }
 
@@ -1098,6 +1104,21 @@ body {
 // Navigation and header ============================================================ //
 
 //// fullpage border
+div#fullpage .slide-inner {
+    padding: 0 40px;
+    > * {
+      display: inline-block;
+    }
+}
+@include s(){
+  .border {
+    display: none;
+  }
+  div#fullpage .slide-inner {
+      padding: initial;
+  }
+}
+
 $border-width: 40px;
 body { padding: $border-width + 10px; }
 .theme-header { position: fixed; top: 0; left: 0; width: 100%; z-index: 99999; }
@@ -1183,6 +1204,45 @@ body { padding: $border-width + 10px; }
   transform: translateY(-50%);
 }
 
+//// left-right slide templates
+.leftSide, .rightSide {
+    width: 50%;
+}
+.leftSide {
+  float: left;
+  .leftContent {
+    text-align: right;
+  }
+}
+.rightSide {
+    float: right;
+
+    .rightContent {
+      text-align: left;
+      padding-right: 60px;
+      padding-left: 60px;
+      position: relative;
+      .rightBody {
+        // border-left: 4px solid #fff;
+        padding-left: 1.5rem;
+      }
+    }
+}
+
+@include s(){
+  .leftSide, .rightSide {
+      width: 100%;
+  }
+  .leftSide {
+    float: none;
+  }
+  .rightSide {
+    float: none;
+    .rightContent {
+      padding-right: 0px;
+    }
+  }
+}
 
 // Home Page ============================================================*/
 .fp-slide { width: 100%; }
@@ -1198,8 +1258,10 @@ body { padding: $border-width + 10px; }
 $green: #a2c480;
 $orange: #f6b25e;
 #le-concept {
+  background-color: $colorBrand;
   .section .slide {
     color: #fff;
+    background-color: transparent;
     &:nth-child(1) {
       text-align: center;
       background: url({{ 'concept-1.jpg' | asset_url }}) no-repeat center center;
@@ -1212,10 +1274,78 @@ $orange: #f6b25e;
       background-color: $green;
     }
   }
+  .slide1 {
+    position: relative;
+    .fullContent {
+      h1 {
+        text-transform: uppercase;
+        max-width: 300px;
+        margin-bottom: 0;
+      }
+    }
+    &:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.3);
+        z-index: 0;
+    }
+    .slide-inner {
+        position: relative;
+        z-index: 1;
+    }
+  }
+  .leftSide {
+    .leftContent {
+      h1 {
+        text-transform: uppercase;
+        font-size: 3rem;
+        max-width: 400px;
+        float: right;
+      }
+    }
+  }
+}
+
+// Fabrication Page
+.contentTitle {
+  text-transform: uppercase;
+}
+#fabrication-francaise {
+  .fp-slides .slide {
+    &:after, &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+      width: 50%;
+      background: $colorBrand;
+      z-index: -1;
+    }
+    &:before {
+      background: url({{ 'coton-soie-polyester-viscose-acetate.jpg' | asset_url }}) no-repeat center center;
+      left: 0;
+      background-size: cover;
+    }
+  }
+  .section .slide {
+    color: #fff;
+  }
+  .rightSide {
+    .rightContent {
+      .rightBody {
+        border-left: 4px solid #fff;
+      }
+    }
+  }
 }
 
 // Coming soon
-#shopify-section-password-header .h1.logo {
+.h1.logo {
   display: none;
 }
 h2.thick {
@@ -1232,8 +1362,21 @@ h3.byline {
   padding: 0;
 }
 
-@media screen and (max-width: 640px){
-  #template-password .border {
-    display: none;
+$arrowWidth: 20px;
+#fullpage {
+  .fp-controlArrow.fp-next {
+      bottom: 60px;
+      top: initial;
+      right: 60px;
+      position: fixed;
+      border-width: $arrowWidth 0 $arrowWidth $arrowWidth;
+  }
+  .fp-controlArrow.fp-prev {
+      bottom: 60px;
+      top: initial;
+      right: 60px + ( $arrowWidth * 2 );
+      left: initial;
+      position: fixed;
+      border-width: $arrowWidth $arrowWidth $arrowWidth 0;
   }
 }
