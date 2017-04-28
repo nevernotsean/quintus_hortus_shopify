@@ -233,6 +233,10 @@ concrete.switchVariant = function(options) {
     }
 
     $productPrice.html(Shopify.formatMoney(variant.price, moneyFormat));
+
+    // update content attribute for price calculation
+    $productPrice.attr('content', $productPrice.html().substr(1) )
+
     // Hide the compare at price if the item is not on sale
     if (variant.compare_at_price > variant.price) {
       $comparePrice.html(Shopify.formatMoney(variant.compare_at_price, moneyFormat));

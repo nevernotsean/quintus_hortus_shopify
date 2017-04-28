@@ -84,6 +84,8 @@
     var SLIDES_NEXT_SEL =       '.' + SLIDES_NEXT;
     var SLIDES_ARROW_NEXT =     SLIDES_ARROW + ' ' + SLIDES_NEXT;
     var SLIDES_ARROW_NEXT_SEL = SLIDES_ARROW_SEL + SLIDES_NEXT_SEL;
+    var SLIDES_ARROW_NEXT_SVG =      '';
+    var SLIDES_ARROW_PREV_SVG =      '';
 
     var $window = $(window);
     var $document = $(document);
@@ -159,6 +161,8 @@
             //design
             controlArrows: true,
             controlArrowColor: '#fff',
+            arrowRight: SLIDES_ARROW_NEXT_SVG,
+            arrowLeft: SLIDES_ARROW_PREV_SVG,
             verticalCentered: true,
             sectionsColor : [],
             paddingTop: 0,
@@ -806,6 +810,14 @@
                 section.find(SLIDES_ARROW_PREV_SEL).css('border-color', 'transparent '+ options.controlArrowColor + ' transparent transparent');
             }
 
+            if ( options.arrowLeft != '') {
+              section.find(SLIDES_ARROW_PREV_SEL).css('border-color', 'none').html(options.arrowLeft);
+            }
+
+            if ( options.arrowRight != '' ) {
+              section.find(SLIDES_ARROW_NEXT_SEL).css('border-color', 'none').html(options.arrowRight);
+            }
+
             if(!options.loopHorizontal){
                 section.find(SLIDES_ARROW_PREV_SEL).hide();
             }
@@ -908,7 +920,7 @@
             lazyLoad(section);
             playMedia(section);
             options.scrollOverflowHandler.afterLoad();
-            
+
             if(isDestinyTheStartingSection()){
                 $.isFunction( options.afterLoad ) && options.afterLoad.call(section, section.data('anchor'), (section.index(SECTION_SEL) + 1));
             }
@@ -922,7 +934,7 @@
         function isDestinyTheStartingSection(){
             var anchors =  window.location.hash.replace('#', '').split('/');
             var destinationSection = getSectionByAnchor(decodeURIComponent(anchors[0]));
-    
+
             return !destinationSection.length || destinationSection.length && destinationSection.index() === startingSection.index();
         }
 
@@ -1635,7 +1647,7 @@
 
             var panel = getSlideOrSection(destiny);
             var element;
-            
+
             panel.find('img[data-src], img[data-srcset], source[data-src], audio[data-src], iframe[data-src]').each(function(){
                 element = $(this);
 

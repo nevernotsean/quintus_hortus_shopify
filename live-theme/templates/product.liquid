@@ -1,115 +1,203 @@
 <!-- /templates/product.liquid -->
-
-<div class="container l" itemscope itemtype="http://schema.org/Product">
-  <meta itemprop="url" content="{{ shop.url }}{{ product.url }}">
-  <meta itemprop="image" content="{{ product.featured_image.src | img_url: 'grande' }}">
-  {% assign current_variant = product.selected_or_first_available_variant %}
-  {% assign on_sale = false %}
-  {% if product.compare_at_price > product.price %}{% assign on_sale = true %}{% endif %}
-  {% assign sold_out = true %}
-  {% if product.available %}{% assign sold_out = false %}{% endif %}
-
-  <div class="row">
-    <div class="column l6 m6 s12">
+{% layout 'fullpage' %}
+<div class="section">
+  <div class="slide center">
+    <div class="container l" itemscope itemtype="http://schema.org/Product">
+      <meta itemprop="url" content="{{ shop.url }}{{ product.url }}">
+      <meta itemprop="image" content="{{ product.featured_image.src | img_url: 'grande' }}">
+      {% assign current_variant = product.selected_or_first_available_variant %}
+      {% assign on_sale = false %}
+      {% if product.compare_at_price > product.price %}{% assign on_sale = true %}{% endif %}
+      {% assign sold_out = true %}
+      {% if product.available %}{% assign sold_out = false %}{% endif %}
 
       {% assign featured_image = current_variant.featured_image | default: product.featured_image %}
-      <img src="{{ featured_image | img_url: 'grande' }}" alt="{{ featured_image.alt | escape }}" id="ProductMainImage">
 
-      {% if product.images.size > 1 %}
-        <ul class="inline" id="ProductThumbnailImages">
-          {% for image in product.images %}
-            <li>
-              <a href="{{ image.src | img_url: 'grande' }}" class="thumbnail">
-                <img src="{{ image.src | img_url: 'thumbnail' }}" alt="{{ image.alt | escape }}">
-              </a>
-            </li>
-          {% endfor %}
-        </ul>
-      {% endif %}
+      <h2 style="text-transform: uppercase;">nous recoltons nos chaussettes avec le plus grand soin</h2>
 
-    </div>
+      <div class="product-image">
+          <img src="{{ featured_image | img_url: 'grande' }}" alt="{{ featured_image.alt | escape }}" id="ProductMainImage">
 
-    <div class="column l6 m6 s12">
-
-      <h1 itemprop="name">{{ product.title }}</h1>
-
-      <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-        <meta itemprop="priceCurrency" content="{{ shop.currency }}">
-        <link itemprop="availability" href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
-
-        <form action="/cart/add" method="post" enctype="multipart/form-data" id="AddToCartForm" data-cart-submit>
-
-          <select name="id" id="productSelect" class="product-single__variants">
-            {% for variant in product.variants %}
-              {% if variant.available %}
-                <option
-                  {% if variant == product.selected_or_first_available_variant %}
-                  selected="selected"
-                  {% endif %}
-                  data-sku="{{ variant.sku }}"
-                  value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money_with_currency }}
-                </option>
-              {% else %}
-                <option disabled="disabled">
-                  {{ variant.title }} - {{ 'product.sold_out' | t }}
-                </option>
-              {% endif %}
-            {% endfor %}
-          </select>
-
-          <span class="hidden">{{ 'product.regular_price' | t }}</span>
-          <span id="ProductPrice" class="h2 clearfix" itemprop="price" content="{{ current_variant.price | divided_by: 100.00 }}">
-            {{ current_variant.price | money }}
-          </span>
-
-          {% if on_sale %}
-            <p id="OnSale">
-              <span class="hidden">{{ 'product.original_price' | t }}</span>
-              <span>{{ 'product.original_price' | t }}</span>
-              <s id="ComparePrice">{{ product.compare_at_price | money }}</s>
-            </p>
+          {% if product.images.size > 1 %}
+            <ul class="inline" id="ProductThumbnailImages">
+              {% for image in product.images %}
+                <li>
+                  <a href="{{ image.src | img_url: 'grande' }}" class="thumbnail">
+                    <img src="{{ image.src | img_url: 'thumbnail' }}" alt="{{ image.alt | escape }}">
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
           {% endif %}
 
-          <label for="Quantity" class="clearfix">{{ 'product.quantity' | t }}</label>
-          <input type="number" id="Quantity" name="quantity" value="1" min="1" data-cart-quantity="1">
-
-          <button type="submit" name="add" id="AddToCart" data-cart-add="{{ product.id }}">
-            <span id="AddToCartText">{{ 'product.add_to_cart' | t }}</span>
-          </button>
-
-        </form>
-
       </div>
 
-      <div class="rte" itemprop="description">
-        {{ product.description }}
+      <div class="product-form">
+          <div class="product-nav">
+            <i class="fa fa-angle-up fa-2x tooltip-popup"></i>
+            <div class="current-product">
+              <img src="{{ 'carrot-icon.svg' | asset_url }}" alt="">
+            </div>
+          </div>
+          <div class="divider"></div>
+          <div class="product-title">
+            <div class="image-thumbnail-link">
+              <a href="#"><i class="fa fa-plus-circle"></i>{{ 'product.view_more_images' | t }}</a>
+            </div>
+            <h1 itemprop="name">{{ product.title }}</h1>
+          </div>
+          <div class="product-size">
+            {% for variant in product.variants %}
+              {% if variant.available %}
+                <button
+                  class="{% if variant == product.selected_or_first_available_variant %}selected{% endif %} alternate"
+                  data-sku="{{ variant.sku }}"
+                  data-id="{{ variant.id }}">{{ variant.title | truncate: 1, "" }}</button>
+              {% else %}
+                <button
+                  class="soldout disabled"
+                  data-sku="{{ variant.sku }}"
+                  data-id="{{ variant.id }}">{{ variant.title | truncate: 1, "" }}
+                  <span class="tooltip">
+                    {{ 'product.sold_out' | t }}
+                  </span>
+                </button>
+              {% endif %}
+            {% endfor %}
+          </div>
+          <div class="row">
+            <div class="column s11 m10 l8 centered">
+
+              <div class="product-action">
+                <a href="" class="product-info-toggle"><i class="fa fa-2x fa-question-circle"></i></a>
+
+                <div class="product-bulk">
+
+                  <div class="range">
+                    <input type="range" min="100" max="2000" step="100" value="100">
+
+                    <span id="bar"></span>
+
+                    <label id="price-tooltip" class="tooltip"><i class="fa fa-{{ shop.currency | downcase }}"></i> <span></span></label>
+
+
+                  </div>
+
+                  <ul class="range-labels">
+                    <li data-quantity="100" class="active">100g</li>
+                    <li data-quantity="600">600g</li>
+                    <li data-quantity="1100">1.1kg</li>
+                    <li data-quantity="1600">1.6kg</li>
+                    <li data-quantity="2000">2kg</li>
+                  </ul>
+                </div>
+
+                <button id="submitButton">Add to Cart</button>
+              </div>
+
+            </div>
+          </div>
       </div>
 
-      <h4>{{ 'social.share.title' | t }}</h4>
-      {% include 'social-sharing' %}
+      <div class="product-side">
+        <ul class="vertical menu simple">
+          <li>
+            <div class="label">Une chaussette de qualite</div>
+            <a href="#" class="button alternate"><i class="fa fa-2x fa-diamond"></i></a>
+          </li>
+          <li>
+            <div class="label">Que represente 100gr de chaussettes</div>
+            <a href="#" class="button alternate"><i class="fa fa-2x fa-question"></i></a>
+          </li>
+          <li>
+            <div class="label">Taille et pointure</div>
+            <a href="#" class="button alternate"><i class="fa fa-2x fa-arrows-h"></i></a>
+          </li>
+        </ul>
+      </div>
 
-      {% if collection %}
-        {% if collection.previous_product or collection.next_product %}
-          <p>
-            {% if collection.previous_product %}
-              <span class="left">
-                {{ 'product.previous_product' | t | link_to: collection.previous_product }}
+      <div class="product-instructions">
+        <a href="" class="button"><span>Mode D'Emploi</span></a>
+      </div>
+
+          <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+            <meta itemprop="priceCurrency" content="{{ shop.currency }}">
+            <link itemprop="availability" href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
+
+            <form action="/cart/add" method="post" enctype="multipart/form-data" id="AddToCartForm" data-cart-submit>
+
+              <select name="id" id="productSelect" class="product-single__variants">
+                {% for variant in product.variants %}
+                  {% if variant.available %}
+                    <option
+                      {% if variant == product.selected_or_first_available_variant %}
+                      selected="selected"
+                      {% endif %}
+                      data-sku="{{ variant.sku }}"
+                      value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money_with_currency }}
+                    </option>
+                  {% else %}
+                    <option disabled="disabled">
+                      {{ variant.title }} - {{ 'product.sold_out' | t }}
+                    </option>
+                  {% endif %}
+                {% endfor %}
+              </select>
+
+              <span class="hidden">{{ 'product.regular_price' | t }}</span>
+
+              <span id="ProductPrice" class="h2 clearfix" itemprop="price" content="{{ current_variant.price | divided_by: 100.00 }}">
+                {{ current_variant.price | money }}
               </span>
+
+              {% if on_sale %}
+                <p id="OnSale">
+                  <span class="hidden">{{ 'product.original_price' | t }}</span>
+                  <span>{{ 'product.original_price' | t }}</span>
+                  <s id="ComparePrice">{{ product.compare_at_price | money }}</s>
+                </p>
+              {% endif %}
+
+              <label for="Quantity" class="clearfix">{{ 'product.quantity' | t }}</label>
+              <input type="hidden" id="Quantity" name="quantity" value="1" min="1" data-cart-quantity="1">
+
+              <button type="submit" name="add" id="AddToCart" data-cart-add="{{ product.id }}" data-cart-quantity>
+                <span id="AddToCartText">{{ 'product.add_to_cart' | t }}</span>
+              </button>
+
+            </form>
+
+          </div>
+
+          {% comment %}
+          <div class="rte" itemprop="description">
+            {{ product.description }}
+          </div>
+
+          <h4>{{ 'social.share.title' | t }}</h4>
+          {% include 'social-sharing' %}
+
+          {% if collection %}
+            {% if collection.previous_product or collection.next_product %}
+              <p>
+                {% if collection.previous_product %}
+                  <span class="left">
+                    {{ 'product.previous_product' | t | link_to: collection.previous_product }}
+                  </span>
+                {% endif %}
+                {% if collection.next_product %}
+                  <span class="right">
+                    {{ 'product.next_product' | t | link_to: collection.next_product }}
+                  </span>
+                {% endif %}
+              </p>
             {% endif %}
-            {% if collection.next_product %}
-              <span class="right">
-                {{ 'product.next_product' | t | link_to: collection.next_product }}
-              </span>
-            {% endif %}
-          </p>
-        {% endif %}
-      {% endif %}
+          {% endif %}
+          {% endcomment %}
 
     </div>
-
   </div>
 </div>
-
 <script>
   $("#Quantity").on("change", function() {
     $("#AddToCart").attr("data-cart-quantity", $(this).val());
@@ -123,8 +211,10 @@
     })
   };
 
+  var options
+
   jQuery(function($) {
-    new Shopify.OptionSelectors('productSelect', {
+    options = new Shopify.OptionSelectors('productSelect', {
       product: {{ product | json }},
       onVariantSelected: selectCallback,
       enableHistoryState: true
@@ -140,4 +230,105 @@
       $('.selector-wrapper').hide();
     {% endif %}
   });
+
+  // custom range slider
+  jQuery(function($) {
+    var $rangeInput = $('.range input'),
+      prefs = ['webkit-slider-runnable-track', 'moz-range-track', 'ms-track'];
+
+    // Change input value on label click
+    $('.range-labels li').on('click', function() {
+      var qty = $(this).attr('data-quantity');
+
+      $rangeInput.val(qty).trigger('input');
+    });
+
+    // Update the price and position of range and price label
+    $rangeInput.on('input', function (e) {
+      var qty = e.target.value,
+          baseprice = $('#ProductPrice').attr('content'),
+          price = (qty / e.target.step * baseprice).toFixed(2)
+
+      $("#price-tooltip span").html(price)
+
+      var max = e.target.max,
+          min = e.target.min,
+          pct = (qty / max * 100) - 5
+
+          pct = pct < 0 ? 0 : pct
+
+
+      $("#price-tooltip").css("left", pct + "%")
+      $('#bar').css("width", "calc(" + pct + "% + 12px)")
+
+        // update label active states
+      $('.range-labels li').each(function () {
+        var labelQty = $(this).attr('data-quantity')
+        if ( qty < Number(labelQty) ) {
+          $(this).removeClass('active');
+        } else {
+          $(this).addClass('active');
+        }
+      })
+    });
+
+    // on range movement settles, change the quantity
+    $rangeInput.on('change', function (e) {
+      var newVal = e.target.value / e.target.step
+      var qtyInput = document.getElementById('Quantity')
+      qtyInput.value = newVal
+      $("[data-cart-quantity]").attr('data-cart-quantity', newVal)
+
+      test(qtyInput.value, newVal);
+    });
+
+    // selector changes
+    $('.product-size button').click(function (e) {
+      var $this = $(e.target)
+      var id = $this.attr('data-id')
+      options.selectVariant(id)
+      $('.product-size button').removeClass('selected')
+      $this.addClass('selected')
+      $rangeInput.val($rangeInput.attr("min")).trigger('input');
+      updatePrice()
+    })
+
+    // load priceProductPrice
+    function updatePrice() {
+      var price = $('#ProductPrice').attr('content')
+      price = Number(price).toFixed(2)
+      $('#price-tooltip span').html(price)
+    }
+    updatePrice()
+  })
+
+  // submit
+  jQuery(function ($) {
+    var form = $('#AddToCartForm')
+
+    $('#submitButton').click(function (e) {
+      e.preventDefault()
+      $('#AddToCart').trigger('click');
+      // test(form.serializeArray()[1]['value'], 21)
+    })
+  })
+
+  function test(val1, val2){
+    val2 = val2.toString()
+    if (val1 !== val2){
+      debugger
+    } else {
+      console.log('Test: ', val1, val2)
+    }
+  }
 </script>
+
+<style media="screen">
+form#AddToCartForm {
+  display: none;
+  padding: 0 50px;
+}
+#ProductThumbnailImages {
+  display: none;
+}
+</style>

@@ -2,6 +2,9 @@
 
 <nav class="theme-nav-main" role="navigation">
   <ul class="inline">
+    <li class="logo-left">
+      <a href="/"><img src="{{ 'qh_mg.svg' | asset_url }}" alt=""></a>
+    </li>
     {% for link in linklists.main-menu.links %}
       {% assign child_list_handle = link.title | handleize %}
       {% if linklists[child_list_handle].links != blank %}
