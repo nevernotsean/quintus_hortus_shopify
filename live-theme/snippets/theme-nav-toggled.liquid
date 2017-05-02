@@ -2,29 +2,33 @@
 
 <nav class="theme-nav-toggled from-left" id="NavToggled" role="navigation">
   <div class="inner">
-    <ul>
-      {% for link in linklists.main-menu.links %}
-        {% assign child_list_handle = link.title | handleize %}
-        {% if linklists[child_list_handle].links != blank %}
-          <li class="dropdown" aria-haspopup="true" data-id="{{ child_list_handle}}">
-            <a href="{{ link.url }}" class="nav-link {% if link.active %} active{% endif %}">
-              {{ link.title }}
-            </a>
-            <ul class="dropdown_menu hidden" id="{{ child_list_handle }}">
-              {% for childlink in linklists[child_list_handle].links %}
-                <li>
-                  <a href="{{ childlink.url }}" class="nav-link{% if childlink.active %} active{% endif %}">{{ childlink.title | escape }}</a>
-                </li>
-              {% endfor %}
-            </ul>
-          </li>
-        {% else %}
-          <li>
-            <a href="{{ link.url }}" class="nav-link{% if link.active %} active{% endif %}">{{ link.title }}</a>
-          </li>
-        {% endif %}
-      {% endfor %}
-    </ul>
+
+      {% include 'theme-nav-main' %}
+      <hr>
+      {% include 'theme-nav-secondary' %}
+      <hr>
+      {% include 'theme-nav-footer' %}
+      <hr>
+      {% if shop.customer_accounts_enabled %}
+      <ul>
+          <a class="account-icon" href="/account" data-popup="#PopupAccount" class="popup-link">
+          {% if customer %}
+            <li>{{ 'account.title' | t }}</li>
+          {% else %}
+            <li>{{ 'account.title' | t }}</li>
+          {% endif %}
+          </a>
+      </ul>
+      <hr>
+      {% endif %}
+      <ul>
+        <li class="text-center">
+          <a href="/cart" id="CartLink" data-popup="#PopupCart" class="popup-link" aria-controls="Cart" aria-expanded="false" rv-cloak data-cart-view>
+            {{ 'cart.title' | t }}: { cart.item_count }00g (<span id="CartTotal">{cart.total_price | money_with_currency}</span>)
+          </a>
+        </li>
+      </ul>
+
     <a href="#close" class="nav-toggled-close" aria-label="{{ 'common.close' | t }}">{{ 'common.close' | t }}</a>
   </div>
 </nav>

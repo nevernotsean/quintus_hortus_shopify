@@ -1,7 +1,7 @@
 <!-- /snippets/theme-nav-main.liquid -->
 
 <nav class="theme-nav-footer" role="navigation">
-  <ul class="inline">
+  <ul>
     {% for link in linklists.footer.links %}
       {% assign child_list_handle = link.title | handleize %}
       {% if linklists[child_list_handle].links != blank %}
@@ -26,8 +26,7 @@
     {% if settings.enable_footer_subscribe %}
     <li>
       <div class="subscribe">
-          <a href="#" class="nav-link subscribe-toggle">Suivez-nous</a>
-          {% include 'subscribe-form' %}
+          <a href="#" class="nav-link contact-toggle">Contactez-Nous</a>
       </div>
     </li>
     {% endif %}

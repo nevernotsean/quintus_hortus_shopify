@@ -1,0 +1,28 @@
+<!-- /snippets/popup-cart.liquid -->
+
+{% comment %}
+  The popup cart has been added to display the opportunities for displaying the
+  cart contents on any page
+{% endcomment %}
+
+<div id="PopupProducts" class="popup overlay popup-sidebar popup-sidebar-left">
+  <div class="popup-inner">
+    <div class="popup-outside"></div>
+    <div class="popup-content left">
+        <div class="h1">Nos Chaussettes</div>
+        <hr>
+        <div class="products">
+          <div class="product-grid">
+          {% for product in collections['socks'].products %}
+              <a class="product-grid-product" ref="product-select" href="{{product.url}}">
+                <div class="product-grid-title">{{product.title}}</div>
+                <div class="product-grid-image">
+                  <img src="{{ product.featured_image | img_url: 'grande' }}" alt="">
+                </div>
+              </a>
+          {% endfor %}
+          </div>
+        </div>
+      </div>
+  </div>
+</div>

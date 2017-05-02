@@ -3,16 +3,18 @@
 <header class="theme-header" role="banner">
 
       <div class="menu-links">
-        <div class="s-hide">
+        <div class="s-hide m-hide">
           {% include 'theme-nav-main' %}
         </div>
-        <div class="l-hide m-hide">
+        <div class="l-hide">
           <a href="/" data-nav="#NavToggled" class="nav-toggled-link ">{{ 'common.menu' | t }}</a>
         </div>
       </div>
 
       <div class="secondary-links">
-        {% include 'theme-nav-secondary' %}
+        <div class="s-hide m-hide">
+          {% include 'theme-nav-secondary' %}
+        </div>
         <div class="account-links">
         {% if shop.customer_accounts_enabled %}
           <a class="account-icon" href="/account" data-popup="#PopupAccount" class="popup-link">

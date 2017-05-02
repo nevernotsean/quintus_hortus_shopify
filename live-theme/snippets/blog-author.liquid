@@ -2,11 +2,11 @@
 
 {% if article.user.bio != '' %}
   <hr>
-  <div class="row">
-    <div class="column l3 m3 s-hide">
+  <div class="row blog-author">
+    <div class="column author-image">
       <img src="//www.gravatar.com/avatar/{{ article.user.email | remove: ' ' | strip_newlines | downcase | md5 }}?s=400&d=mm"/>
     </div>
-    <div class="column l9 m9 s12">
+    <div class="author-meta">
       <h4>{{ 'blog.author.about_with_name' | t: first_name: article.user.first_name  }}</h4>
       <div class="rte">
         <p>{{ article.user.bio }}</p>
