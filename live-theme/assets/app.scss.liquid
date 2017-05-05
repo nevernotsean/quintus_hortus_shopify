@@ -1189,6 +1189,10 @@ body {
   background: url('{{ "qh_mg.svg" | asset_url }}') no-repeat center center;
   background-size: 80px;
 
+  &.template-article,&.template-blog {
+    background-image: none;
+  }
+
   @include s(){
     padding: 0;
   }
@@ -1259,14 +1263,14 @@ body {
 }
 
 .logo-left {
-    width: 100px;
-    height: 100px;
+  width: 80px;
+  height: 80px;
     float: left;
     margin-right: 10px;
     margin-left: -$border-width;
-    padding: 20px;
+    padding: 15px;
     background: #fff;
-    border-radius: 40px;
+    border-radius: 100px;
     a { display: inline-block; }
 }
 //// footer nav
