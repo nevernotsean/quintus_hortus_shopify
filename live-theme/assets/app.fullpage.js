@@ -26,7 +26,23 @@ var fullpage = {
     }
 
     if ( $('body.template-product').length ){
-      fullpage.productView.init()
+      fullpage.options = {
+        afterLoad: function(anchorLink, index) {
+          // console.log('afterLoad')
+        },
+        onLeave: function(index, nextIndex, direction) {
+          // console.log('onLeave')
+        },
+        onSlideLeave: function(anchorLink, index, slideIndex, direction, nextSlideIndex) {
+          console.log('onSlideLeave', anchorLink, index, slideIndex, direction, nextSlideIndex);
+        },
+        afterSlideLoad: function(anchorLink, index, slideAnchor, slideIndex) {
+          console.log('afterSlideLoad', anchorLink, index, slideAnchor, slideIndex)
+        }
+      }
+      $('.product-slide').each( function () {
+        fullpage.productView.init( $(this) )
+      })
     }
 
     if ( $('body.template-article') ){
@@ -52,42 +68,42 @@ var fullpage = {
   },
   productView: {
     options: null,
-    init(){
+    $productContainer: [],
+    init(productContainer){
 
-      var self = fullpage.productView
+      var self = fullpage.productView, productHandle
+
+      self.$productContainer = $(productContainer)
+
+      productHandle = self.$productContainer.data('handle')
+
+      window.MoneyFormat = $('.MoneyFormat')[0].value
 
       options = new Shopify.OptionSelectors('productSelect', {
-        product: window.ProductJSON,
+        product: window.ProductJSON[productHandle],
         onVariantSelected: self.selectCallback,
         enableHistoryState: true
       });
 
-      self.updatePrice()
       self.addEventListeners()
     },
     addEventListeners: function() {
       var self = fullpage.productView,
-          $rangeInput = $('.range input')
+          $rangeInput = self.$productContainer.find('.range input')
 
       // sync the quanitities
-      $("#Quantity").on("change", function() {
-        $("#AddToCart").attr("data-cart-quantity", $(this).val());
-      });
+      self.$productContainer.find("#Quantity").on("change", function() {
+        self.$productContainer.find("#AddToCart").attr("data-cart-quantity", $(this).val());
+      });self.$productContainer
 
-      // Change input value on label click
-      $('.range-labels li').on('click', function() {
-        var qty = $(this).attr('data-quantity');
-
-        $rangeInput.val(qty).trigger('input');
-      });
-
-      // Update the price and position of range and price label
+      // Update the price and position of range, amount and price label
       $rangeInput.on('input', function(e) {
         var qty = e.target.value,
-          baseprice = $('#ProductPrice').attr('content'),
-          price = (qty / e.target.step * baseprice).toFixed(2)
+            baseprice = self.$productContainer.find('#ProductPrice').attr('content'),
+            price = (qty / e.target.step * baseprice).toFixed(2)
 
-        $("#price-tooltip span").html(price)
+        self.$productContainer.find("#price-tooltip span").html(price)
+        self.$productContainer.find('#amount-tooltip span').html(qty + "g")
 
         var max = e.target.max,
             min = e.target.min,
@@ -96,18 +112,8 @@ var fullpage = {
             pct = pct < 0 ? 0 : pct
 
 
-            $("#price-tooltip").css("left", pct + "%")
-            $('#bar').css("width", "calc(" + pct + "% + 12px)")
-
-            // update label active states
-            $('.range-labels li').each(function() {
-              var labelQty = $(this).attr('data-quantity')
-              if (qty < Number(labelQty)) {
-                $(this).removeClass('active');
-              } else {
-                $(this).addClass('active');
-              }
-            })
+            self.$productContainer.find("#price-tooltip, #amount-tooltip").css("left", pct + "%")
+            self.$productContainer.find('#bar').css("width", "calc(" + pct + "% + 12px)")
       });
 
       // on range movement settles, change the quantity
@@ -115,53 +121,55 @@ var fullpage = {
         var newVal = e.target.value / e.target.step
         var qtyInput = document.getElementById('Quantity')
         qtyInput.value = newVal
-        $("[data-cart-quantity]").attr('data-cart-quantity', newVal)
+        self.$productContainer.find("[data-cart-quantity]").attr('data-cart-quantity', newVal)
 
         self.test(qtyInput.value, newVal);
       });
 
       // selector changes
-      $('.product-size button').click(function(e) {
+      self.$productContainer.find('.product-size button').click(function(e) {
         var $this = $(e.target)
         var id = $this.attr('data-id')
         options.selectVariant(id)
-        $('.product-size button').removeClass('selected')
+        self.$productContainer.find('.product-size button').removeClass('selected')
         $this.addClass('selected')
         $rangeInput.val($rangeInput.attr("min")).trigger('input');
         self.updatePrice()
       })
       // submit the form
-      $('#submitButton').click(function(e) {
+      self.$productContainer.find('#submitButton').click(function(e) {
         e.preventDefault()
-        $('#AddToCart').trigger('click');
-        $('#AddToCartForm').submit();
+        self.$productContainer.find('#AddToCart').trigger('click');
+        self.$productContainer.find('#AddToCartForm').submit();
       })
 
       // products ajax
-      $('[ref="product-select"]').click(function(e) {
+      // self.$productContainer.find('[ref="product-select"]').click(function(e) {
         // e.preventDefault()
-        var target = $(this),
-            productURl = this.href
+        // var target = $(this),
+            // productURl = this.href
 
         // self.loadProduct(productURl)
-      })
+      // })
     },
+    // loadProduct: function(productUrl) {
+    //   $('#product-container').load( productUrl + ' #product-container *', function(data){
+    //     console.log(data)
+    //   })
+    // },
     selectCallback: function(variant, selector) {
+
       console.log("Switching variant: ", variant);
+
       concrete.switchVariant({
         moneyFormat: window.MoneyFormat,
         variant: variant,
-      })
+      }, self.$productContainer)
     },
     updatePrice: function() {
-      var price = $('#ProductPrice').attr('content')
+      var price = self.$productContainer.find('#ProductPrice').attr('content')
       price = Number(price).toFixed(2)
-      $('#price-tooltip span').html(price)
-    },
-    loadProduct: function(productUrl) {
-      $('#product-container').load( productUrl + ' #product-container *', function(data){
-        console.log(data)
-      })
+      self.$productContainer.find('#price-tooltip span').html(price)
     },
     test: function(val1, val2){
       val2 = val2.toString()

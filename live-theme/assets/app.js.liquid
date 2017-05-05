@@ -61,6 +61,7 @@ if (!Shopify.formatMoney) {
 // Functions
 window.concrete = window.concrete || {};
 concrete.cacheSelectors = function () {
+
   concrete.cache = {
     // General
     $html : $('html'),
@@ -202,18 +203,26 @@ concrete.switchImage = function (src, imgObject, el) {
 };
 
 // Variant Switching
-concrete.switchVariant = function(options) {
+concrete.switchVariant = function(options, productContainer) {
+
+  var $container = $('body')
+
+  if ( $(el).length ) {
+    $container = $(productContainer)
+  }
+
   var moneyFormat = options.moneyFormat,
       variant = options.variant;
   var $addToCart = $("#AddToCart");
-  var $addToCartText = $("#AddToCartText");
-  var $productPrice = $("#ProductPrice");
-  var $comparePrice = $("#ComparePrice");
-  var $onSale = $("#OnSale");
+  var $addToCartText = $container.find("#AddToCartText");
+  var $productPrice = $container.find("#ProductPrice");
+  var $comparePrice = $container.find("#ComparePrice");
+  var $onSale = $container.find("#OnSale");
+  var $quanitity = $container.find("#Quantity");
   if (variant) {
     if (variant.featured_image) {
       // console.log("Switching image");
-      Shopify.Image.switchImage(variant.featured_image, $("#ProductMainImage")[0], function(i, e, t) {
+      Shopify.Image.switchImage(variant.featured_image, $container.find("#ProductMainImage")[0], function(i, e, t) {
         // console.log(i, e, t);
         var $t = $(t);
         $t.attr('src', i);
@@ -226,7 +235,7 @@ concrete.switchVariant = function(options) {
       $addToCart.removeClass("disabled").prop('disabled', false);
       $addToCartText.html({{ 'product.add_to_cart' | t | json }});
       $addToCart.attr("data-cart-add", variant.id);
-      $("#Quantity").attr('max', variant.inventory_quantity);
+      $quanitity.attr('max', variant.inventory_quantity);
     } else {
       $addToCart.addClass("disabled").prop('disabled', true);
       $addToCartText.html({{ 'product.add_to_cart_unavailable' | t | json }});
