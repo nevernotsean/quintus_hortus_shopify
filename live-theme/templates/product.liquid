@@ -1,11 +1,15 @@
 <!-- /templates/product.liquid -->
 {% layout 'fullpage' %}
+
+{% include 'product-view' %}
+
 <div class="section">
-  <script type="text/javascript">
-    window.ProductJSON = []
-  </script>
+  <h2 class="s-hide" style="text-transform: uppercase; position: fixed; top: 20vh; width: 100%; left: 0;     text-align: center; z-index: 9; padding: 0 40px;">nous recoltons nos chaussettes avec le plus grand soin</h2>
+  {% assign currentID = product.id %}
   {% for product in collections.socks.products %}
-      {% include 'product-slide' %}
+      {% if productLoop.id != currentID %}
+        {% include 'product-slide-data' %}
+      {% endif %}
   {% endfor %}
 </div>
 <div class="product-side">

@@ -1,0 +1,154 @@
+<div class="product-view">
+  <div class="container l" id="product-container" itemscope itemtype="http://schema.org/Product">
+    <meta itemprop="url" content="{{ shop.url }}{{ product.url }}">
+    <meta itemprop="image" content="{{ product.featured_image.src | img_url: 'master' }}">
+
+    {% assign current_variant = product.selected_or_first_available_variant %}
+    {% assign on_sale = false %}
+    {% if product.compare_at_price > product.price %}{% assign on_sale = true %}{% endif %}
+    {% assign sold_out = true %}
+    {% if product.available %}{% assign sold_out = false %}{% endif %}
+
+    {% assign featured_image = current_variant.featured_image | default: product.featured_image %}
+
+    {% for tag in product.tags %}
+        {% if tag contains 'color-' %}
+        {% capture colorTag %}{{ tag | remove: 'color-' }}{% endcapture %}
+        {% endif %}
+    {% endfor %}
+
+    <div class="product-image">
+        <img src="{{ featured_image | img_url: '1024x1024' }}" alt="{{ featured_image.alt | escape }}" id="ProductMainImage">
+
+        {% if product.images.size > 1 %}
+          <ul class="inline" id="ProductThumbnailImages">
+            {% for image in product.images %}
+              <li>
+                <a href="{{ image.src | img_url: 'master' }}" class="thumbnail">
+                  <img src="{{ image.src | img_url: 'grande' }}" alt="{{ image.alt | escape }}">
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+    </div>
+
+    <div id="product-form-container">
+      <div class="product-form">
+          <div class="product-nav">
+            <div class="product-select">
+              <i class="fa fa-angle-up fa-2x tooltip-popup"></i>
+              <a href="" class="current-product popup-link" data-popup="#PopupProducts" aria-controls="Cart" aria-expanded="false">
+                <img src="{{ 'carrot-icon.svg' | asset_url }}" alt="">
+              </a>
+              <div class="divider"></div>
+            </div>
+            <div class="product-title">
+              <div class="image-thumbnail-link">
+                <a href="#"><i class="fa fa-plus-circle"></i>{{ 'product.view_more_images' | t }}</a>
+              </div>
+              <h1 itemprop="name" style="color: #{{colorTag}};">{{ product.title }}</h1>
+            </div>
+          </div>
+          <div class="product-size" style="color: #{{colorTag}}; border-color: #{{colorTag}};">
+            {% for variant in product.variants %}
+              {% if variant.available %}
+                <button
+                  class="{% if variant == product.selected_or_first_available_variant %}selected{% endif %} alternate"
+                  data-sku="{{ variant.sku }}"
+                  data-id="{{ variant.id }}">{{ variant.title | truncate: 1, "" }}</button>
+              {% else %}
+                <button
+                  class="soldout disabled"
+                  data-sku="{{ variant.sku }}"
+                  data-id="{{ variant.id }}">{{ variant.title | truncate: 1, "" }}
+                  <span class="tooltip">
+                    {{ 'product.sold_out' | t }}
+                  </span>
+                </button>
+              {% endif %}
+            {% endfor %}
+          </div>
+          <div class="row">
+            <div class="column s12 m10 l8 centered">
+
+              <div class="product-action">
+                <a href="" class="product-info-toggle"><i class="fa fa-2x fa-question-circle"></i></a>
+
+                <div class="product-bulk">
+
+                  <div class="range">
+                    <input type="range" min="100" max="2000" step="100" value="100">
+
+                    <span id="bar" style="background: #{{colorTag}};"></span>
+
+                    <label id="price-tooltip" class="tooltip"><i class="fa fa-{{ shop.currency | downcase }}"></i> <span></span></label>
+                    <label id="amount-tooltip" class="tooltip"><span>100g</span></label>
+                  </div>
+
+                  <!-- <ul class="range-labels" style="color: #{{colorTag}};">
+                    <li data-quantity="100" class="active">100g</li>
+                    <li data-quantity="600">600g</li>
+                    <li data-quantity="1100">1.1kg</li>
+                    <li data-quantity="1600">1.6kg</li>
+                    <li data-quantity="2000">2kg</li>
+                  </ul> -->
+                </div>
+
+                <button id="submitButton">Add to Cart</button>
+              </div>
+
+            </div>
+          </div>
+      </div>
+      <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+        <meta itemprop="priceCurrency" content="{{ shop.currency }}">
+        <link itemprop="availability" href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
+
+        <form action="/cart/add" method="post" enctype="multipart/form-data" id="AddToCartForm" data-cart-submit>
+
+          <select name="id" id="productSelect" class="product-single__variants">
+            {% for variant in product.variants %}
+              {% if variant.available %}
+                <option
+                  {% if variant == product.selected_or_first_available_variant %}
+                  selected="selected"
+                  {% endif %}
+                  data-sku="{{ variant.sku }}"
+                  value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money_with_currency }}
+                </option>
+              {% else %}
+                <option disabled="disabled">
+                  {{ variant.title }} - {{ 'product.sold_out' | t }}
+                </option>
+              {% endif %}
+            {% endfor %}
+          </select>
+
+          <span class="hidden">{{ 'product.regular_price' | t }}</span>
+
+          <span id="ProductPrice" class="h2 clearfix" itemprop="price" content="{{ current_variant.price | divided_by: 100.00 }}">
+            {{ current_variant.price | money }}
+          </span>
+
+          {% if on_sale %}
+            <p id="OnSale">
+              <span class="hidden">{{ 'product.original_price' | t }}</span>
+              <span>{{ 'product.original_price' | t }}</span>
+              <s id="ComparePrice">{{ product.compare_at_price | money }}</s>
+            </p>
+          {% endif %}
+
+          <label for="Quantity" class="clearfix">{{ 'product.quantity' | t }}</label>
+          <input type="hidden" id="Quantity" name="quantity" value="1" min="1" data-cart-quantity="1">
+
+          <button type="submit" name="add" id="AddToCart" data-cart-add="{{ product.id }}" data-cart-quantity>
+            <span id="AddToCartText">{{ 'product.add_to_cart' | t }}</span>
+          </button>
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
