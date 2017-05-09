@@ -37,43 +37,57 @@
       <div class="product-form">
           <div class="product-nav">
             <div class="product-select">
-              <i class="fa fa-angle-up fa-2x tooltip-popup"></i>
-              <a href="" class="current-product popup-link" data-popup="#PopupProducts" aria-controls="Cart" aria-expanded="false">
-                <img src="{{ 'carrot-icon.svg' | asset_url }}" alt="">
-              </a>
+              <ul>
+                <li>
+                  <a href="#" class="fp-prev"><i class="fa fa-angle-left fa-2x"></i></a>
+                </li>
+                <li class="center-icon">
+                  <a href="#" class="current-product popup-link" data-popup="#PopupProducts" aria-controls="Cart" aria-expanded="false">
+                    <span class="viewall">VIEW ALL</span>
+                    <div class="icon-ss {{ product.handle }}"></div>
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="fp-next"><i class="fa fa-angle-right fa-2x"></i></a>
+                </li>
+              </ul>
               <div class="divider"></div>
             </div>
-            <div class="product-title">
+            <div class="product-title hide-title">
               <div class="image-thumbnail-link">
                 <a href="#"><i class="fa fa-plus-circle"></i>{{ 'product.view_more_images' | t }}</a>
               </div>
-              <h1 itemprop="name" style="color: #{{colorTag}};">{{ product.title }}</h1>
+              <div class="title-mask">
+                <h1 itemprop="name" style="color: #{{colorTag}};">{{ product.title }}</h1>
+              </div>
             </div>
           </div>
-          <div class="product-size" style="color: #{{colorTag}}; border-color: #{{colorTag}};">
-            {% for variant in product.variants %}
-              {% if variant.available %}
-                <button
-                  class="{% if variant == product.selected_or_first_available_variant %}selected{% endif %} alternate"
-                  data-sku="{{ variant.sku }}"
-                  data-id="{{ variant.id }}">{{ variant.title | truncate: 1, "" }}</button>
-              {% else %}
-                <button
-                  class="soldout disabled"
-                  data-sku="{{ variant.sku }}"
-                  data-id="{{ variant.id }}">{{ variant.title | truncate: 1, "" }}
-                  <span class="tooltip">
-                    {{ 'product.sold_out' | t }}
-                  </span>
-                </button>
-              {% endif %}
-            {% endfor %}
+          <div class="product-size hide-options" style="color: #{{colorTag}}; border-color: #{{colorTag}};">
+            <div class="option-mask">
+              {% for variant in product.variants %}
+                {% if variant.available %}
+                  <button
+                    class="{% if variant == product.selected_or_first_available_variant %}selected{% endif %} alternate"
+                    data-sku="{{ variant.sku }}"
+                    data-id="{{ variant.id }}">{{ variant.title | truncate: 1, "" }}</button>
+                {% else %}
+                  <button
+                    class="soldout disabled"
+                    data-sku="{{ variant.sku }}"
+                    data-id="{{ variant.id }}">{{ variant.title | truncate: 1, "" }}
+                    <span class="tooltip">
+                      {{ 'product.sold_out' | t }}
+                    </span>
+                  </button>
+                {% endif %}
+              {% endfor %}
+            </div>
           </div>
           <div class="row">
             <div class="column s12 m10 l8 centered">
 
               <div class="product-action">
-                <a href="" class="product-info-toggle"><i class="fa fa-2x fa-question-circle"></i></a>
+                <!-- <a href="" class="product-info-toggle"><i class="fa fa-2x fa-question-circle"></i></a> -->
 
                 <div class="product-bulk">
 

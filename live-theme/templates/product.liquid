@@ -1,14 +1,15 @@
 <!-- /templates/product.liquid -->
 {% layout 'fullpage' %}
 
-{% include 'product-view' %}
-
 <div class="section">
   <h2 class="s-hide" style="text-transform: uppercase; position: fixed; top: 20vh; width: 100%; left: 0;     text-align: center; z-index: 9; padding: 0 40px;">nous recoltons nos chaussettes avec le plus grand soin</h2>
 
   {% include 'product-loop-sorted' %}
-  
+
 </div>
+
+{% include 'product-view' %}
+
 <div class="product-side">
   <ul class="vertical menu simple">
     <li>
@@ -25,7 +26,8 @@
     </li>
     <li>
       <div class="label">COMBIEN DE CHAUSSETTES ME FAUT-IL</div>
-      <a href="#" class="button alternate popup-link" data-popup="#PopupCalculator"><i class="fa fa-2x fa-calculator"></i></a>
+      <!-- <a href="/pages/combien-de-chaussettes" class="button alternate popup-link" data-popup="#PopupCalculator"><i class="fa fa-2x fa-calculator"></i></a> -->
+      <a href="/pages/combien-de-chaussettes" class="button alternate"><i class="fa fa-2x fa-calculator"></i></a>
     </li>
   </ul>
 </div>

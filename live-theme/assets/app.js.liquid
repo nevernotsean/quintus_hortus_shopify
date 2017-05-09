@@ -177,7 +177,7 @@ concrete.popups = function() {
   });
 };
 // Open things based on their ID as data-attribute
-$('.popup-link').on('click', function(event) {
+$(document).on('click', '.popup-link',function(event) {
   event.preventDefault();
   var popupId = $(this).attr('data-popup');
   $(popupId + '.popup').addClass('visible');

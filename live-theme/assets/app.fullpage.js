@@ -41,26 +41,21 @@ var fullpage = {
 
       fullpage.options = {
         afterLoad: function(anchorLink, index) {
-          // console.log('afterLoad')
+          console.log('afterLoad')
+
+          setTimeout(function () {
+            self.animations.toggleTitle()
+            self.animations.toggleOptions()
+          },1200)
         },
         onLeave: function(index, nextIndex, direction) {
-          // console.log('onLeave')
+          console.log('onLeave')
         },
-        onSlideLeave: function(
-          anchorLink,
-          index,
-          slideIndex,
-          direction,
-          nextSlideIndex
-        ) {
-          console.log(
-            "onSlideLeave",
-            anchorLink,
-            index,
-            slideIndex,
-            direction,
-            nextSlideIndex
-          );
+        onSlideLeave: function(anchorLink, index, slideIndex, direction, nextSlideIndex) {
+          self.animations.transitionIcon(slideIndex, nextSlideIndex)
+          self.animations.toggleTitle()
+          self.animations.toggleOptions()
+          console.log("onSlideLeave");
         },
         afterSlideLoad: function(anchorLink, index, slideAnchor, slideIndex) {
           var thisSlide = $(".slide")[slideIndex],
@@ -70,6 +65,11 @@ var fullpage = {
           self.currentProductHandle = $(thisSlide).data("handle");
           self.loadProduct(productUrl, function(){
             self.refresh();
+
+            setTimeout(function () {
+              self.animations.toggleTitle()
+              self.animations.toggleOptions()
+            },800)
           });
         }
       };
@@ -148,6 +148,13 @@ var fullpage = {
         self.$productContainer.find("#AddToCart").trigger("click");
         self.$productContainer.find("#AddToCartForm").submit();
       });
+      // move to left and right slide
+      self.$productContainer.find('.fp-prev').click( function(e){
+        $.fn.fullpage.moveSlideLeft();
+      })
+      self.$productContainer.find('.fp-next').click( function(e){
+        $.fn.fullpage.moveSlideRight();
+      })
     },
     loadProduct: function(productUrl, callback) {
       var urlSelector = productUrl + " #product-form-container > *";
@@ -191,6 +198,20 @@ var fullpage = {
         // debugger;
       } else {
         console.log("Test: ", val1, val2);
+      }
+    },
+    animations: {
+      toggleTitle: function(){
+        $('.product-title').toggleClass('hide-title');
+      },
+      toggleOptions: function(){
+        $('.product-size').toggleClass('hide-options');
+      },
+      transitionIcon(slideIndex,nextSlideIndex){
+        var $iconEl = $('.icon-ss')
+        currentClass = $($('.slide')[slideIndex]).data('handle')
+        nextClass = $($('.slide')[nextSlideIndex]).data('handle')
+        $iconEl.removeClass(currentClass).addClass(nextClass)
       }
     }
   },
