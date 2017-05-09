@@ -218,7 +218,7 @@ concrete.switchVariant = function(options, productContainer) {
   var $productPrice = $container.find("#ProductPrice");
   var $comparePrice = $container.find("#ComparePrice");
   var $onSale = $container.find("#OnSale");
-  var $quanitity = $container.find("#Quantity");
+  var $quantity = $container.find("#Quantity");
   if (variant) {
     if (variant.featured_image) {
       // console.log("Switching image");
@@ -235,7 +235,7 @@ concrete.switchVariant = function(options, productContainer) {
       $addToCart.removeClass("disabled").prop('disabled', false);
       $addToCartText.html({{ 'product.add_to_cart' | t | json }});
       $addToCart.attr("data-cart-add", variant.id);
-      $quanitity.attr('max', variant.inventory_quantity);
+      $quantity.attr('max', variant.inventory_quantity);
     } else {
       $addToCart.addClass("disabled").prop('disabled', true);
       $addToCartText.html({{ 'product.add_to_cart_unavailable' | t | json }});

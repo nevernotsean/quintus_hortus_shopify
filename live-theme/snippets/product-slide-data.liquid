@@ -1,4 +1,4 @@
-<div class="slide center slide-{{product.handle}} product-slide" data-handle="{{product.handle}}">
+<div class="slide center slide-{{product.handle}} product-slide" data-handle="{{product.handle}}" data-producturl="{{product.url}}" data-product-id="{{product.id}}">
   <div class="container l" itemscope itemtype="http://schema.org/Product">
     <div class="product-image">
         <img src="{{ product.images[0].src | img_url: '1024x1024' }}" alt="{{  product.images[0].alt | escape }}" id="ProductMainImage">

@@ -7,9 +7,9 @@ var fullpage = {
     if ($("body").attr("id") === "le-concept") {
       //
     } else if ($("body.template-product").length) {
-        fullpage.productView.init($("#product-form-container"));
+      fullpage.productView.init($("#product-form-container"));
     } else if ($("body.template-article").length) {
-        fullpage.blogView.init();
+      fullpage.blogView.init();
     } else {
       if (fullpage.container.length) {
         fullpage.container.fullpage(fullpage.options);
@@ -19,22 +19,25 @@ var fullpage = {
   productView: {
     options: null,
     $productContainer: [],
+    currentProductHandle: null,
+    selectOptions: null,
     init(productContainer) {
-      var self = fullpage.productView, productHandle;
-
-      self.$productContainer = $(productContainer);
-
-      productHandle = self.$productContainer.data("handle");
+      var self = fullpage.productView;
 
       window.MoneyFormat = $(".MoneyFormat")[0].value;
 
-      selectOptions = new Shopify.OptionSelectors("productSelect", {
-        product: window.ProductJSON[productHandle],
-        onVariantSelected: self.selectCallback,
-        enableHistoryState: true
-      });
+      self.$productContainer = $(productContainer);
+      self.currentProductHandle = self.$productContainer.data("initHandle");
 
-      self.addEventListeners();
+      self.refresh();
+
+      // set sidebar products ajax
+      // self.$productContainer.find('[ref="product-select"]').click(function(e) {
+      //   e.preventDefault();
+      //   var target = $(this), productURl = this.href;
+      //
+      //   self.loadProduct(productURl);
+      // });
 
       fullpage.options = {
         afterLoad: function(anchorLink, index) {
@@ -60,18 +63,25 @@ var fullpage = {
           );
         },
         afterSlideLoad: function(anchorLink, index, slideAnchor, slideIndex) {
-          console.log(
-            "afterSlideLoad",
-            anchorLink,
-            index,
-            slideAnchor,
-            slideIndex
-          );
+          var thisSlide = $(".slide")[slideIndex],
+            productUrl = $(thisSlide).data("producturl");
+
+          console.log("afterSlideLoad: ", productUrl);
+          self.currentProductHandle = $(thisSlide).data("handle");
+          self.loadProduct(productUrl, function(){
+            self.refresh();
+          });
         }
-      }
+      };
       if (fullpage.container.length) {
         fullpage.container.fullpage(fullpage.options);
       }
+    },
+    refresh: function(){
+      var self = this
+      self.getSelectOptions();
+      self.addEventListeners();
+      self.updatePrice();
     },
     addEventListeners: function() {
       var self = fullpage.productView,
@@ -124,7 +134,7 @@ var fullpage = {
       self.$productContainer.find(".product-size button").click(function(e) {
         var $this = $(e.target);
         var id = $this.attr("data-id");
-        options.selectVariant(id);
+        self.selectOptions.selectVariant(id);
         self.$productContainer
           .find(".product-size button")
           .removeClass("selected");
@@ -138,23 +148,25 @@ var fullpage = {
         self.$productContainer.find("#AddToCart").trigger("click");
         self.$productContainer.find("#AddToCartForm").submit();
       });
-
-      // products ajax
-      // self.$productContainer.find('[ref="product-select"]').click(function(e) {
-      // e.preventDefault()
-      // var target = $(this),
-      // productURl = this.href
-
-      // self.loadProduct(productURl)
-      // })
     },
-    loadProduct: function(productUrl) {
-      $("#product-form-container").load(
-        productUrl + " #product-form-container *",
-        function(data) {
-          console.log(data);
-        }
-      );
+    loadProduct: function(productUrl, callback) {
+      var urlSelector = productUrl + " #product-form-container > *";
+
+      $("#product-form-container").load(urlSelector, function(data) {
+        console.log("reroute success");
+        window.history.pushState({url: "" + productUrl + ""}, null, productUrl);
+        callback()
+      });
+    },
+    getSelectOptions: function() {
+      var ProductJSON, self = this;
+      $.get("/products/" + self.currentProductHandle + ".json", function(productJSON) {
+        self.selectOptions = new Shopify.OptionSelectors("productSelect", {
+          product: productJSON.product,
+          onVariantSelected: self.selectCallback,
+          enableHistoryState: true
+        });
+      });
     },
     selectCallback: function(variant, selector) {
       console.log("Switching variant: ", variant);
@@ -167,6 +179,7 @@ var fullpage = {
       );
     },
     updatePrice: function() {
+      var self = this;
       var price = self.$productContainer.find("#ProductPrice").attr("content");
       price = Number(price).toFixed(2);
       self.$productContainer.find("#price-tooltip span").html(price);
@@ -174,7 +187,8 @@ var fullpage = {
     test: function(val1, val2) {
       val2 = val2.toString();
       if (val1 !== val2) {
-        debugger;
+        alert('Test fail')
+        // debugger;
       } else {
         console.log("Test: ", val1, val2);
       }

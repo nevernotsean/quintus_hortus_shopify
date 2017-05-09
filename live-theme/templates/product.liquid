@@ -5,12 +5,9 @@
 
 <div class="section">
   <h2 class="s-hide" style="text-transform: uppercase; position: fixed; top: 20vh; width: 100%; left: 0;     text-align: center; z-index: 9; padding: 0 40px;">nous recoltons nos chaussettes avec le plus grand soin</h2>
-  {% assign currentID = product.id %}
-  {% for product in collections.socks.products %}
-      {% if productLoop.id != currentID %}
-        {% include 'product-slide-data' %}
-      {% endif %}
-  {% endfor %}
+
+  {% include 'product-loop-sorted' %}
+  
 </div>
 <div class="product-side">
   <ul class="vertical menu simple">

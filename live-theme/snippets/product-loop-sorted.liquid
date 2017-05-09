@@ -1,0 +1,12 @@
+{% assign currentID = product.id %}
+{% assign isSkipping = true %}
+{% for product in collections.socks.products %}
+    {% if product.id != currentID and isSkipping %}{% continue %}{% endif %}
+    {% assign isSkipping = false %}
+    {% include 'product-slide-data' %}
+{% endfor %}
+
+{% for product in collections.socks.products %}
+  {% if product.id == currentID %}{% break %}{% endif %}
+  {% include 'product-slide-data' %}
+{% endfor %}
