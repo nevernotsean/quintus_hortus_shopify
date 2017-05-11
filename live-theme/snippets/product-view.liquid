@@ -68,11 +68,13 @@
                 {% if variant.available %}
                   <button
                     class="{% if variant == product.selected_or_first_available_variant %}selected{% endif %} alternate"
+                    data-title="{{ variant.title }}"
                     data-sku="{{ variant.sku }}"
                     data-id="{{ variant.id }}">{{ variant.title | truncate: 1, "" }}</button>
                 {% else %}
                   <button
                     class="soldout disabled"
+                    data-title="{{ variant.title }}"
                     data-sku="{{ variant.sku }}"
                     data-id="{{ variant.id }}">{{ variant.title | truncate: 1, "" }}
                     <span class="tooltip">
@@ -92,12 +94,12 @@
                 <div class="product-bulk">
 
                   <div class="range">
-                    <input type="range" min="100" max="2000" step="100" value="100">
+                    <input type="range" min="100" max="1000" step="100" value="100">
 
                     <span id="bar" style="background: #{{colorTag}};"></span>
 
                     <label id="price-tooltip" class="tooltip"><i class="fa fa-{{ shop.currency | downcase }}"></i> <span></span></label>
-                    <label id="amount-tooltip" class="tooltip"><span>100g</span></label>
+                    <label id="amount-tooltip" class="tooltip"><span id="grams">100g</span> soit <span id="count">...</span> chaussettes</label>
                   </div>
 
                   <!-- <ul class="range-labels" style="color: #{{colorTag}};">

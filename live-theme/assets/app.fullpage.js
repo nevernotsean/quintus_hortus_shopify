@@ -5,7 +5,9 @@ var fullpage = {
     fullpage.container = $("#fullpage");
 
     if ($("body").attr("id") === "le-concept") {
-      //
+      if (fullpage.container.length) {
+        fullpage.container.fullpage(fullpage.options);
+      }
     } else if ($("body.template-product").length) {
       fullpage.productView.init($("#product-form-container"));
     } else if ($("body.template-article").length) {
@@ -21,6 +23,7 @@ var fullpage = {
     $productContainer: [],
     currentProductHandle: null,
     selectOptions: null,
+    selectedSize: null,
     init(productContainer) {
       var self = fullpage.productView;
 
@@ -41,20 +44,28 @@ var fullpage = {
 
       fullpage.options = {
         afterLoad: function(anchorLink, index) {
-          console.log('afterLoad')
+          console.log("afterLoad");
 
-          setTimeout(function () {
-            self.animations.toggleTitle()
-            self.animations.toggleOptions()
-          },1200)
+          setTimeout(function() {
+            self.animations.toggleTitle();
+            setTimeout(function() {
+              self.animations.toggleOptions();
+            }, 100);
+          }, 50);
         },
         onLeave: function(index, nextIndex, direction) {
-          console.log('onLeave')
+          console.log("onLeave");
         },
-        onSlideLeave: function(anchorLink, index, slideIndex, direction, nextSlideIndex) {
-          self.animations.transitionIcon(slideIndex, nextSlideIndex)
-          self.animations.toggleTitle()
-          self.animations.toggleOptions()
+        onSlideLeave: function(
+          anchorLink,
+          index,
+          slideIndex,
+          direction,
+          nextSlideIndex
+        ) {
+          self.animations.transitionIcon(slideIndex, nextSlideIndex);
+          self.animations.toggleTitle();
+          self.animations.toggleOptions();
           console.log("onSlideLeave");
         },
         afterSlideLoad: function(anchorLink, index, slideAnchor, slideIndex) {
@@ -63,13 +74,13 @@ var fullpage = {
 
           console.log("afterSlideLoad: ", productUrl);
           self.currentProductHandle = $(thisSlide).data("handle");
-          self.loadProduct(productUrl, function(){
+          self.loadProduct(productUrl, function() {
             self.refresh();
 
-            setTimeout(function () {
-              self.animations.toggleTitle()
-              self.animations.toggleOptions()
-            },800)
+            setTimeout(function() {
+              self.animations.toggleTitle();
+              self.animations.toggleOptions();
+            }, 50);
           });
         }
       };
@@ -77,11 +88,13 @@ var fullpage = {
         fullpage.container.fullpage(fullpage.options);
       }
     },
-    refresh: function(){
-      var self = this
+    refresh: function() {
+      var self = this;
       self.getSelectOptions();
       self.addEventListeners();
       self.updatePrice();
+      self.updateSelectedSize();
+      self.$productContainer.find(".range input").trigger("input");
     },
     addEventListeners: function() {
       var self = fullpage.productView,
@@ -96,27 +109,7 @@ var fullpage = {
       self.$productContainer;
 
       // Update the price and position of range, amount and price label
-      $rangeInput.on("input", function(e) {
-        var qty = e.target.value,
-          baseprice = self.$productContainer
-            .find("#ProductPrice")
-            .attr("content"),
-          price = (qty / e.target.step * baseprice).toFixed(2);
-
-        self.$productContainer.find("#price-tooltip span").html(price);
-        self.$productContainer.find("#amount-tooltip span").html(qty + "g");
-
-        var max = e.target.max, min = e.target.min, pct = qty / max * 100 - 5;
-
-        pct = pct < 0 ? 0 : pct;
-
-        self.$productContainer
-          .find("#price-tooltip, #amount-tooltip")
-          .css("left", pct + "%");
-        self.$productContainer
-          .find("#bar")
-          .css("width", "calc(" + pct + "% + 12px)");
-      });
+      $rangeInput.on("input", self.handleRangeInput.bind(self));
 
       // on range movement settles, change the quantity
       $rangeInput.on("change", function(e) {
@@ -134,13 +127,20 @@ var fullpage = {
       self.$productContainer.find(".product-size button").click(function(e) {
         var $this = $(e.target);
         var id = $this.attr("data-id");
+
         self.selectOptions.selectVariant(id);
+        self.selectedSize = $this.attr("title");
+
         self.$productContainer
           .find(".product-size button")
           .removeClass("selected");
+
         $this.addClass("selected");
-        $rangeInput.val($rangeInput.attr("min")).trigger("input");
+
         self.updatePrice();
+        self.updateSelectedSize();
+
+        $rangeInput.val($rangeInput.attr("min")).trigger("input");
       });
       // submit the form
       self.$productContainer.find("#submitButton").click(function(e) {
@@ -149,25 +149,80 @@ var fullpage = {
         self.$productContainer.find("#AddToCartForm").submit();
       });
       // move to left and right slide
-      self.$productContainer.find('.fp-prev').click( function(e){
+      self.$productContainer.find(".fp-prev").click(function(e) {
         $.fn.fullpage.moveSlideLeft();
-      })
-      self.$productContainer.find('.fp-next').click( function(e){
+      });
+      self.$productContainer.find(".fp-next").click(function(e) {
         $.fn.fullpage.moveSlideRight();
-      })
+      });
+    },
+    handleRangeInput: function (e) {
+      var self = this
+      var qty = e.target.value,
+        baseprice = self.$productContainer
+          .find("#ProductPrice")
+          .attr("content"),
+        price = (qty / e.target.step * baseprice).toFixed(2),
+        size = self.selectedSize,
+        max = e.target.max,
+        min = e.target.min,
+        pct = ( (qty - min) / (max - min) ) * 100,
+        sockAmt = self.calculateSocks(qty, size),
+        offset, pctAdjusted
+
+        pct = pct < 0 ? 0 : pct
+        offset = (0.04) * pct
+        pctAdjusted = pct - offset
+
+        console.log("percent",pct,"offset: ",offset)
+
+      self.$productContainer.find("#price-tooltip span").html(price);
+      self.$productContainer
+        .find("#amount-tooltip span#grams")
+        .html(qty + "g");
+      self.$productContainer
+        .find("#amount-tooltip span#count")
+        .html(sockAmt);
+
+      self.$productContainer
+        .find("#price-tooltip, #amount-tooltip")
+        .css("left", pctAdjusted + "%");
+      self.$productContainer
+        .find("#bar")
+        .css("width", "calc(" + pctAdjusted + "% + 12px)");
+    },
+    calculateSocks(grams, size) {
+      if (size == "Small" || size == "Medium" || size == "Large") {
+        var weight = {
+          Small: 13.85,
+          Medium: 16.85,
+          Large: 21.45
+        };
+        var result = Math.round(grams / weight[size]);
+
+        return result;
+      } else {
+        return false;
+      }
     },
     loadProduct: function(productUrl, callback) {
       var urlSelector = productUrl + " #product-form-container > *";
 
       $("#product-form-container").load(urlSelector, function(data) {
         console.log("reroute success");
-        window.history.pushState({url: "" + productUrl + ""}, null, productUrl);
-        callback()
+        window.history.pushState(
+          { url: "" + productUrl + "" },
+          null,
+          productUrl
+        );
+        callback();
       });
     },
     getSelectOptions: function() {
       var ProductJSON, self = this;
-      $.get("/products/" + self.currentProductHandle + ".json", function(productJSON) {
+      $.get("/products/" + self.currentProductHandle + ".json", function(
+        productJSON
+      ) {
         self.selectOptions = new Shopify.OptionSelectors("productSelect", {
           product: productJSON.product,
           onVariantSelected: self.selectCallback,
@@ -191,27 +246,32 @@ var fullpage = {
       price = Number(price).toFixed(2);
       self.$productContainer.find("#price-tooltip span").html(price);
     },
+    updateSelectedSize: function () {
+      var self = this,
+          selectedId = $('#productSelect').val()
+      self.selectedSize = $('button[data-id="' + selectedId + '"]').data('title');
+    },
     test: function(val1, val2) {
       val2 = val2.toString();
       if (val1 !== val2) {
-        alert('Test fail')
+        alert("Test fail");
         // debugger;
       } else {
         console.log("Test: ", val1, val2);
       }
     },
     animations: {
-      toggleTitle: function(){
-        $('.product-title').toggleClass('hide-title');
+      toggleTitle: function() {
+        $(".product-title").toggleClass("hide-title");
       },
-      toggleOptions: function(){
-        $('.product-size').toggleClass('hide-options');
+      toggleOptions: function() {
+        $(".product-size").toggleClass("hide-options");
       },
-      transitionIcon(slideIndex,nextSlideIndex){
-        var $iconEl = $('.icon-ss')
-        currentClass = $($('.slide')[slideIndex]).data('handle')
-        nextClass = $($('.slide')[nextSlideIndex]).data('handle')
-        $iconEl.removeClass(currentClass).addClass(nextClass)
+      transitionIcon(slideIndex, nextSlideIndex) {
+        var $iconEl = $(".icon-ss");
+        currentClass = $($(".slide")[slideIndex]).data("handle");
+        nextClass = $($(".slide")[nextSlideIndex]).data("handle");
+        $iconEl.removeClass(currentClass).addClass(nextClass);
       }
     }
   },
