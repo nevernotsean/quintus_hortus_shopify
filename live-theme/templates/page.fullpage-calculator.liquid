@@ -80,6 +80,7 @@
               chaussant du 40-45.
     					<div class="nl-submit-wrap">
     						<button class="nl-submit" type="submit">Calculate</button>
+                <a href="#" id="alert-link" class="popup-link" data-popup="#PopupAlert" style="display: none;"></a>
     					</div>
     					<div class="nl-overlay"></div>
     				</form>
@@ -290,10 +291,13 @@
             var M = Math.round(mdAmt / 100) * 100
             var L = Math.round(lgAmt / 100) * 100
 
-            response = 'Vous avez besoin de ' + socks + ' chaussettes. Il vous faut ' + S + ' gr de taille S, ' + M + ' gr de taille M et ' + L + ' gr de taille L.'
+            response = 'Vous avez besoin de <strong>' + socks + '</strong> chaussettes. Il vous faut <strong>' + S + '</strong> gr de taille S, <strong>' + M + '</strong> gr de taille M et <strong>' + L + '</strong> gr de taille L.'
 
             console.log(formObject)
-            alert(response)
+            // alert(response)
+            $('#alert').html(response)
+
+            $('#alert-link').trigger('click');
           }
 
           $('#nl-form').on('submit',function (e) {
@@ -306,6 +310,18 @@
             calculateOrder(formObject)
           })
     		</script>
+        <div id="PopupAlert" class="popup overlay">
+          <div class="popup-inner">
+            <div class="popup-outside"></div>
+            <div class="popup-content text-center">
+                <div class="h1">Me faut-il de chaussettes</div>
+                <hr>
+                <p id="alert"></p>
+                <hr>
+                <a href="/products/carrot">NOS CHAUSSETTES</a>
+              </div>
+          </div>
+        </div>
     	</div>
     </div>
   </div>

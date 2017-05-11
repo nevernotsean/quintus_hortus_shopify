@@ -11,9 +11,14 @@
 
     {% assign featured_image = current_variant.featured_image | default: product.featured_image %}
 
+    {% assign textColor = '#fff' %}
+
     {% for tag in product.tags %}
         {% if tag contains 'color-' %}
         {% capture colorTag %}{{ tag | remove: 'color-' }}{% endcapture %}
+        {% endif %}
+        {% if tag contains 'white' or tag contains 'yellow' %}
+        {% assign textColor = 'inherit' %}
         {% endif %}
     {% endfor %}
 
@@ -99,7 +104,11 @@
                     <span id="bar" style="background: #{{colorTag}};"></span>
 
                     <label id="price-tooltip" class="tooltip"><i class="fa fa-{{ shop.currency | downcase }}"></i> <span></span></label>
-                    <label id="amount-tooltip" class="tooltip"><span id="grams">100g</span> soit <span id="count">...</span> chaussettes</label>
+                    <label id="amount-tooltip" class="tooltip" style="background: #{{colorTag}};">
+                      <div id="label-text" style="color: {{textColor}};">
+                        <span id="grams">100g</span> soit <span id="count">...</span> chaussettes
+                      </div>
+                    </label>
                   </div>
 
                   <!-- <ul class="range-labels" style="color: #{{colorTag}};">
