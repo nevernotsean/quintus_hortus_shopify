@@ -2,10 +2,10 @@
   "common": {
     "menu": "Menu",
     "tags": "Tags",
-    "close": "Close",
+    "close": "Fermer",
     "pagination": {
-      "loadmore": "Load More",
-      "loading": "Loading...",
+      "loadmore": "En savoir plus",
+      "loading": "Chargement...",
       "previous": "←",
       "next": "→"
     },
@@ -21,160 +21,160 @@
     "simple_usa": "%m\/%d\/%y"
   },
   "account": {
-    "title": "Account",
-    "login": "Login",
-    "logout": "Logout",
-    "password": "Password",
-    "password_confirmation": "Confirm Password",
-    "sign_in": "Sign In",
-    "create_account": "Register now",
-    "no_account": "No account?",
-    "already_registered": "Already have an account?",
-    "forgot_password": "Forgot Password?",
-    "reset_password_message": "Enter a new password for {{ email }} ",
-    "register": "Register",
-    "first_name": "First Name",
-    "last_name": "Last Name",
-    "company": "Company",
-    "address1": "Address1",
-    "address2": "Address2",
-    "city": "City",
-    "country": "Country",
-    "province": "Province",
-    "zip": "Postal\/Zip Code",
-    "phone": "Phone",
+    "title": "Mon compte",
+    "login": "Connexion",
+    "logout": "Déconnexion",
+    "password": "Mot de passe",
+    "password_confirmation": "Confirmer votre mot de passe",
+    "sign_in": "S'enregistrer",
+    "create_account": "Créer un compte",
+    "no_account": "Pas de compte ?",
+    "already_registered": "Déjà un compte ?",
+    "forgot_password": "Mot de passe oublié ?",
+    "reset_password_message": "Entrer un nouveau mot de passe pour {{ email }} ",
+    "register": "S'enregistrer",
+    "first_name": "Prénom",
+    "last_name": "Nom",
+    "company": "Entreprise",
+    "address1": "Adresse 1",
+    "address2": "Adresse 2",
+    "city": "Ville",
+    "country": "Pays",
+    "province": "Département",
+    "zip": "Code postal\/Code postal",
+    "phone": "Téléphone",
     "orders": {
-      "title": "Orders",
-      "none": "No previous orders found",
-      "order_number": "Order",
+      "title": "Commande",
+      "none": "Pas d'historique de commande",
+      "order_number": "Commande",
       "date": "Date",
-      "status": "Status",
-      "payment_status": "Payment Status",
-      "fulfillment_status": "Fullfilment Status",
+      "status": "Statut",
+      "payment_status": "Statut du paiement",
+      "fulfillment_status": "Statut de la commande",
       "total": "Total"
     },
     "order": {
-      "title": "Order {{ name }}",
-      "date": "Order date",
-      "cancelled": "Order Cancelled on {{ date }}",
-      "cancelled_reason": "Reason: {{ reason }}",
-      "billing_address": "Billing Address",
-      "payment_status": "Payment Status",
-      "fulfillment_status": "Fullfilment Status",
-      "shipping_address": "Shipping Address",
-      "discount": "Discount",
-      "shipping": "Shipping",
-      "tax": "Tax",
-      "product": "Product",
+      "title": "Commande {{ name }}",
+      "date": "Date de la commande",
+      "cancelled": "Commande annulée le {{ date }}",
+      "cancelled_reason": "Raison : {{ reason }}",
+      "billing_address": "Adresse de facturation",
+      "payment_status": "Statut du paiement",
+      "fulfillment_status": "Statut de la commande",
+      "shipping_address": "Adresse de livraison",
+      "discount": "Réduction",
+      "shipping": "Livraison",
+      "tax": "TVA",
+      "product": "Produit",
       "sku": "SKU",
-      "price": "Price",
-      "quantity": "Quantity",
+      "price": "Prix",
+      "quantity": "Quantité",
       "total": "Total",
-      "fulfilled_at": "Fulfilled {{ date }}",
-      "subtotal": "Subtotal"
+      "fulfilled_at": "Commandé le {{ date }}",
+      "subtotal": "Sous total"
     },
     "address": {
-      "title": "Addresses",
-      "default": "Default Address",
-      "add": "Add a new address",
-      "update": "Update",
-      "edit": "Edit Address",
-      "set_default": "Set as default address",
-      "manage_addresses": "Manage Addresses",
-      "confirm_delete": "Are you absolutely sure you wish to delete this address?",
+      "title": "Adresse",
+      "default": "Adresse par défaut",
+      "add": "Ajouter une adresse",
+      "update": "Modification",
+      "edit": "Modifier",
+      "set_default": "Choisir comme adresse par défault",
+      "manage_addresses": "Gérer mes adresses",
+      "confirm_delete": "Êtes-vous vraiment sur de vouloir supprimer cette adresse ?",
       "count": {
-        "one": "Address",
-        "other": "Addresses"
+        "one": "Adresse",
+        "other": "Adresses"
       }
     },
     "activate": {
-      "title": "Acitvate account"
+      "title": "Activer mon compte"
     },
     "reset_password": {
-      "title": "Password Reset",
-      "sign_in": "Sign In",
-      "forgot_password": "Forgot Password?",
-      "create_account": "Create an Account",
-      "message": "Enter your email to request a password reset",
-      "success": "Please check your email for a link to update your password"
+      "title": "Réinitialiser mon mot de passe",
+      "sign_in": "Connexion",
+      "forgot_password": "Mot de passe oublié ?",
+      "create_account": "Créer un compte",
+      "message": "Entrer votre email pour réinitialiser votre mot de passe",
+      "success": "Bravo, un email vient de vous être envoyé pour finaliser la réinitialisation !"
     }
   },
   "form": {
-    "name": "Name",
+    "name": "Nom",
     "email": "Email",
-    "phone": "Phone",
+    "phone": "Téléphone",
     "message": "Message",
-    "send": "Send",
-    "submit": "Submit",
-    "cancel": "Cancel",
-    "add": "Add",
-    "edit": "Edit",
-    "delete": "Delete",
+    "send": "Envoyer",
+    "submit": "Soumettre",
+    "cancel": "Annuler",
+    "add": "Ajouter",
+    "edit": "Modifier",
+    "delete": "Supprimer",
     "contact": {
-      "success": "Form posted successfully"
+      "success": "Félicitation votre message vient d'être envoyer !"
     }
   },
   "subscribe": {
-    "title": "Subscribe",
-    "confirmation": "Thank you for subscribing!"
+    "title": "S'inscrire",
+    "confirmation": "Merci pour votre inscription !"
   },
   "cart": {
-    "title": "Cart",
-    "view_cart": "View Cart",
-    "product": "Product",
-    "price": "Price",
-    "quantity": "Quantity",
-    "subtotal": "Subtotal",
-    "checkout": "Checkout",
-    "shipping_at_checkout": "Shipping calculated at checkout",
+    "title": "Panier",
+    "view_cart": "Voir mon panier",
+    "product": "Produits",
+    "price": "Prix",
+    "quantity": "Quantités",
+    "subtotal": "Sous total",
+    "checkout": "Régler ma commande",
+    "shipping_at_checkout": "Les frais de livrison sont calculés au moment du paiment",
     "total": "Total",
-    "remove_item": "Remove",
-    "empty": "Your cart is empty :(",
-    "note": "Customer Notes",
+    "remove_item": "Supprimer",
+    "empty": "Votre panier est vide :(",
+    "note": "Notes",
     "count": {
-      "one": "item",
-      "other": "items"
+      "one": "Produit",
+      "other": "Produits"
     }
   },
   "collection": {
-    "no_matches": "Sorry, there are no products in this collection",
+    "no_matches": "Désolé nous n'avons pas ce produit",
     "view": {
-      "title": "View",
-      "grid": "Grid",
-      "list": "List"
+      "title": "Voir",
+      "grid": "Grille",
+      "list": "Liste"
     },
     "items_with_count": {
-      "one": "{{ count }} item",
-      "other": "{{ count }} items"
+      "one": "{{ count }} produit",
+      "other": "{{ count }} produits"
     },
     "sort": {
-      "title": "Sort",
-      "featured": "Featured",
-      "best_selling": "Best Selling",
-      "az": "Alphabetically, A-Z",
-      "za": "Alphabetically, Z-A",
-      "price_ascending": "Price, low to high",
-      "price_descending": "Price, high to low",
-      "date_descending": "Date, new to old",
-      "date_ascending": "Date, old to new"
+      "title": "Trier",
+      "featured": "Populaire",
+      "best_selling": "Meilleure vente",
+      "az": "Par ordre alphabetique croissant, A-Z",
+      "za": "Par ordre alphabetique décroissant, Z-A",
+      "price_ascending": "Prix croissant",
+      "price_descending": "Prix décroissant",
+      "date_descending": "Plus récent",
+      "date_ascending": "Moins récent"
     },
     "filter": {
-      "title": "Filter",
-      "all_items": "All '{{ collection }}'"
+      "title": "Filtre",
+      "all_items": "Tout '{{ collection }}'"
     }
   },
   "product": {
-    "add_to_cart": "Add to Cart",
-    "add_to_cart_unavailable": "Unavailable",
-    "regular_price": "Regular Price",
-    "quantity": "Quantity",
-    "priced_from_html": "From {{ price }}",
-    "on_sale_html": "On sale for {{ price }}",
-    "on_sale_from_html": "On sale from {{ price }}",
-    "on_sale": "On sale",
-    "original_price": "Originally",
-    "previous_product": "Previous",
-    "next_product": "Next",
+    "add_to_cart": "Ajouter au panier",
+    "add_to_cart_unavailable": "Indisponible",
+    "regular_price": "Prix",
+    "quantity": "Quantité",
+    "priced_from_html": "À partir de {{ price }}",
+    "on_sale_html": "En solde à {{ price }}",
+    "on_sale_from_html": "En solde à partir de {{ price }}",
+    "on_sale": "En solde",
+    "original_price": "Prix d'origine",
+    "previous_product": "Précédent",
+    "next_product": "Suivant",
     "view_more_images": "Plus de Photos"
   },
   "home_page": {
@@ -183,38 +183,38 @@
   "blog": {
     "title": "Blog",
     "categories": "Blog Categories",
-    "recent_articles": "Recent Articles",
+    "recent_articles": "Articles récents",
     "article": {
       "title": "Home",
-      "published": "Published",
-      "author_on_date_html": "Posted by {{ author }} on {{ date }}",
-      "read_more": "Read More",
-      "previous_article": "Previous Article",
-      "next_article": "Next Article"
+      "published": "Publié",
+      "author_on_date_html": "Posté par {{ author }} le {{ date }}",
+      "read_more": "Lire plus",
+      "previous_article": "Article précédent",
+      "next_article": "Article suivant"
     },
     "comments": {
-      "title": "Leave a comment",
-      "name": "Name",
+      "title": "Laisser un commentaire",
+      "name": "Nom",
       "email": "Email",
       "message": "Message",
-      "post": "Comment",
-      "moderated": "Please note, comments must be approved before they are published",
-      "success_moderated": "Your comment was submitted. It will be published after our moderators review your post.",
-      "success": "Your comment was posted. Thank you!",
-      "meta_html": "{{ author }} on {{ date }}",
+      "post": "Commentaire",
+      "moderated": "Les commentaires sont soumis à approbation",
+      "success_moderated": "Votre commentaires a été envoyé !",
+      "success": "Votre commentaire a été posté, merci !",
+      "meta_html": "{{ author }} le {{ date }}",
       "with_count": {
-        "one": "{{ count }} comment",
-        "other": "{{ count }} comments"
+        "one": "{{ count }} commentaire",
+        "other": "{{ count }} commentaires"
       }
     },
     "author": {
-      "about_with_name": "About {{ first_name }}"
+      "about_with_name": "A propos de {{ first_name }}"
     }
   },
   "search": {
-    "title": "Search",
-    "no_results_html": "Sorry, no results for \"{{ terms }}\"",
-    "results_for_html": "We found these matches for \"{{ terms }}\""
+    "title": "Recherche",
+    "no_results_html": "Désolé, aucun résultat trouvé pour \"{{ terms }}\"",
+    "results_for_html": "Résutat pour \"{{ terms }}\""
   },
   "social": {
     "facebook": "Facebook",
@@ -226,10 +226,10 @@
     "vimeo": "Vimeo",
     "youtube": "YouTube",
     "share": {
-      "title": "Share",
+      "title": "Partager",
       "fancy": "Fancy",
       "google": "+1",
-      "facebook": "Share",
+      "facebook": "Partager",
       "pinterest": "Pin it",
       "twitter": "Tweet"
     }
@@ -238,7 +238,7 @@
     "products": {
       "modal_title": "This area will show your store's products",
       "no_products_html": "There are no products yet, but once you begin adding them they will show up here regardless if they are in a collection.",
-      "add_product": "Add Product",
+      "add_product": "Ajouter un produit",
       "product_title": "Example Product Title"
     },
     "collections": {
@@ -252,130 +252,130 @@
   "password_page": {
     "opening_soon": "Opening Soon",
     "password_link": "Vous avez un mot de passe?",
-    "login_form_heading": "Enter with a password",
-    "login_form_password_label": "Password",
-    "login_form_password_placeholder": "Your password",
-    "login_form_submit": "Enter",
+    "login_form_heading": "Entrer mot de passe",
+    "login_form_password_label": "Mot de passe",
+    "login_form_password_placeholder": "Votre mot de passe",
+    "login_form_submit": "Valider",
     "signup_form_email_label": "Email",
     "signup_form_success": "We will send you an email right before we open!",
     "admin_link_html": "Are you the store owner? <a href=\"\/admin\" class=\"text-link\">Log in here<\/a>",
     "powered_by_shopify_html": "This shop will be powered by {{ shopify }}"
   },
   "gift_cards": {
-    "title_html": "Here's your {{ value }} gift card for {{ shop }}!",
-    "subtext": "Your gift card",
-    "disabled": "Disabled",
-    "expired": "Expired on {{ expiry }}",
-    "active": "Expires on {{ expiry }}",
-    "redeem_html": "Use this code at checkout to redeem your {{ value }} gift card",
-    "shop_link": "Start shopping",
-    "print": "Print this gift card",
-    "remaining_html": "{{ balance }} of",
-    "add_to_apple_wallet": "Add to Apple Wallet"
+    "title_html": "Votre carte {{ shop }} d'une valeur de {{ value }} !",
+    "subtext": "Votre carte cadeau",
+    "disabled": "Désactiver",
+    "expired": "Expire le {{ expiry }}",
+    "active": "Délivrer le {{ expiry }}",
+    "redeem_html": "Utilisez votre code pour activer votre carte cadeau de {{ value }}",
+    "shop_link": "Acheter maintenant",
+    "print": "Imprimer",
+    "remaining_html": "{{ balance }} de",
+    "add_to_apple_wallet": "Ajouter à mon Apple Wallet"
   },
   "404": {
     "title": "404 Error: Page Not Found",
-    "subtext_html": "Sorry, that page doesn't appear to exist! Click <a href=\"\/collections\/all\">here<\/a> to continue shopping"
+    "subtext_html": "Désolé, Cette page n'existe pas...!  <a href=\"\/collections\/all\">here<\/a> Retourner à mes chaussettes"
   },
   "customer": {
     "account": {
-      "title": "My Account",
-      "details": "Account Details",
-      "view_addresses": "View Addresses",
-      "return": "Return to Account Details"
+      "title": "Mon compte",
+      "details": "Détail de mon compte",
+      "view_addresses": "Voir mes adresses",
+      "return": "Retourner à mon compte"
     },
     "activate_account": {
-      "title": "Activate Account",
-      "subtext": "Create your password to activate your account.",
-      "password": "Password",
-      "password_confirm": "Confirm Password",
-      "submit": "Activate Account",
-      "cancel": "Decline Invitation"
+      "title": "Créer mon compte",
+      "subtext": "Créer votre mot de passe pour activer votre compte",
+      "password": "Mot de passe",
+      "password_confirm": "Confirmer mon mot de passe",
+      "submit": "Créer mon compte",
+      "cancel": "Annuler"
     },
     "addresses": {
-      "title": "Your Addresses",
-      "default": "Default",
-      "add_new": "Add a New Address",
-      "edit_address": "Edit address",
-      "first_name": "First Name",
-      "last_name": "Last Name",
-      "company": "Company",
-      "address1": "Address1",
-      "address2": "Address2",
-      "city": "City",
-      "country": "Country",
-      "province": "Province",
-      "zip": "Postal\/Zip Code",
-      "phone": "Phone",
-      "set_default": "Set as default address",
-      "add": "Add Address",
-      "update": "Update Address",
-      "cancel": "Cancel",
-      "edit": "Edit",
-      "delete": "Delete"
+      "title": "Mon adresse",
+      "default": "Adresse par défaut",
+      "add_new": "Ajouter une nouvelle adresse",
+      "edit_address": "Modifier mon adresse",
+      "first_name": "Prénom",
+      "last_name": "Nom",
+      "company": "Entreprise",
+      "address1": "Adresse 1",
+      "address2": "Adresse 2",
+      "city": "Ville",
+      "country": "Pays",
+      "province": "Département",
+      "zip": "Code postal\/Code postal",
+      "phone": "Téléphone",
+      "set_default": "Définir comme adresse par défaut",
+      "add": "Ajouter une adresse",
+      "update": "modifer mon adresse",
+      "cancel": "Annuler",
+      "edit": "Modifier",
+      "delete": "Supprimer"
     },
     "login": {
-      "title": "Login",
+      "title": "Connexion",
       "email": "Email",
-      "password": "Password",
-      "forgot_password": "Forgot your password?",
-      "sign_in": "Sign In",
-      "cancel": "Return to Store",
-      "guest_title": "Continue as a guest",
-      "guest_continue": "Continue"
+      "password": "Mot de passe",
+      "forgot_password": "Mot de passe oublié ?",
+      "sign_in": "S'enregistrer",
+      "cancel": "Annuler",
+      "guest_title": "Continuer comme invité",
+      "guest_continue": "Continuer"
     },
     "orders": {
-      "title": "Order History",
-      "order_number": "Order",
+      "title": "Historique de commande",
+      "order_number": "Commande",
       "date": "Date",
-      "payment_status": "Payment Status",
-      "fulfillment_status": "Fulfillment Status",
+      "payment_status": "Statut Paiement",
+      "fulfillment_status": "Statut de la commande",
       "total": "Total",
-      "none": "You haven't placed any orders yet."
+      "none": "Vous n'avez encore rien commandé"
     },
     "order": {
-      "title": "Order {{ name }}",
-      "date": "Placed on {{ date }}",
-      "cancelled": "Order Cancelled on {{ date }}",
-      "cancelled_reason": "Reason: {{ reason }}",
-      "billing_address": "Billing Address",
-      "payment_status": "Payment Status",
-      "shipping_address": "Shipping Address",
-      "fulfillment_status": "Fulfillment Status",
-      "discount": "Discount",
-      "shipping": "Shipping",
-      "tax": "Tax",
-      "product": "Product",
+      "title": "Commande {{ name }}",
+      "date": "Commandé le {{ date }}",
+      "cancelled": "Commande annulé le {{ date }}",
+      "cancelled_reason": "Raisons : {{ reason }}",
+      "billing_address": "Adresse de facturation",
+      "payment_status": "Statut Paiement",
+      "shipping_address": "Adresse de livraison",
+      "fulfillment_status": "Statut de la commande",
+      "discount": "Rabais",
+      "shipping": "Livraison",
+      "tax": "TVA",
+      "product": "Produits",
       "sku": "SKU",
-      "price": "Price",
-      "quantity": "Quantity",
+      "price": "Prix",
+      "quantity": "Quantité",
       "total": "Total",
-      "fulfilled_at": "Fulfilled {{ date }}",
-      "subtotal": "Subtotal"
+      "fulfilled_at": "Commandé le {{ date }}",
+      "subtotal": "Sous total"
     },
     "recover_password": {
-      "title": "Reset your password",
+      "title": "Réinitialiser mon mot de passe",
       "email": "Email",
-      "submit": "Submit",
-      "cancel": "Cancel",
-      "subtext": "We will send you an email to reset your password.",
-      "success": "We've sent you an email with a link to update your password."
+      "submit": "Réinitialiser",
+      "cancel": "Annuler",
+      "subtext": "Un email vous à été envoyé afin de finaliser la réinitialisation.",
+      "success": "Un lien est disponible, dans l'email que nous venons de vous envoyer, pour réinitialiser votre mot de passe."
     },
     "reset_password": {
-      "title": "Reset account password",
-      "subtext": "Enter a new password for {{ email }}",
-      "password": "Password",
-      "password_confirm": "Confirm Password",
-      "submit": "Reset Password"
+      "title": "Créer un nouveau mot de passe",
+      "subtext": "Entrer un nouveau mot de passe pour {{ email }}",
+      "password": "Mot de passe",
+      "password_confirm": "Confirmer mon mot de passe",
+      "submit": "Réinitialiser"
     },
     "register": {
-      "title": "Create Account",
-      "first_name": "First Name",
-      "last_name": "Last Name",
+      "title": "Créer mon compte",
+      "first_name": "Prénom",
+      "last_name": "Nom",
       "email": "Email",
-      "password": "Password",
-      "submit": "Create",
-      "cancel": "Return to Store"
+      "password": "Mot de passe",
+      "submit": "Créer",
+      "cancel": "Annuler"
     }
   }
 }
