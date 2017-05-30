@@ -1665,7 +1665,6 @@ body {
 #MainContent .slide > .row {
   position: absolute;
   width: 100%;
-  // left: 25px;
   left: 18px;
   top: 50%;
   transform: translateY(-50%);
@@ -1674,6 +1673,7 @@ body {
 //// left-right slide templates
 .leftSide, .rightSide {
     width: 50%;
+    position: relative;
 }
 .leftSide {
   float: left;
@@ -1683,15 +1683,11 @@ body {
 }
 .rightSide {
     float: right;
-
     .rightContent {
-      text-align: left;
-      padding-right: 60px;
-      padding-left: 60px;
-      position: relative;
-      .rightBody {
-        // border-left: 4px solid #fff;
-        padding-left: 1.5rem;
+      padding: 0 30px;
+      margin-left: 20px;
+      h1 {
+        text-transform: uppercase;
       }
     }
 }
@@ -1706,8 +1702,34 @@ body {
   .rightSide {
     float: none;
     .rightContent {
-      padding-right: 0px;
+      padding-right: 10px;
+      padding-left: 10px;
     }
+  }
+}
+
+//  Double Fullpage template
+.fullpage-right {
+  float: right;
+  width: 50%;
+  .section {
+    opacity: 1 !important;
+  }
+}
+.fullpage-left {
+  float: left;
+  width: 50%;
+}
+.fullpage-right, .fullpage-left {
+  .bg-image {
+    background-repeat: no-repeat;
+    background-position: center center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
   }
 }
 
@@ -1725,99 +1747,215 @@ body {
   text-align: center;
 }
 
-// Concept Page
-$green: #a2c480;
-#le-concept {
-  background-color: $colorBackground;
-  .section .slide {
-    color: #fff;
-    background-color: transparent;
-    &:nth-child(1) {
-      text-align: center;
-      background: url({{ 'concept-1.jpg' | asset_url }}) no-repeat center center;
-      background-size: cover;
-    }
-    &:nth-child(2) {
-      background-color: #fdc162;
-    }
-    &:nth-child(3) {
-      background-color: #60d7a9;
-    }
-    &:nth-child(4) {
-      background-color: #fd6a62;
-    }
-  }
-  .slide1 {
-    position: relative;
-    .fullContent {
-      max-width: 500px;
-      h1 {
-        text-transform: uppercase;
-      }
-    }
-    &:after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.3);
-        z-index: 0;
-    }
-    .slide-inner {
-        position: relative;
-        z-index: 1;
-    }
-  }
-  .leftSide {
-    .leftContent {
-      h1 {
-        text-transform: uppercase;
-        font-size: 3rem;
-        max-width: 500px;
-        float: right;
-      }
-    }
-  }
-
-
+// Concept Page & Fabrication Page
+.fixed-bg-image {
+  display: none;
 }
-
-// Fabrication Page
 .contentTitle {
   text-transform: uppercase;
 }
-#fabrication-francaise {
-  .fp-slides .slide {
+#fabrication-francaise, #le-concept {
+  background-position: 25% center;
+  #MainContent {
     &:after, &:before {
       content: '';
-      position: absolute;
+      position: fixed;
       top: 0;
       right: 0;
-      height: 100%;
+      height: 100vh;
       width: 50%;
       background: $colorBrand;
       z-index: -1;
+      @include s(){
+        width: 100%;
+      };
     }
-    &:before {
-      background: url({{ 'coton-soie-polyester-viscose-acetate.jpg' | asset_url }}) no-repeat center center;
+    &:before, .fixed-bg-image {
+      display: initial;
+      background-repeat: no-repeat;
+      background-position: center center;
+      position: absolute;
+      top: 0;
       left: 0;
+      width: 50%;
+      height: 100%;
       background-size: cover;
     }
   }
-  .section .slide {
-    color: #fff;
-  }
-  .rightSide {
-    .rightContent {
-      .rightBody {
-        border-left: 4px solid #fff;
+  .supports-js & {
+    .section {
+      opacity: 0.1;
+      transition-delay: 300ms;
+      position: relative;
+      background-color: transparent;
+      .slide {
+        color: #fff;
       }
     }
   }
 }
 
+#fabrication-francaise {
+  .fixed-bg-image, .bg-image {
+    background-image: url({{ "coton-soie-polyester-viscose-acetate.jpg" | asset_url }});
+    &.image-1 {
+      background-image: url({{ "FF_Capture_1.jpg" | asset_url }});
+    }
+    &.image-2 {
+      background-image: url({{ "FF_Capture_2.jpg" | asset_url }});
+    }
+    &.image-3 {
+      background-image: url({{ "FF_Capture_3.jpg" | asset_url }});
+    }
+  }
+  .rightSide {
+    .rightContent {
+      text-align: left;
+      padding-right: 60px;
+      padding-left: 60px;
+      position: relative;
+      .rightBody {
+        border-left: 4px solid #fff;
+        padding-left: 1.5rem;
+      }
+    }
+  }
+}
+$red: #e93344;
+$yellow: #fed856;
+$green: #01b86e;
+$navy: #202b55;
+#le-concept {
+  .fixed-bg-image, .bg-image {
+    background-image: url({{ "img-concept1.jpg" | asset_url }});
+    &.image-1 {
+      background-image: url({{ "img-concept1.jpg" | asset_url }});
+    }
+    &.image-2 {
+      background-image: url({{ "img-concept2.jpg" | asset_url }});
+    }
+    &.image-3 {
+      background-image: url({{ "img-concept3.jpg" | asset_url }});
+    }
+    &.image-4 {
+      background-image: url({{ "img-concept4.jpg" | asset_url }});
+    }
+  }
+  .section.section1 .slide {
+    background-color: $red;
+    color: #fff;
+    .button {
+      background-color: #fff;
+      border-color: #fff;
+      color: $red;
+    }
+  }
+  .section.section2 .slide {
+    background-color: $yellow;
+    color: #ff773f;
+    .button {
+      background-color: #ff773f;
+      border-color: #ff773f;
+      color: $yellow;
+    }
+  }
+  .section.section3 .slide {
+    background-color: $green;
+    color: $yellow;
+    .button {
+      background-color: $yellow;
+      border-color: $yellow;
+      color: $green;
+    }
+  }
+  .section.section4 .slide {
+    background-color: $navy;
+    color: $yellow;
+    .button {
+      background-color: $yellow;
+      border-color: $yellow;
+      color: $navy;
+    }
+  }
+}
+// Vertical Navigation
+$dotSize: 35px;
+.progressbar {
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 50%;
+  width: 6px;
+  height: 0;
+  background-color: #fff;
+  transform: translateX(-50%);
+  transition: height 500ms ease;
+}
+.vertical-breadcrumbs, div#fp-nav {
+  position: fixed;
+  left: 50%;
+  right: initial !important;
+  margin-top: 0 !important;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  ul {
+    counter-reset: my-badass-counter;
+    li a:before {
+      content: counter(my-badass-counter);
+      counter-increment: my-badass-counter;
+      position: absolute;
+      top: 48%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+  .dot, li {
+    width: auto !important;
+    height: auto !important;
+    a {
+      width: $dotSize !important;
+      height: $dotSize !important;
+      border-radius: $dotSize;
+      line-height: $dotSize;
+      text-align: center;
+      border: 2px solid #fff;
+      color: #fff;
+      background-color: $colorBrand;
+      &.active {
+        background-color: #fff;
+        color: $colorBrand;
+      }
+    }
+    &:not(:first-child) {
+        margin-top: 100px;
+    }
+  }
+  li a span {
+    display: none;
+  }
+}
+// Scroll for more button
+.down-arrow {
+  position: relative;
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-top: 50px;
+  display: none;
+  &:before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-top: 10px;
+    width: 50px;
+    height: 50px;
+    background: url() no-repeat center center;
+    background-size: contain;
+    background-image: url({{ 'arrow-right-white.svg' | asset_url }});
+    transform: translateX(-50%) rotate(90deg);
+  }
+}
 // Coming soon
 .h1.logo {
   display: none;

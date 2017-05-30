@@ -1,0 +1,28 @@
+{% layout 'fullpage' %}
+{% assign content = page.content | split: '<!-- section -->'%}
+
+<div class="fullpage-left">
+{% for slide in content %}
+  <div class="section section{{forloop.index}}">
+    <div class="slide">
+      <div class="bg-image image-{{forloop.index}}"></div>
+    </div>
+  </div>
+{% endfor %}
+</div>
+
+
+<div class="fullpage-right">
+{% for slide in content %}
+  <div class="section section{{forloop.index}}">
+    <div class="slide center">
+      <div class="slide-inner">
+         {% if forloop.index == 1%}
+         <h1 class="contentTitle">{{ page.title }}</h1>
+         {% endif %}
+         {{ slide }}
+      </div>
+    </div>
+  </div>
+{% endfor %}
+</div>

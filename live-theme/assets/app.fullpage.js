@@ -2,21 +2,54 @@ var fullpage = {
   container: [],
   options: {},
   init: function() {
-    fullpage.container = $("#fullpage");
+    fullpage.container = $('#fullpage');
 
-    if ($("body").attr("id") === "le-concept") {
-      if (fullpage.container.length) {
-        fullpage.container.fullpage(fullpage.options);
+    if ($('body').attr('id') === 'le-concept') {
+      if ($('.fullpage-left, .fullpage-right').length) {
+        fullpage.container = $('.fullpage-left, .fullpage-right');
       }
-    } else if ($("body.template-product").length) {
-      fullpage.productView.init($("#product-form-container"));
-    } else if ($("body.template-article").length) {
+      if (fullpage.container.length) {
+        fullpage.verticalView.init();
+      }
+    } else if ($('body').attr('id') === 'fabrication-francaise') {
+      if (fullpage.container.length) {
+        fullpage.verticalView.init();
+      }
+    } else if ($('body.template-product').length) {
+      fullpage.productView.init($('#product-form-container'));
+    } else if ($('body.template-article').length) {
       fullpage.blogView.init();
     } else {
       if (fullpage.container.length) {
         fullpage.container.fullpage(fullpage.options);
       }
     }
+  },
+  verticalView: {
+    init: function() {
+      fullpage.options = {
+        navigation: true,
+        afterLoad: this.handleAfterLoad,
+      };
+
+      fullpage.container.fullpage(fullpage.options);
+
+      $('#MainContent').prepend('<div class="progressbar"></div>');
+
+      this.updateProgressBar();
+    },
+    handleAfterLoad: function(anchorLink, index) {
+      fullpage.verticalView.updateProgressBar();
+    },
+    updateProgressBar: function() {
+      if (!$('.progressbar').length) {
+        return false;
+      }
+      var topDistance = $('#fp-nav ul li a.active')[0].getBoundingClientRect()
+        .top;
+      $('.progressbar').height(topDistance);
+    },
+    updateBackgroundImage: function() {},
   },
   productView: {
     options: null,
@@ -27,10 +60,10 @@ var fullpage = {
     init(productContainer) {
       var self = fullpage.productView;
 
-      window.MoneyFormat = $(".MoneyFormat")[0].value;
+      window.MoneyFormat = $('.MoneyFormat')[0].value;
 
       self.$productContainer = $(productContainer);
-      self.currentProductHandle = self.$productContainer.data("initHandle");
+      self.currentProductHandle = self.$productContainer.data('initHandle');
 
       self.refresh();
 
@@ -44,7 +77,7 @@ var fullpage = {
 
       fullpage.options = {
         afterLoad: function(anchorLink, index) {
-          console.log("afterLoad");
+          console.log('afterLoad');
 
           setTimeout(function() {
             self.animations.toggleTitle();
@@ -54,7 +87,7 @@ var fullpage = {
           }, 50);
         },
         onLeave: function(index, nextIndex, direction) {
-          console.log("onLeave");
+          console.log('onLeave');
         },
         onSlideLeave: function(
           anchorLink,
@@ -66,14 +99,14 @@ var fullpage = {
           self.animations.transitionIcon(slideIndex, nextSlideIndex);
           self.animations.toggleTitle();
           self.animations.toggleOptions();
-          console.log("onSlideLeave");
+          console.log('onSlideLeave');
         },
         afterSlideLoad: function(anchorLink, index, slideAnchor, slideIndex) {
-          var thisSlide = $(".slide")[slideIndex],
-            productUrl = $(thisSlide).data("producturl");
+          var thisSlide = $('.slide')[slideIndex],
+            productUrl = $(thisSlide).data('producturl');
 
-          console.log("afterSlideLoad: ", productUrl);
-          self.currentProductHandle = $(thisSlide).data("handle");
+          console.log('afterSlideLoad: ', productUrl);
+          self.currentProductHandle = $(thisSlide).data('handle');
           self.loadProduct(productUrl, function() {
             self.refresh();
 
@@ -82,7 +115,7 @@ var fullpage = {
               self.animations.toggleOptions();
             }, 50);
           });
-        }
+        },
       };
       if (fullpage.container.length) {
         fullpage.container.fullpage(fullpage.options);
@@ -94,109 +127,106 @@ var fullpage = {
       self.addEventListeners();
       self.updatePrice();
       self.updateSelectedSize();
-      self.$productContainer.find(".range input").trigger("input");
+      self.$productContainer.find('.range input').trigger('input');
     },
     addEventListeners: function() {
       var self = fullpage.productView,
-        $rangeInput = self.$productContainer.find(".range input");
+        $rangeInput = self.$productContainer.find('.range input');
 
       // sync the quanitities
-      self.$productContainer.find("#Quantity").on("change", function() {
+      self.$productContainer.find('#Quantity').on('change', function() {
         self.$productContainer
-          .find("#AddToCart")
-          .attr("data-cart-quantity", $(this).val());
+          .find('#AddToCart')
+          .attr('data-cart-quantity', $(this).val());
       });
       self.$productContainer;
 
       // Update the price and position of range, amount and price label
-      $rangeInput.on("input", self.handleRangeInput.bind(self));
+      $rangeInput.on('input', self.handleRangeInput.bind(self));
 
       // on range movement settles, change the quantity
-      $rangeInput.on("change", function(e) {
+      $rangeInput.on('change', function(e) {
         var newVal = e.target.value / e.target.step;
-        var qtyInput = document.getElementById("Quantity");
+        var qtyInput = document.getElementById('Quantity');
         qtyInput.value = newVal;
         self.$productContainer
-          .find("[data-cart-quantity]")
-          .attr("data-cart-quantity", newVal);
+          .find('[data-cart-quantity]')
+          .attr('data-cart-quantity', newVal);
 
         self.test(qtyInput.value, newVal);
       });
 
       // selector changes
-      self.$productContainer.find(".product-size button").click(function(e) {
+      self.$productContainer.find('.product-size button').click(function(e) {
         var $this = $(e.target);
-        var id = $this.attr("data-id");
+        var id = $this.attr('data-id');
 
         self.selectOptions.selectVariant(id);
-        self.selectedSize = $this.attr("title");
+        self.selectedSize = $this.attr('title');
 
         self.$productContainer
-          .find(".product-size button")
-          .removeClass("selected");
+          .find('.product-size button')
+          .removeClass('selected');
 
-        $this.addClass("selected");
+        $this.addClass('selected');
 
         self.updatePrice();
         self.updateSelectedSize();
 
-        $rangeInput.val($rangeInput.attr("min")).trigger("input");
+        $rangeInput.val($rangeInput.attr('min')).trigger('input');
       });
       // submit the form
-      self.$productContainer.find("#submitButton").click(function(e) {
+      self.$productContainer.find('#submitButton').click(function(e) {
         e.preventDefault();
-        self.$productContainer.find("#AddToCart").trigger("click");
-        self.$productContainer.find("#AddToCartForm").submit();
+        self.$productContainer.find('#AddToCart').trigger('click');
+        self.$productContainer.find('#AddToCartForm').submit();
       });
       // move to left and right slide
-      self.$productContainer.find(".fp-prev").click(function(e) {
+      self.$productContainer.find('.fp-prev').click(function(e) {
         $.fn.fullpage.moveSlideLeft();
       });
-      self.$productContainer.find(".fp-next").click(function(e) {
+      self.$productContainer.find('.fp-next').click(function(e) {
         $.fn.fullpage.moveSlideRight();
       });
     },
-    handleRangeInput: function (e) {
-      var self = this
+    handleRangeInput: function(e) {
+      var self = this;
       var qty = e.target.value,
         baseprice = self.$productContainer
-          .find("#ProductPrice")
-          .attr("content"),
+          .find('#ProductPrice')
+          .attr('content'),
         price = (qty / e.target.step * baseprice).toFixed(2),
         size = self.selectedSize,
         max = e.target.max,
         min = e.target.min,
-        pct = ( (qty - min) / (max - min) ) * 100,
+        pct = (qty - min) / (max - min) * 100,
         sockAmt = self.calculateSocks(qty, size),
-        offset, pctAdjusted
+        offset,
+        pctAdjusted;
 
-        pct = pct < 0 ? 0 : pct
-        offset = (0.04) * pct
-        pctAdjusted = pct - offset
+      pct = pct < 0 ? 0 : pct;
+      offset = 0.04 * pct;
+      pctAdjusted = pct - offset;
 
-        console.log("percent",pct,"offset: ",offset)
+      console.log('percent', pct, 'offset: ', offset);
 
-      self.$productContainer.find("#price-tooltip span").html(price);
-      self.$productContainer
-        .find("#amount-tooltip span#grams")
-        .html(qty + "g");
-      self.$productContainer
-        .find("#amount-tooltip span#count")
-        .html(sockAmt);
+      self.$productContainer.find('#price-tooltip span').html(price);
+      self.$productContainer.find('#amount-tooltip span#grams').html(qty + 'g');
+      self.$productContainer.find('#amount-tooltip span#count').html(sockAmt);
 
       self.$productContainer
-        .find("#price-tooltip, #amount-tooltip")
-        .css("left", pctAdjusted + "%");
+        .find('#price-tooltip, #amount-tooltip')
+        .css('left', pctAdjusted + '%');
       self.$productContainer
-        .find("#bar")
-        .css("width", "calc(" + pctAdjusted + "% + 12px)");
+        .find('#bar')
+        .css('width', 'calc(' + pctAdjusted + '% + 12px)');
     },
     calculateSocks(grams, size) {
-      if (size == "Small" || size == "Medium" || size == "Large") {
+      if (size == 'Small' || size == 'Medium' || size == 'Large') {
         var weight = {
           Small: 13.85,
           Medium: 16.85,
-          Large: 21.45
+          Large: 21.45,
         };
         var result = Math.round(grams / weight[size]);
 
@@ -206,92 +236,89 @@ var fullpage = {
       }
     },
     loadProduct: function(productUrl, callback) {
-      var urlSelector = productUrl + " #product-form-container > *";
+      var urlSelector = productUrl + ' #product-form-container > *';
 
-      $("#product-form-container").load(urlSelector, function(data) {
-        console.log("reroute success");
-        window.history.pushState(
-          { url: "" + productUrl + "" },
-          null,
-          productUrl
-        );
+      $('#product-form-container').load(urlSelector, function(data) {
+        console.log('reroute success');
+        window.history.pushState({url: '' + productUrl + ''}, null, productUrl);
         callback();
       });
     },
     getSelectOptions: function() {
       var ProductJSON, self = this;
-      $.get("/products/" + self.currentProductHandle + ".json", function(
+      $.get('/products/' + self.currentProductHandle + '.json', function(
         productJSON
       ) {
-        self.selectOptions = new Shopify.OptionSelectors("productSelect", {
+        self.selectOptions = new Shopify.OptionSelectors('productSelect', {
           product: productJSON.product,
           onVariantSelected: self.selectCallback,
-          enableHistoryState: true
+          enableHistoryState: true,
         });
       });
     },
     selectCallback: function(variant, selector) {
-      console.log("Switching variant: ", variant);
+      console.log('Switching variant: ', variant);
       concrete.switchVariant(
         {
           moneyFormat: window.MoneyFormat,
-          variant: variant
+          variant: variant,
         },
         self.$productContainer
       );
     },
     updatePrice: function() {
       var self = this;
-      var price = self.$productContainer.find("#ProductPrice").attr("content");
+      var price = self.$productContainer.find('#ProductPrice').attr('content');
       price = Number(price).toFixed(2);
-      self.$productContainer.find("#price-tooltip span").html(price);
+      self.$productContainer.find('#price-tooltip span').html(price);
     },
-    updateSelectedSize: function () {
-      var self = this,
-          selectedId = $('#productSelect').val()
-      self.selectedSize = $('button[data-id="' + selectedId + '"]').data('title');
+    updateSelectedSize: function() {
+      var self = this, selectedId = $('#productSelect').val();
+      self.selectedSize = $('button[data-id="' + selectedId + '"]').data(
+        'title'
+      );
     },
     test: function(val1, val2) {
       val2 = val2.toString();
       if (val1 !== val2) {
-        alert("Test fail");
+        alert('Test fail');
         // debugger;
       } else {
-        console.log("Test: ", val1, val2);
+        console.log('Test: ', val1, val2);
       }
     },
     animations: {
       toggleTitle: function() {
-        $(".product-title").toggleClass("hide-title");
+        $('.product-title').toggleClass('hide-title');
       },
       toggleOptions: function() {
-        $(".product-size").toggleClass("hide-options");
+        $('.product-size').toggleClass('hide-options');
       },
       transitionIcon(slideIndex, nextSlideIndex) {
-        var $iconEl = $(".icon-ss");
-        currentClass = $($(".slide")[slideIndex]).data("handle");
-        nextClass = $($(".slide")[nextSlideIndex]).data("handle");
+        var $iconEl = $('.icon-ss');
+        currentClass = $($('.slide')[slideIndex]).data('handle');
+        nextClass = $($('.slide')[nextSlideIndex]).data('handle');
         $iconEl.removeClass(currentClass).addClass(nextClass);
-      }
-    }
+      },
+    },
   },
   blogView: {
     init: function() {
       var self = fullpage.blogView;
-      $("body").scrollTop(0);
+      $('body').scrollTop(0);
 
       $(window).scroll(function() {
         var active = false;
         if (window.pageYOffset > 10 && !active) {
-          $("header > .bg").addClass("active");
+          $('header > .bg').addClass('active');
           active = true;
         } else {
-          $("header > .bg").removeClass("active");
+          $('header > .bg').removeClass('active');
           active = false;
         }
       });
-    }
-  }
+    },
+  },
 };
 
 $(document).ready(function() {
