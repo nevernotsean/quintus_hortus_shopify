@@ -5,9 +5,6 @@ var fullpage = {
     fullpage.container = $('#fullpage');
 
     if ($('body').attr('id') === 'le-concept') {
-      if ($('.fullpage-left, .fullpage-right').length) {
-        fullpage.container = $('.fullpage-left, .fullpage-right');
-      }
       if (fullpage.container.length) {
         fullpage.verticalView.init();
       }
@@ -30,23 +27,38 @@ var fullpage = {
       fullpage.options = {
         navigation: true,
         afterLoad: this.handleAfterLoad,
+        easing: 'easeInOutExpo',
+        scrollingSpeed: 1200,
       };
-
-      fullpage.container.fullpage(fullpage.options);
-
+      if ($('.ms-left, .ms-right').length) {
+        fullpage.container.multiscroll(fullpage.options);
+      } else {
+        fullpage.container.fullpage(fullpage.options);
+      }
       $('#MainContent').prepend('<div class="progressbar"></div>');
 
       this.updateProgressBar();
+      this.eventHandlers();
+    },
+    eventHandlers: function() {
+      $(window).on('resize', function() {
+        fullpage.verticalView.updateProgressBar();
+      });
     },
     handleAfterLoad: function(anchorLink, index) {
       fullpage.verticalView.updateProgressBar();
     },
     updateProgressBar: function() {
-      if (!$('.progressbar').length) {
+      if (
+        !$('.progressbar').length ||
+        !$('#fp-nav,  #multiscroll-nav').length
+      ) {
         return false;
       }
-      var topDistance = $('#fp-nav ul li a.active')[0].getBoundingClientRect()
-        .top;
+      var topDistance =
+        $('#fp-nav ul li a.active, #multiscroll-nav ul li a.active')[
+          0
+        ].getBoundingClientRect().top + 5;
       $('.progressbar').height(topDistance);
     },
     updateBackgroundImage: function() {},

@@ -41,9 +41,10 @@
     {{ 'shopify_common.js' | shopify_asset_url | script_tag }}
   {% endif %}
 
-  <!-- fullPage.js ================================================== -->
-  {{ 'jquery.fullPage.css' | asset_url | stylesheet_tag }}
-  {{ 'jquery.fullPage.min.js' | asset_url | script_tag }}
+  <!-- multiscroll.js ================================================== -->
+  {{ 'jquery.multiscroll.css' | asset_url | stylesheet_tag }}
+  {{ 'jquery.multiscroll.min.js' | asset_url | script_tag }}
+  {{ 'jquery.easing.min.js' | asset_url | script_tag }}
 
 </head>
 
@@ -92,6 +93,5 @@
       }
     });
   </script>
-
 </body>
 </html>

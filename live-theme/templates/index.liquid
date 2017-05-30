@@ -2,21 +2,21 @@
 {% layout 'fullpage' %}
 <div class="section">
   <div class="slide slide1 home">
-    <div class="row" style="margin-bottom: 150px;">
-      <div class="column s12 m8 l8 centered">
-        <h2 class="uppercase h4 sofia-light" style="letter-spacing: 3.5px;">Cultivateur de chaussettes françaises</h2>
-        <img src="{{ 'qh-logo.svg' | asset_url }}" alt="" style="margin-bottom: 10px;">
-        <h1 class="h3 uppercase">Chaussettes Françaises cultivées dans notre potager pour vous simplifier la vie</h1>
+    <div class="fixed-bg-image" style="background-image: url({{'bg-homepage.jpg' | asset_url }})"></div>
+    <div class="row">
+      <div class="leftSide column s12 m6 l6">
+        <img src="{{'bg-homepage.jpg' | asset_url }}" alt="" style="display: none;">
       </div>
-      <div class="column s12 m8 l8 centered">
-          <p>Une personne perdrait en moyenne 1 000 chaussettes dans sa vie. Alors imaginez pour une famille nombreuse… Quintus & Hortus vous invite à repenser votre manière d’acheter vos chaussettes.</p>
-          <p>Vous en avez marre des chaussettes orphelines ? Ici, on vous propose des chaussettes à l’unité totalement made in France. Plus de pied droit, plus de pied gauche, des couleurs unies, elles sont unisexes et nous avons simplifié les tailles. Terminé de perdre un temps fou à appairer les chaussettes de toute la famille, facilitez-vous la vie !</p>
+      <div class="rightSide column s12 m6 l6">
+          <img src="{{ 'qh-logo-white.svg' | asset_url }}" alt="" style="margin-bottom: 10px;">
+          <h2 class="h1">Chaussettes cultivees en France dans notre potager pour vous</h2>
+          <p style="font-size: 1.5rem;">Une personne perdrait en moyenne 1 000 chaussettes dans sa vie. Alors imaginez pour une famille nombreuse… Quintus & Hortus vous invite à repenser votre manière d’acheter vos chaussettes.</p>
           {{ content_for_index }}
+          <ul class="inline" style="margin-top: 10px;">
+            <li><a href="/pages/le-concept" class="button">Le concept</a></li>
+            <li><a href="/products/carrot" class="button">Découvrez nos chaussettes</a></li>
+          </ul>
         </div>
-        <ul class="inline">
-          <li><a href="/pages/le-concept" class="button">Notre concept</a></li>
-          <li><a href="/products/carrot" class="button">Découvrez nos chaussettes</a></li>
-        </ul>
       </div>
     </div>
   </div>

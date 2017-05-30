@@ -1149,7 +1149,7 @@ ul.bulleted {
 .supports-js #fullpage .section {
   background-color: $colorBackground;
 }
-.supports-js #fullpage .section, .product-view {
+.supports-js #fullpage .section .slide-inner, .product-view {
   opacity: 0;
   transition: opacity 500ms ease;
   transition-delay: 800ms;
@@ -1671,6 +1671,9 @@ body {
 }
 
 //// left-right slide templates
+#fullpage .splitContent {
+  width: 100%;
+}
 .leftSide, .rightSide {
     width: 50%;
     position: relative;
@@ -1709,18 +1712,18 @@ body {
 }
 
 //  Double Fullpage template
-.fullpage-right {
+.ms-right {
   float: right;
   width: 50%;
   .section {
-    opacity: 1 !important;
+    // opacity: 1 !important;
   }
 }
-.fullpage-left {
+.ms-left {
   float: left;
   width: 50%;
 }
-.fullpage-right, .fullpage-left {
+.ms-right, .ms-left {
   .bg-image {
     background-repeat: no-repeat;
     background-position: center center;
@@ -1731,26 +1734,61 @@ body {
     height: 100%;
     background-size: cover;
   }
+  .ms-section .slide {
+    padding-right: $border-width;
+  }
 }
 
+.fixed-bg-image {
+  background-repeat: no-repeat;
+  background-position: center center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background-size: cover;
+}
+$red: #e93344;
+$yellow: #fed856;
+$green: #01b86e;
+$navy: #202b55;
+$blue: #3c5db9;
 // Home Page ============================================================*/
 .fp-slide { width: 100%; }
 .template-index .logo { display: none; }
 .home {
-  background: url({{ 'home-page-sock.jpg' | asset_url }}) no-repeat center calc(100% - 35px);
-  background-size: 30vw;
-  @include s(){
-    background-size: 400px;
-    background-position: center bottom;
+  // background: url({{ 'home-page-sock.jpg' | asset_url }}) no-repeat center calc(100% - 35px);
+  // background-size: 30vw;
+
+  // @include s(){
+  //   background-size: 400px;
+  //   background-position: center bottom;
+  // }
+  // min-height: 100vh;
+  .fixed-bg-image {
+    background-size: cover;
+    width: 100%;
   }
-  min-height: 100vh;
-  text-align: center;
+  .rightSide {
+    margin: 0 $border-width;
+    padding: 0 $border-width * 2;
+    color: #fff;
+    text-align: left;
+
+    .button {
+      background-color: #fff;
+      border-color: #fff;
+      color: $yellow;
+      &:hover {
+        background-color: $yellow;
+        color: #fff;
+      }
+    }
+  }
 }
 
 // Concept Page & Fabrication Page
-.fixed-bg-image {
-  display: none;
-}
 .contentTitle {
   text-transform: uppercase;
 }
@@ -1764,32 +1802,26 @@ body {
       right: 0;
       height: 100vh;
       width: 50%;
-      background: $colorBrand;
+      // background-color: $colorBrand;
       z-index: -1;
       @include s(){
         width: 100%;
       };
     }
-    &:before, .fixed-bg-image {
-      display: initial;
-      background-repeat: no-repeat;
-      background-position: center center;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 50%;
-      height: 100%;
-      background-size: cover;
+    &:before {
+      @extend .fixed-bg-image;
     }
   }
   .supports-js & {
     .section {
-      opacity: 0.1;
-      transition-delay: 300ms;
       position: relative;
-      background-color: transparent;
-      .slide {
-        color: #fff;
+      .slide-inner {
+        opacity: 0.25;
+        transition-delay: 1200ms;
+        background-color: transparent;
+      }
+      &.active .slide-inner{
+        opacity: 1;
       }
     }
   }
@@ -1808,23 +1840,46 @@ body {
       background-image: url({{ "FF_Capture_3.jpg" | asset_url }});
     }
   }
+  #MainContent:after, #fullpage .section {
+    background-color: $blue;
+    color: #fff;
+  }
+  div#fp-nav, #multiscroll-nav {
+    ul li a {
+     background-color: $blue;
+     &.active {
+       background-color: #fff;
+       color: $blue;
+     }
+   }
+  }
   .rightSide {
     .rightContent {
-      text-align: left;
+
+      text-align: center;
       padding-right: 60px;
       padding-left: 60px;
       position: relative;
-      .rightBody {
-        border-left: 4px solid #fff;
-        padding-left: 1.5rem;
+
+      &.text-left {
+        text-align: left;
+        .rightBody {
+          border-left: 4px solid #fff;
+          padding-left: 1.5rem;
+        }
       }
     }
   }
+  .button {
+    background-color: #fff;
+    border-color: #fff;
+    color: $blue;
+    &:hover {
+      background-color: $blue;
+      color: #fff;
+    }
+  }
 }
-$red: #e93344;
-$yellow: #fed856;
-$green: #01b86e;
-$navy: #202b55;
 #le-concept {
   .fixed-bg-image, .bg-image {
     background-image: url({{ "img-concept1.jpg" | asset_url }});
@@ -1841,7 +1896,7 @@ $navy: #202b55;
       background-image: url({{ "img-concept4.jpg" | asset_url }});
     }
   }
-  .section.section1 .slide {
+  .section.section1 {
     background-color: $red;
     color: #fff;
     .button {
@@ -1850,7 +1905,7 @@ $navy: #202b55;
       color: $red;
     }
   }
-  .section.section2 .slide {
+  .section.section2 {
     background-color: $yellow;
     color: #ff773f;
     .button {
@@ -1859,7 +1914,7 @@ $navy: #202b55;
       color: $yellow;
     }
   }
-  .section.section3 .slide {
+  .section.section3 {
     background-color: $green;
     color: $yellow;
     .button {
@@ -1868,7 +1923,7 @@ $navy: #202b55;
       color: $green;
     }
   }
-  .section.section4 .slide {
+  .section.section4 {
     background-color: $navy;
     color: $yellow;
     .button {
@@ -1891,7 +1946,7 @@ $dotSize: 35px;
   transform: translateX(-50%);
   transition: height 500ms ease;
 }
-.vertical-breadcrumbs, div#fp-nav {
+div#fp-nav, div#multiscroll-nav {
   position: fixed;
   left: 50%;
   right: initial !important;
@@ -1909,7 +1964,7 @@ $dotSize: 35px;
       transform: translate(-50%, -50%);
     }
   }
-  .dot, li {
+  li {
     width: auto !important;
     height: auto !important;
     a {

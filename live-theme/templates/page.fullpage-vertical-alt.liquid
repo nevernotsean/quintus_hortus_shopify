@@ -1,9 +1,9 @@
-{% layout 'fullpage' %}
+{% layout 'multiscroll' %}
 {% assign content = page.content | split: '<!-- section -->'%}
 
-<div class="fullpage-left">
+<div class="ms-left">
 {% for slide in content %}
-  <div class="section section{{forloop.index}}">
+  <div class="ms-section section section{{forloop.index}}">
     <div class="slide">
       <div class="bg-image image-{{forloop.index}}"></div>
     </div>
@@ -11,18 +11,24 @@
 {% endfor %}
 </div>
 
-
-<div class="fullpage-right">
+<div class="ms-right">
 {% for slide in content %}
-  <div class="section section{{forloop.index}}">
+  <div class="ms-section section section{{forloop.index}}">
     <div class="slide center">
       <div class="slide-inner">
-         {% if forloop.index == 1%}
-         <h1 class="contentTitle">{{ page.title }}</h1>
-         {% endif %}
          {{ slide }}
       </div>
     </div>
   </div>
 {% endfor %}
+</div>
+
+<div class="preload-images" style="display: none;">
+  <img src="{{ 'img-concept1.jpg' | asset_url }}" alt="">
+  <img src="{{ 'img-concept2.jpg' | asset_url }}" alt="">
+  <img src="{{ 'img-concept3.jpg' | asset_url }}" alt="">
+  <img src="{{ 'img-concept4.jpg' | asset_url }}" alt="">
+  <img src="{{ 'FF_Capture_1.jpg' | asset_url }}" alt="">
+  <img src="{{ 'FF_Capture_2.jpg' | asset_url }}" alt="">
+  <img src="{{ 'FF_Capture_3.jpg' | asset_url }}" alt="">
 </div>
