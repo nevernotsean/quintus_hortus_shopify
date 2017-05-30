@@ -1172,9 +1172,10 @@ ul.bulleted {
 
 
 // Calculator page ============================================================ //
-
+$purple: #502864;
+$light-purple: #8c4696;
 $textColor: $colorBrand;
-$color1: $colorAlternate;
+$color1: $light-purple;
 $color2: $colorBackground;
 
 $color3: $colorBrand;
@@ -1183,7 +1184,13 @@ $color4: $colorBackground;
 $color5: $colorBackground;
 
 body#combien-de-chaussettes #fullpage .section{
-  background-color: $colorBrand;
+  background-color: $purple;
+  background: $purple url({{ "bg-calculettepage.svg" | asset_url }}) no-repeat bottom left;
+  background-size: 75vw;
+
+  .slide-inner {
+    opacity: 1 !important;
+  }
 
   h1 {
     color: $colorBackground;
@@ -1244,7 +1251,8 @@ body#combien-de-chaussettes #fullpage .section{
   display: inline-block;
   color: $color1;
   cursor: pointer;
-  border-bottom: 1px dashed $color1;
+  font-family: 'sofia_prolight', sans-serif;
+  // border-bottom: 1px dashed $color1;
 }
 /* drop-down list / text element */
 .nl-field ul {
@@ -1776,6 +1784,10 @@ $blue: #3c5db9;
     color: #fff;
     text-align: left;
 
+    .white-logo {
+      width: 30vw
+    }
+
     .button {
       background-color: #fff;
       border-color: #fff;
@@ -1783,6 +1795,16 @@ $blue: #3c5db9;
       &:hover {
         background-color: $yellow;
         color: #fff;
+      }
+    }
+  }
+  @include s(){
+    .rightSide {
+      width: 100%;
+      margin-left: 0;
+      .white-logo {
+        width: auto;
+        max-height: 200px;
       }
     }
   }
@@ -1843,6 +1865,21 @@ $blue: #3c5db9;
   #MainContent:after, #fullpage .section {
     background-color: $blue;
     color: #fff;
+  }
+  #fullpage .section {
+    &:nth-child(even) {
+      background-color: $red;
+      color: #fff;
+      .button {
+        background-color: #fff;
+        border-color: #fff;
+        color: $red;
+        &:hover {
+          background-color: $red;
+          color: #fff;
+        }
+      }
+    }
   }
   div#fp-nav, #multiscroll-nav {
     ul li a {

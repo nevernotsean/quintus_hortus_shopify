@@ -89,7 +89,7 @@ var fullpage = {
 
       fullpage.options = {
         afterLoad: function(anchorLink, index) {
-          console.log('afterLoad');
+          // console.log('afterLoad');
 
           setTimeout(function() {
             self.animations.toggleTitle();
@@ -99,7 +99,7 @@ var fullpage = {
           }, 50);
         },
         onLeave: function(index, nextIndex, direction) {
-          console.log('onLeave');
+          // console.log('onLeave');
         },
         onSlideLeave: function(
           anchorLink,
@@ -111,13 +111,13 @@ var fullpage = {
           self.animations.transitionIcon(slideIndex, nextSlideIndex);
           self.animations.toggleTitle();
           self.animations.toggleOptions();
-          console.log('onSlideLeave');
+          // console.log('onSlideLeave');
         },
         afterSlideLoad: function(anchorLink, index, slideAnchor, slideIndex) {
           var thisSlide = $('.slide')[slideIndex],
             productUrl = $(thisSlide).data('producturl');
 
-          console.log('afterSlideLoad: ', productUrl);
+          // console.log('afterSlideLoad: ', productUrl);
           self.currentProductHandle = $(thisSlide).data('handle');
           self.loadProduct(productUrl, function() {
             self.refresh();
@@ -165,7 +165,7 @@ var fullpage = {
           .find('[data-cart-quantity]')
           .attr('data-cart-quantity', newVal);
 
-        self.test(qtyInput.value, newVal);
+        // self.test(qtyInput.value, newVal);
       });
 
       // selector changes
@@ -208,6 +208,7 @@ var fullpage = {
           .find('#ProductPrice')
           .attr('content'),
         price = (qty / e.target.step * baseprice).toFixed(2),
+        pricePerItem = Math.ceil(price / (qty / 10)),
         size = self.selectedSize,
         max = e.target.max,
         min = e.target.min,
@@ -220,9 +221,15 @@ var fullpage = {
       offset = 0.04 * pct;
       pctAdjusted = pct - offset;
 
-      console.log('percent', pct, 'offset: ', offset);
+      // console.log('percent', pct, 'offset: ', offset);
+      // console.log('price', price, 'qty: ', qty);
 
-      self.$productContainer.find('#price-tooltip span').html(price);
+      self.$productContainer
+        .find('#price-tooltip span#price')
+        .html(price.toString().replace('.', ','));
+      self.$productContainer
+        .find('#price-tooltip span#pricePerItem')
+        .html(pricePerItem);
       self.$productContainer.find('#amount-tooltip span#grams').html(qty + 'g');
       self.$productContainer.find('#amount-tooltip span#count').html(sockAmt);
 
@@ -251,7 +258,7 @@ var fullpage = {
       var urlSelector = productUrl + ' #product-form-container > *';
 
       $('#product-form-container').load(urlSelector, function(data) {
-        console.log('reroute success');
+        // console.log('reroute success');
         window.history.pushState({url: '' + productUrl + ''}, null, productUrl);
         callback();
       });
@@ -269,7 +276,7 @@ var fullpage = {
       });
     },
     selectCallback: function(variant, selector) {
-      console.log('Switching variant: ', variant);
+      // console.log('Switching variant: ', variant);
       concrete.switchVariant(
         {
           moneyFormat: window.MoneyFormat,
@@ -296,7 +303,7 @@ var fullpage = {
         alert('Test fail');
         // debugger;
       } else {
-        console.log('Test: ', val1, val2);
+        // console.log('Test: ', val1, val2);
       }
     },
     animations: {

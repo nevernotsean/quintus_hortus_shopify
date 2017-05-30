@@ -1,4 +1,7 @@
 {% layout 'fullpage' %}
+<div class="preload-img" style="display: none;">
+  <img src="{{ 'bg-calculettepage.svg' | asset_url }}" alt="">
+</div>
 <div class="section">
   <div class="slide slide{{forloop.index}} center">
     <div class="slide-inner">
@@ -31,9 +34,8 @@
     					<select name="wash">
     						<option value="1">tous les jours</option>
     					 	<option value="4">tous les 3 jours</option>
-    					 	<option value="7" selected>toute les semaines</option>
-    					</select>
-              .
+    					 	<option value="7" selected>toutes les semaines</option>
+    					</select>.
               <br /><br />
               Il y a
               <select name="small">
@@ -79,7 +81,7 @@
               </select>
               chaussant du 40-45.
     					<div class="nl-submit-wrap">
-    						<button class="nl-submit" type="submit">Calculate</button>
+    						<button class="nl-submit" type="submit">Calculer</button>
                 <a href="#" id="alert-link" class="popup-link" data-popup="#PopupAlert" style="display: none;"></a>
     					</div>
     					<div class="nl-overlay"></div>
