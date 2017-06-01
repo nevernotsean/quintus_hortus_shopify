@@ -2179,7 +2179,7 @@ form#AddToCartForm {
 
 .product-image {
     width: $imageSize / 2;
-    height: $imageSize / 2;
+    height: $imageSize * 0.375;
     margin: auto;
     overflow: hidden;
     text-align: center;
@@ -2187,7 +2187,7 @@ form#AddToCartForm {
 
 .product-image img {
     max-width: none;
-    transform: translate(-25%, -60px);
+    transform: translate(-25%, -$imageSize * 0.1875);
     width: $imageSize;
     @include s(){
       transform: translate(-25%, -35%);
