@@ -126,7 +126,7 @@
     "quantity": "Quantités",
     "subtotal": "Sous total",
     "checkout": "Régler ma commande",
-    "shipping_at_checkout": "Les frais de livrison sont calculés au moment du paiment",
+    "shipping_at_checkout": "Les frais de livraison sont au tarif fixe de 8€.",
     "total": "Total",
     "remove_item": "Supprimer",
     "empty": "Votre panier est vide :(",

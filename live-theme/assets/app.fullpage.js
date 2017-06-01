@@ -49,7 +49,11 @@ var fullpage = {
         fullpage.verticalView.updateProgressBar($('.section.active').index());
       });
       $('a.nextSection').click(function() {
-        $.fn.multiscroll.moveSectionDown();
+        if ($.fn.multiscroll) {
+          $.fn.multiscroll.moveSectionDown();
+        } else {
+          $.fn.fullpage.moveSectionDown();
+        }
       });
       $('a.topSection').click(function() {
         $.fn.multiscroll.moveTo(1);
@@ -101,10 +105,12 @@ var fullpage = {
         activeDotColor = bgcolor;
       }
 
-      fullpage.verticalView.navigation
-        .find('li a.activeStyle, li a.active')
-        .css('background-color', '#fff')
-        .css('color', activeDotColor);
+      if ($.fn.multiscroll) {
+        fullpage.verticalView.navigation
+          .find('li a.activeStyle, li a.active')
+          .css('background-color', '#fff')
+          .css('color', activeDotColor);
+      }
 
       setTimeout(function() {
         fullpage.verticalView.navigation

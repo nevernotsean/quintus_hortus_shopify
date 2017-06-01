@@ -2,32 +2,59 @@
 <div class="section section1">
   <div class="slide center">
     <div class="slide-inner">
-      <label for="">Question 1</label>
-      <input type="text" name="" value="">
+      <label for="">What is your name?</label>
+      <input type="text" name="name" value="" placeholder="Your Name" required>
+      <a class="button nextSection" name="button">Continue</a>
     </div>
   </div>
 </div>
 <div class="section section2">
   <div class="slide center">
     <div class="slide-inner">
-      <label for="">Question 2</label>
-      <input type="text" name="" value="">
+      <label for="">What is your email?</label>
+      <input type="text" name="email" value="" placeholder="Your Email" required>
+      <a class="button nextSection" name="button">Continue</a>
     </div>
   </div>
 </div>
-<div class="section section2">
+<div class="section section3">
   <div class="slide center">
     <div class="slide-inner">
-      <label for="">Question 3</label>
-      <input type="text" name="" value="">
+      <label for="">What would you like to say?</label>
+      <textarea name="message" placeholder="Type here"></textarea>
+      <a class="button nextSection" name="button">Continue</a>
     </div>
   </div>
 </div>
-<div class="section section2">
+<div class="section section4 section-review">
   <div class="slide center">
     <div class="slide-inner">
-      <label for="">Question 4</label>
-      <input type="text" name="" value="">
+      <form action="">
+        <div class="row">
+          <div class="column">
+            <h2>Review and Submit</h2>
+          </div>
+        </div>
+        <div class="row name">
+          <div class="column">
+            <label for="">Name</label>
+            <input id="name" type="text" name="name" value="" placeholder="Your Name" required>
+          </div>
+        </div>
+        <div class="row email">
+          <div class="column">
+            <label for="">Email</label>
+            <input id="email" type="text" name="email" value="" placeholder="Your Email" required>
+          </div>
+        </div>
+        <div class="row message">
+          <div class="column">
+            <label for="">Message</label>
+            <textarea id="message" name="message" placeholder="Type here"></textarea>
+          </div>
+        </div>
+        <button class="button" type="submit">Send Message</button>
+      </form>
     </div>
   </div>
 </div>

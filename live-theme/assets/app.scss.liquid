@@ -939,12 +939,15 @@ body {
     visibility: visible;
     @include transition();
   }
+  &:not(.popup-sidebar) .popup-content {
+      border-radius: 15px;
+  }
   .popup-content {
     display: inline-block;
     z-index: 9999;
     max-width: 100%;
     max-height: 100%;
-    overflow: scroll; // Optional line for overly tall popups
+    // overflow: scroll; // Optional line for overly tall popups
     padding: $gutter;
     // background-color: $colorBackground;
     background-color: #fff;
@@ -1203,17 +1206,43 @@ $color3: $purple;
 $color4: $light-purple;
 $color5: $light-purple;
 
-body#combien-de-chaussettes #fullpage .section{
-  background-color: $purple;
-  background: $purple url({{ "bg-calculettepage.svg" | asset_url }}) no-repeat bottom left;
-  background-size: 75vw;
+body#combien-de-chaussettes #fullpage {
 
-  .slide-inner {
-    opacity: 1 !important;
+  .section{
+    background-color: $purple;
+    background: $purple url({{ "bg-calculettepage.svg" | asset_url }}) no-repeat bottom left;
+    background-size: 75vw;
+
+    .slide-inner {
+      opacity: 1 !important;
+    }
+
+    h1 {
+      color: $colorBackground;
+    }
   }
 
-  h1 {
-    color: $colorBackground;
+}
+
+#PopupAlert {
+  background: rgba(43, 10, 47, 0.85);
+  .popup-content {
+    color: $purple;
+  }
+  #alert {
+    font-size: 1.5rem;
+    max-width: 640px;
+    margin: 1.5rem auto;
+  }
+  .button {
+    background: $color2;
+    border-color: $color2;
+    color: $textColor;
+    &:hover {
+      background-color: transparent;
+      border-color: $color2;
+      color: $color2;
+    }
   }
 }
 
@@ -1234,7 +1263,6 @@ body#combien-de-chaussettes #fullpage .section{
   padding: 0;
 }
 /* normalize the input elements, make them look like everything else */
-.nl-form button,
 .nl-form input,
 .nl-form select {
   border: none;
@@ -1425,17 +1453,22 @@ input:focus::-ms-input-placeholder {
 }
 
 .nl-form .nl-submit {
-  line-height: 3;
+  font-family: 'sofia_probold', sans-serif;
   text-transform: uppercase;
   cursor: pointer;
   position: relative;
-  background: $color2;
-  color: $textColor;
+  background: #fff;
+  color: $color2;
   padding: 0 1em;
-  font-size: 14px;
-  font-weight: bold;
-  letter-spacing: 3px;
   margin-top: 1rem;
+  border: 2px solid #fff;
+  &:hover {
+    background-color: transparent;
+    border-color: #fff;
+    border-style: dotted;
+    color: #fff;
+    cursor: pointer;
+  }
 }
 
 // .nl-submit:before {
@@ -1800,13 +1833,16 @@ body {
   background-size: cover;
 }
 $red: #e93344;
-$yellow: #fed856;
+$yellow: #ffd63a;
 $green: #01b86e;
 $navy: #202b55;
 $blue: #3c5db9;
 // Home Page ============================================================*/
 .fp-slide { width: 100%; }
 .template-index .logo { display: none; }
+.supports-js .template-index #fullpage  .section {
+  background-color: $yellow;
+}
 .home {
   // background: url({{ 'home-page-sock.jpg' | asset_url }}) no-repeat center calc(100% - 35px);
   // background-size: 30vw;
@@ -2035,7 +2071,7 @@ $blue: #3c5db9;
       color: $navy;
       &:hover {
           background-color: $navy;
-          color:$navy;
+          color:$yellow;
       }
     }
   }
@@ -2183,6 +2219,10 @@ form#AddToCartForm {
     margin: auto;
     overflow: hidden;
     text-align: center;
+    @include s(){
+      width: 400px;
+      height: 400px;
+    }
 }
 
 .product-image img {
@@ -3024,4 +3064,89 @@ h2.product-header {
   z-index: 9;
   padding: 0 40px;
   color: $colorAlternate;
+}
+
+// Contact Page
+#contactez-nous {
+  .slide {
+    position: relative;
+  }
+  .button {
+    position: absolute;
+    bottom: $border-width * 2;
+    right: $border-width * 2;
+  }
+  label {
+    display: inline-block;
+    padding: 0 5px 1em 0;
+    font-weight: 700;
+    pointer-events: none;
+  }
+
+  .slide-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      text-align: left;
+      font-size: 2.5em;
+  }
+
+  textarea {
+    padding: 0.25em;
+    width: 100%;
+    height: 200px;
+    background-color: transparent;
+    font-weight: 700;
+    font-size: 0.85em;
+    resize: none;
+  }
+
+  input {
+    &[type="text"] {
+        display: block;
+        margin: 0;
+        padding: 0 0 0.15em;
+        width: 100%;
+        border: none;
+        border-bottom: 2px solid rgba(0,0,0,0.2);
+        background-color: transparent;
+        text-overflow: ellipsis;
+        font-weight: bold;
+        font-size: 60px;
+        border-radius: 0;
+        height: auto;
+        line-height: normal;
+        &:focus {
+            background-color: transparent;
+        }
+    }
+    [required] {
+      background-image: url({{ 'required.svg' | asset_url }});
+      background-position: top right;
+      background-size: 18px;
+      background-repeat: no-repeat;
+    }
+  }
+
+  input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+      color: rgba(0,0,0,0.1);
+  }
+  .section-review {
+    .slide-inner {
+      input[type="text"],textarea,label {
+        font-size: 1.25rem;
+      }
+    }
+    .row {
+      margin-bottom: 24px;
+      .column {
+          width: 100%;
+      }
+    }
+
+    form {
+        width: 100%;
+        max-width: none;
+        margin: 0 auto;
+    }
+  }
 }
