@@ -1,8 +1,0 @@
-development:
-   theme_id: 162833157
-   password: 3a3aeace5a07505ccba1a4aa0a966d25
-   store: https://quintus-hortus.myshopify.com
-   timeout: 180s
-   ignore_files:
-       - config.yml
-       - .gitignore
