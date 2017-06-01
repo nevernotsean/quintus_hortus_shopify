@@ -31,6 +31,7 @@
 
   <!-- CSS ================================================== -->
   {{ 'font-awesome.min.css' | asset_url | stylesheet_tag }}
+  {{ 'jquery.multiscroll.css' | asset_url | stylesheet_tag }}
   {{ 'app.scss.css' | asset_url | stylesheet_tag }}
 
   <!-- javascript ================================================== -->
@@ -42,7 +43,6 @@
   {% endif %}
 
   <!-- multiscroll.js ================================================== -->
-  {{ 'jquery.multiscroll.css' | asset_url | stylesheet_tag }}
   {{ 'jquery.multiscroll.min.js' | asset_url | script_tag }}
   {{ 'jquery.easing.min.js' | asset_url | script_tag }}
 

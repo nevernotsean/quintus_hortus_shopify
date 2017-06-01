@@ -17,6 +17,13 @@
     <div class="slide center">
       <div class="slide-inner">
          {{ slide }}
+         <div class="nextArrow">
+           {% if forloop.last == true %}
+            <a href="#" class="topSection"><i class="fa fa-angle-up fa-3x"></i></a>
+           {% else %}
+            <a href="#" class="nextSection"><i class="fa fa-angle-down fa-3x"></i></a>
+           {% endif %}
+         </div>
       </div>
     </div>
   </div>

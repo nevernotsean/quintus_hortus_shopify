@@ -12,6 +12,10 @@ var fullpage = {
       if (fullpage.container.length) {
         fullpage.verticalView.init();
       }
+    } else if ($('body').attr('id') === 'contactez-nous') {
+      if (fullpage.container.length) {
+        fullpage.verticalView.init();
+      }
     } else if ($('body.template-product').length) {
       fullpage.productView.init($('#product-form-container'));
     } else if ($('body.template-article').length) {
@@ -23,10 +27,14 @@ var fullpage = {
     }
   },
   verticalView: {
+    navigation: [],
+    progressBar: [],
     init: function() {
       fullpage.options = {
         navigation: true,
         afterLoad: this.handleAfterLoad,
+        onLeave: this.handleOnLeave,
+        afterRender: this.handleRender,
         easing: 'easeInOutExpo',
         scrollingSpeed: 1200,
       };
@@ -35,33 +43,86 @@ var fullpage = {
       } else {
         fullpage.container.fullpage(fullpage.options);
       }
-      $('#MainContent').prepend('<div class="progressbar"></div>');
-
-      this.updateProgressBar();
-      this.eventHandlers();
     },
     eventHandlers: function() {
       $(window).on('resize', function() {
-        fullpage.verticalView.updateProgressBar();
+        fullpage.verticalView.updateProgressBar($('.section.active').index());
+      });
+      $('a.nextSection').click(function() {
+        $.fn.multiscroll.moveSectionDown();
+      });
+      $('a.topSection').click(function() {
+        $.fn.multiscroll.moveTo(1);
       });
     },
-    handleAfterLoad: function(anchorLink, index) {
-      fullpage.verticalView.updateProgressBar();
-    },
-    updateProgressBar: function() {
-      if (
-        !$('.progressbar').length ||
-        !$('#fp-nav,  #multiscroll-nav').length
-      ) {
-        return false;
+    handleRender: function() {
+      var context = fullpage.verticalView;
+      $('#fullpage').addClass('fullpage-wrapper');
+      if ($('.ms-left, .ms-right').length) {
+        $('#MainContent').prepend('<div class="progressbar"></div>');
       }
-      var topDistance =
-        $('#fp-nav ul li a.active, #multiscroll-nav ul li a.active')[
-          0
-        ].getBoundingClientRect().top + 5;
-      $('.progressbar').height(topDistance);
+      context.progressBar = $('.progressbar');
+      context.navigation = $('#fp-nav,  #multiscroll-nav');
+      context.updateNav(1);
+      context.eventHandlers();
     },
-    updateBackgroundImage: function() {},
+    handleOnLeave: function(anchorLink, index) {
+      var context = fullpage.verticalView;
+      if (context.progressBar.length && context.navigation.length) {
+        context.updateNav(index);
+      }
+    },
+    handleAfterLoad: function(anchorLink, index) {},
+    updateNav: function(activeIndex) {
+      this.updateProgressBar(activeIndex);
+      this.updateActiveNav(activeIndex);
+      this.updateNavColor(activeIndex);
+    },
+    updateProgressBar: function(activeIndex) {
+      var indexZero = activeIndex - 1;
+      var currentDot = fullpage.verticalView.navigation.find(
+        'ul li:eq(' + indexZero + ')'
+      )[0];
+      var topDistance;
+      if (currentDot) {
+        topDistance = currentDot.getBoundingClientRect().top + 5;
+        fullpage.verticalView.progressBar.height(topDistance);
+      }
+    },
+    updateNavColor: function(activeIndex) {
+      var indexZero = activeIndex - 1;
+      var bgcolor = $('.section:eq(' + indexZero + ')').css('background-color');
+      var color = $('.section:eq(' + indexZero + ')').css('color');
+      var activeDotColor;
+
+      if (bgcolor === 'rgb(254, 216, 86)') {
+        activeDotColor = color;
+      } else {
+        activeDotColor = bgcolor;
+      }
+
+      fullpage.verticalView.navigation
+        .find('li a.activeStyle, li a.active')
+        .css('background-color', '#fff')
+        .css('color', activeDotColor);
+
+      setTimeout(function() {
+        fullpage.verticalView.navigation
+          .find('li a:not(.activeStyle)')
+          .css('background-color', bgcolor)
+          .css('color', color);
+      }, 500);
+    },
+    updateActiveNav: function(activeIndex) {
+      fullpage.verticalView.navigation.find('li a').each(function(index) {
+        var indexZero = activeIndex - 1;
+        if (index > indexZero) {
+          $(this).removeClass('activeStyle');
+        } else {
+          $(this).addClass('activeStyle');
+        }
+      });
+    },
   },
   productView: {
     options: null,
@@ -208,7 +269,8 @@ var fullpage = {
           .find('#ProductPrice')
           .attr('content'),
         price = (qty / e.target.step * baseprice).toFixed(2),
-        pricePerItem = Math.ceil(price / (qty / 10)),
+        // pricePerItem = Math.ceil(price / (qty / 10)),
+        pricePerItem = 3,
         size = self.selectedSize,
         max = e.target.max,
         min = e.target.min,
