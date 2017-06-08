@@ -105,13 +105,17 @@
     "phone": "Téléphone",
     "message": "Message",
     "send": "Envoyer",
+    "continue": "Continuer",
     "submit": "Soumettre",
     "cancel": "Annuler",
     "add": "Ajouter",
     "edit": "Modifier",
     "delete": "Supprimer",
     "contact": {
-      "success": "Félicitation votre message vient d'être envoyer !"
+      "success": "Félicitation votre message vient d'être envoyer !",
+      "name_label": "Votre nom et prénom",
+      "email_label": "Votre email",
+      "message_label": "Votre message"
     }
   },
   "subscribe": {

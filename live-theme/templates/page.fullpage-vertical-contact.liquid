@@ -1,60 +1,57 @@
-{% layout 'fullpage' %}
-<div class="section section1">
-  <div class="slide center">
-    <div class="slide-inner">
-      <label for="">What is your name?</label>
-      <input type="text" name="name" value="" placeholder="Your Name" required>
-      <a class="button nextSection" name="button">Continue</a>
-    </div>
-  </div>
-</div>
-<div class="section section2">
-  <div class="slide center">
-    <div class="slide-inner">
-      <label for="">What is your email?</label>
-      <input type="text" name="email" value="" placeholder="Your Email" required>
-      <a class="button nextSection" name="button">Continue</a>
-    </div>
-  </div>
-</div>
-<div class="section section3">
-  <div class="slide center">
-    <div class="slide-inner">
-      <label for="">What would you like to say?</label>
-      <textarea name="message" placeholder="Type here"></textarea>
-      <a class="button nextSection" name="button">Continue</a>
-    </div>
-  </div>
-</div>
-<div class="section section4 section-review">
-  <div class="slide center">
-    <div class="slide-inner">
-      <form action="">
-        <div class="row">
-          <div class="column">
-            <h2>Review and Submit</h2>
+{% form 'contact' %}
+  <div id="fullpage">
+
+    {% if form.posted_successfully? %}
+      <div class="section section0">
+        <div class="slide center">
+          <div class="slide-inner">
+            <h1>{{ 'contact.form.post_success' | t }}</h1>
           </div>
         </div>
-        <div class="row name">
-          <div class="column">
-            <label for="">Name</label>
-            <input id="name" type="text" name="name" value="" placeholder="Your Name" required>
-          </div>
+      </div>
+    {% endif %}
+
+    {% if form.errors %}
+    <div class="section section0">
+      <div class="slide center">
+        <div class="slide-inner">
+          <!-- {{ form.errors.size }} or {{ form.errors | size }} -->
+          <p>Your contact form has {{ form.errors | size | pluralize: "an error", "a few errors" }}. To submit your form, make the following changes and try again:</p>
+          {% for field in form.errors %}
+            <p>The {{ field | capitalize | replace: 'Body', 'Message' }} field {{ form.errors.messages[field] }}.</p>
+          {% endfor %}
         </div>
-        <div class="row email">
-          <div class="column">
-            <label for="">Email</label>
-            <input id="email" type="text" name="email" value="" placeholder="Your Email" required>
-          </div>
+      </div>
+    </div>
+    {% endif %}
+
+    <div class="section section1">
+      <div class="slide center">
+        <div class="slide-inner">
+          <label for="">{{ 'form.contact.name_label' | t }}</label>
+          <input type="text" name="name" value="" placeholder="{{ 'form.contact.name_label' | t }}" required tabindex="-1">
+          <a class="button nextSection" name="button">{{ 'form.continue' | t }}</a>
         </div>
-        <div class="row message">
-          <div class="column">
-            <label for="">Message</label>
-            <textarea id="message" name="message" placeholder="Type here"></textarea>
-          </div>
+      </div>
+    </div>
+    <div class="section section2">
+      <div class="slide center">
+        <div class="slide-inner">
+          <label for="">{{ 'form.contact.email_label' | t }}</label>
+          <input type="email" name="email" value="" placeholder="{{ 'form.contact.email_label' | t }}" required tabindex="-1">
+          <a class="button nextSection" name="button">{{ 'form.continue' | t }}</a>
         </div>
-        <button class="button" type="submit">Send Message</button>
-      </form>
+      </div>
+    </div>
+    <div class="section section3">
+      <div class="slide center">
+        <div class="slide-inner">
+          <label for="">{{ 'form.contact.message_label' | t }}</label>
+          <textarea name="message" placeholder="{{ 'form.contact.message_label' | t }}" required tabindex="-1"></textarea>
+          <button class="button" type="submit">{{ 'form.send' | t }}</button>
+        </div>
+      </div>
     </div>
   </div>
-</div>
+</form>
+{% endform %}
