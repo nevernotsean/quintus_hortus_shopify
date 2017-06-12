@@ -1,6 +1,6 @@
 <!-- /templates/page.contact.liquid -->
 
-<div class="container l">
+<div class="container l page-liquid">
   <div class="row">
     <div class="column l6 m12 s12">
 
@@ -25,7 +25,7 @@
 
           {{ form.errors | default_errors }}
 
-          {% assign name_attr = 'contact.form.name' | t | handle %}
+          {% assign name_attr = 'form.contact.name' | t | handle %}
           <label for="ContactFormName" class="clearfix">{{ 'form.name' | t }}</label>
           <input type="text" id="ContactFormName" name="contact[{{ name_attr }}]" placeholder="{{ 'form.name' | t }}" autocapitalize="words" value="{% if form[name_attr] %}{{ form[name_attr] }}{% elsif customer %}{{ customer.name }}{% endif %}">
 

@@ -5,7 +5,7 @@
       <div class="section section0">
         <div class="slide center">
           <div class="slide-inner">
-            <h1>{{ 'contact.form.post_success' | t }}</h1>
+            <h1>{{ 'form.contact.success' | t }}</h1>
           </div>
         </div>
       </div>
@@ -15,22 +15,19 @@
     <div class="section section0">
       <div class="slide center">
         <div class="slide-inner">
-          <!-- {{ form.errors.size }} or {{ form.errors | size }} -->
-          <p>Your contact form has {{ form.errors | size | pluralize: "an error", "a few errors" }}. To submit your form, make the following changes and try again:</p>
-          {% for field in form.errors %}
-            <p>The {{ field | capitalize | replace: 'Body', 'Message' }} field {{ form.errors.messages[field] }}.</p>
-          {% endfor %}
-        </div>
+          <h1>{{ form.errors | default_errors }}</h1>
       </div>
     </div>
     {% endif %}
 
+    {% unless form.posted_successfully? %}
+    {% assign name_attr = 'form.name' | t | handle %}
     <div class="section section1">
       <div class="slide center">
         <div class="slide-inner">
           <label for="">{{ 'form.contact.name_label' | t }}</label>
-          <input type="text" name="name" value="" placeholder="{{ 'form.contact.name_label' | t }}" required tabindex="-1">
-          <a class="button nextSection" name="button">{{ 'form.continue' | t }}</a>
+          <input type="text" name="contact[{{ name_attr }}]" value="" required tabindex="-1">
+          <a class="button nextField" name="button">{{ 'form.continue' | t }}</a>
         </div>
       </div>
     </div>
@@ -38,8 +35,8 @@
       <div class="slide center">
         <div class="slide-inner">
           <label for="">{{ 'form.contact.email_label' | t }}</label>
-          <input type="email" name="email" value="" placeholder="{{ 'form.contact.email_label' | t }}" required tabindex="-1">
-          <a class="button nextSection" name="button">{{ 'form.continue' | t }}</a>
+          <input type="email" name="contact[email]" value="" required tabindex="-1">
+          <a class="button nextField" name="button">{{ 'form.continue' | t }}</a>
         </div>
       </div>
     </div>
@@ -47,11 +44,12 @@
       <div class="slide center">
         <div class="slide-inner">
           <label for="">{{ 'form.contact.message_label' | t }}</label>
-          <textarea name="message" placeholder="{{ 'form.contact.message_label' | t }}" required tabindex="-1"></textarea>
-          <button class="button" type="submit">{{ 'form.send' | t }}</button>
+          <textarea name="message" name="contact[body]" required tabindex="-1"></textarea>
+          <input class="button" type="submit" value="{{ 'form.send' | t }}"/>
         </div>
       </div>
     </div>
   </div>
+  {% endunless %}
 </form>
 {% endform %}

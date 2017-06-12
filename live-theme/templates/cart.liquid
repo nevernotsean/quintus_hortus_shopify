@@ -1,11 +1,9 @@
 <!-- /templates/cart.liquid -->
-
+<div class="container l page-liquid">
 {% if cart.item_count > 0 %}
 
-  <div class="container l">
-    <h1>{{ 'cart.title' | t }}</h1>
-  </div>
-
+  <h1>{{ 'cart.title' | t }}</h1>
+  <hr>
   <form id="CartPage" action="/cart" method="post" novalidate>
     <div class="container l s-hide">
       <div class="row l-table m-table" id="CartHeader">
@@ -76,3 +74,5 @@
   </div>
 
 {% endif %}
+
+</div>
