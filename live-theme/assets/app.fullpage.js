@@ -38,7 +38,7 @@ var fullpage = {
 				afterRender: this.handleRender,
 				easing: 'easeInOutExpo',
 				scrollingSpeed: 1200,
-				responsiveHeight: 700,
+				responsiveHeight: 500,
 				responsiveWidth: 900
 			}
 			if ($('.ms-left, .ms-right').length) {
@@ -49,7 +49,7 @@ var fullpage = {
 					afterRender: this.handleRender,
 					easing: 'easeInOutExpo',
 					scrollingSpeed: 1200,
-					responsiveHeight: 700,
+					responsiveHeight: 500,
 					responsiveWidth: 900,
 					responsiveExpand: true,
 					responsiveExpandKey:
@@ -251,7 +251,7 @@ var fullpage = {
 				fullpage.productView.animations.toggleTitle()
 				setTimeout(function() {
 					fullpage.productView.animations.toggleOptions()
-					// fullpage.productView.animations.transitionSlides(1)
+					fullpage.productView.updateColors(1)
 				}, 100)
 			}, 50)
 		},
@@ -261,7 +261,6 @@ var fullpage = {
 			}
 			fullpage.container.find('.prev-slide').removeClass('prev-slide')
 			fullpage.container.find('.next-slide').removeClass('next-slide')
-			fullpage.productView.animations.transitionIcon(slideIndex, nextIndex)
 			fullpage.productView.animations.toggleTitle()
 			fullpage.productView.animations.toggleOptions()
 		},
@@ -281,7 +280,7 @@ var fullpage = {
 				setTimeout(function() {
 					fullpage.productView.animations.toggleTitle()
 					fullpage.productView.animations.toggleOptions()
-					// fullpage.productView.animations.transitionSlides(slideIndex)
+					fullpage.productView.updateColors(slideIndex)
 				}, 50)
 			})
 		},
@@ -459,33 +458,32 @@ var fullpage = {
 				'title'
 			)
 		},
+		updateColors(slideIndex) {
+			var index0 = slideIndex - 1,
+				prevI = slideIndex - 1,
+				nextI = slideIndex + 1,
+				slideCount = fullpage.productView.productSlides.length - 1,
+				pColor,
+				nColor
+
+			prevI = prevI >= 0 ? prevI : slideCount
+			nextI = nextI <= slideCount ? nextI : 0
+
+			pColor = fullpage.productView.productSlides.eq(prevI).data('color')
+			nColor = fullpage.productView.productSlides.eq(nextI).data('color')
+
+			$('#left-arrow-poly').css('stroke', '#' + pColor)
+			$('#right-arrow-poly').css('stroke', '#' + nColor)
+
+			// debugger
+			console.log(prevI, nextI)
+		},
 		animations: {
 			toggleTitle: function() {
 				$('.product-title').toggleClass('hide-title')
 			},
 			toggleOptions: function() {
 				$('.product-size').toggleClass('hide-options')
-			},
-			transitionIcon(slideIndex, nextSlideIndex) {
-				var $iconEl = $('.icon-ss')
-				currentClass = $($('.slide')[slideIndex]).data('handle')
-				nextClass = $($('.slide')[nextSlideIndex]).data('handle')
-				$iconEl.removeClass(currentClass).addClass(nextClass)
-			},
-			transitionSlides(slideIndex) {
-				// var index0 = slideIndex - 1,
-				// 	prevI = index0 - 1,
-				// 	nextI = index0 + 1,
-				// 	slideCount = fullpage.productView.productSlides.length
-				// debugger
-				// if (prevI >= 0) {
-				// 	var elp = fullpage.productView.productSlides.eq(prevI)
-				// 	elp.addClass('prev-slide')
-				// } else if (nextI <= slideCount) {
-				// 	var eln = fullpage.productView.productSlides.eq(nextI)
-				// 	eln.addClass('next-slide')
-				// }
-				// console.log(prevI, nextI)
 			}
 		}
 	},
