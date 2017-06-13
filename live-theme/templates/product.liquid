@@ -1,10 +1,28 @@
 <!-- /templates/product.liquid -->
 {% layout 'fullpage' %}
 
+{% assign textColor = '#000' %}
+
+{% for tag in product.tags %}
+    {% if tag contains 'color-' %}
+    {% capture colorTag %}{{ tag | remove: 'color-' }}{% endcapture %}
+    {% endif %}
+    {% if tag contains 'white' or tag contains 'yellow' %}
+    {% assign textColor = 'inherit' %}
+    {% endif %}
+{% endfor %}
+
+<div class="product-nav">
+  <a href="#" class="fp-prev">
+    {% include 'arrow-left.svg' %}
+  </a>
+  <a href="#" class="fp-next">
+    {% include 'arrow-right.svg' %}
+  </a>
+</div>
+
 <div class="section">
-
   {% include 'product-loop-sorted' %}
-
 </div>
 
 {% include 'product-view' %}
@@ -17,7 +35,6 @@
     </li>
     <li>
       <div class="label">COMBIEN DE CHAUSSETTES ME FAUT-IL</div>
-      <!-- <a href="/pages/combien-de-chaussettes" class="button alternate popup-link" data-popup="#PopupCalculator"><i class="fa fa-2x fa-calculator"></i></a> -->
       <a href="/pages/combien-de-chaussettes" class="button alternate"><i class="fa fa-2x fa-calculator"></i></a>
     </li>
     <li>

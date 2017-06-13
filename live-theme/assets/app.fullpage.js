@@ -208,9 +208,11 @@ var fullpage = {
 		}
 	},
 	productView: {
+		debug: false,
 		options: null,
 		$productContainer: [],
 		currentProductHandle: null,
+		productSlides: [],
 		selectOptions: null,
 		selectedSize: null,
 		selectedPrice: null,
@@ -227,50 +229,61 @@ var fullpage = {
 			self.refresh()
 
 			fullpage.options = {
-				afterLoad: function(anchorLink, index) {
-					// console.log('afterLoad');
-
-					setTimeout(function() {
-						self.animations.toggleTitle()
-						setTimeout(function() {
-							self.animations.toggleOptions()
-						}, 100)
-					}, 50)
-				},
-				onLeave: function(index, nextIndex, direction) {
-					// console.log('onLeave');
-				},
-				onSlideLeave: function(
-					anchorLink,
-					index,
-					slideIndex,
-					direction,
-					nextSlideIndex
-				) {
-					self.animations.transitionIcon(slideIndex, nextSlideIndex)
-					self.animations.toggleTitle()
-					self.animations.toggleOptions()
-					// console.log('onSlideLeave');
-				},
-				afterSlideLoad: function(anchorLink, index, slideAnchor, slideIndex) {
-					var thisSlide = $('.slide')[slideIndex],
-						productUrl = $(thisSlide).data('producturl')
-
-					// console.log('afterSlideLoad: ', productUrl);
-					self.currentProductHandle = $(thisSlide).data('handle')
-					self.loadProduct(productUrl, function() {
-						self.refresh()
-
-						setTimeout(function() {
-							self.animations.toggleTitle()
-							self.animations.toggleOptions()
-						}, 50)
-					})
-				}
+				afterLoad: this.handleAfterLoad,
+				onSlideLeave: this.handleSlideLeave,
+				afterSlideLoad: this.handleSlideLoad,
+				scrollingSpeed: 500,
+				easing: 'easeOutBounce',
+				infinite: false
 			}
 			if (fullpage.container.length) {
 				fullpage.container.fullpage(fullpage.options)
 			}
+		},
+		handleAfterLoad: function(anchorLink, index) {
+			if (fullpage.productView.debug) {
+				console.log('afterLoad')
+			}
+			fullpage.productView.productSlides = fullpage.container.find(
+				'.product-slide'
+			)
+			setTimeout(function() {
+				fullpage.productView.animations.toggleTitle()
+				setTimeout(function() {
+					fullpage.productView.animations.toggleOptions()
+					// fullpage.productView.animations.transitionSlides(1)
+				}, 100)
+			}, 50)
+		},
+		handleSlideLeave: function(anchorLink, index, slideIndex, dir, nextIndex) {
+			if (fullpage.productView.debug) {
+				console.log('onSlideLeave')
+			}
+			fullpage.container.find('.prev-slide').removeClass('prev-slide')
+			fullpage.container.find('.next-slide').removeClass('next-slide')
+			fullpage.productView.animations.transitionIcon(slideIndex, nextIndex)
+			fullpage.productView.animations.toggleTitle()
+			fullpage.productView.animations.toggleOptions()
+		},
+		handleSlideLoad: function(anchorLink, index, slideAnchor, slideIndex) {
+			var thisSlide = $('.slide')[slideIndex],
+				productUrl = $(thisSlide).data('producturl')
+
+			if (fullpage.productView.debug) {
+				console.log('afterSlideLoad: ', slideIndex)
+			}
+
+			fullpage.productView.currentProductHandle = $(thisSlide).data('handle')
+
+			fullpage.productView.loadProduct(productUrl, function() {
+				fullpage.productView.refresh()
+
+				setTimeout(function() {
+					fullpage.productView.animations.toggleTitle()
+					fullpage.productView.animations.toggleOptions()
+					// fullpage.productView.animations.transitionSlides(slideIndex)
+				}, 50)
+			})
 		},
 		refresh: function() {
 			var self = this
@@ -333,10 +346,10 @@ var fullpage = {
 				self.$productContainer.find('#AddToCartForm').submit()
 			})
 			// move to left and right slide
-			self.$productContainer.find('.fp-prev').click(function(e) {
+			$('.fp-prev').click(function(e) {
 				$.fn.fullpage.moveSlideLeft()
 			})
-			self.$productContainer.find('.fp-next').click(function(e) {
+			$('.fp-next').click(function(e) {
 				$.fn.fullpage.moveSlideRight()
 			})
 		},
@@ -458,6 +471,21 @@ var fullpage = {
 				currentClass = $($('.slide')[slideIndex]).data('handle')
 				nextClass = $($('.slide')[nextSlideIndex]).data('handle')
 				$iconEl.removeClass(currentClass).addClass(nextClass)
+			},
+			transitionSlides(slideIndex) {
+				// var index0 = slideIndex - 1,
+				// 	prevI = index0 - 1,
+				// 	nextI = index0 + 1,
+				// 	slideCount = fullpage.productView.productSlides.length
+				// debugger
+				// if (prevI >= 0) {
+				// 	var elp = fullpage.productView.productSlides.eq(prevI)
+				// 	elp.addClass('prev-slide')
+				// } else if (nextI <= slideCount) {
+				// 	var eln = fullpage.productView.productSlides.eq(nextI)
+				// 	eln.addClass('next-slide')
+				// }
+				// console.log(prevI, nextI)
 			}
 		}
 	},
