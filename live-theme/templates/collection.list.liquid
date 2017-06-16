@@ -48,7 +48,7 @@
         <div class="row">
 
           {% assign on_sale = false %}
-          {% if product.compare_at_price > bold_price%}
+          {% if bold_compare_at_price > bold_price%}
             {% assign on_sale = true %}
           {% endif %}
 
@@ -87,7 +87,7 @@
               {% endif %}
               {% if on_sale %}
                 <span class="hidden">{{ 'product.original_price' | t }}</span>
-                <s>{{ product.compare_at_price | money }}</s>
+                <s>{{ bold_compare_at_price | money }}</s>
               {% endif %}
             </p>
             <div class="rte">
