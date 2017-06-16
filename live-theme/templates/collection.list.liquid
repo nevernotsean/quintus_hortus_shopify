@@ -48,7 +48,7 @@
         <div class="row">
 
           {% assign on_sale = false %}
-          {% if bold_compare_at_price > bold_price%}
+          {% if bold_compare_at_price > bold_price %}
             {% assign on_sale = true %}
           {% endif %}
 
@@ -67,7 +67,7 @@
             <p>
               <a href="{{ product.url | within: collection }}">{{ product.title }}</a><br>
               {% if on_sale %}
-                {% if bold_price_varies%}
+                {% if bold_price_varies% }
                   {% assign sale_price = bold_price| money %}
                   {{ 'product.on_sale_from_html' | t: price: sale_price }}
                 {% else %}
@@ -75,7 +75,7 @@
                   {{ bold_price| money }}
                 {% endif %}
               {% else %}
-                {% if bold_price_varies%}
+                {% if bold_price_varies% }
                   {% assign price = bold_price| money %}
                   {{ 'product.priced_from_html' | t: price: price }}
                 {% else %}
