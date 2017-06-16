@@ -14,7 +14,7 @@
     <meta property="og:image:secure_url" content="https:{{ image | img_url: 'grande' }}">
   {% endfor %}
   <meta property="og:description" content="{{ product.description | strip_html | escape }}">
-  <meta property="og:price:amount" content="{{ product.price | money_without_currency | strip_html | escape }}">
+  <meta property="og:price:amount" content="{{ bold_price| money_without_currency | strip_html | escape }}">
   <meta property="og:price:currency" content="{{ shop.currency }}">
 {% elsif template contains 'article' %}
   <meta property="og:type" content="article">

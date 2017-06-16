@@ -5,7 +5,7 @@
 {% endunless %}
 
 {% assign on_sale = false %}
-{% if product.compare_at_price > product.price %}
+{% if product.compare_at_price > bold_price%}
   {% assign on_sale = true %}
 {% endif %}
 
@@ -24,18 +24,18 @@
     <a href="{{ product.url | within: collection }}">{{ product.title }}</a><br>
     {% if on_sale %}
       {% if product.price_varies %}
-        {% assign sale_price = product.price | money %}
+        {% assign sale_price = bold_price| money %}
         {{ 'product.on_sale_from_html' | t: price: sale_price }}
       {% else %}
         <strong>{{ 'product.on_sale_html' | t: price: sale_price }}</strong>
-        {{ product.price | money }}
+        {{ bold_price| money }}
       {% endif %}
     {% else %}
       {% if product.price_varies %}
-        {% assign price = product.price | money %}
+        {% assign price = bold_price| money %}
         {{ 'product.priced_from_html' | t: price: price }}
       {% else %}
-        {{ product.price | money }}
+        {{ bold_price| money }}
       {% endif %}
     {% endif %}
     {% if sold_out %}
