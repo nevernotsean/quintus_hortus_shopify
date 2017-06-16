@@ -57,9 +57,9 @@
             {% endif %}
           </div>
           <div class="column l2 s-hide">{{ line_item.sku }}</div>
-          <div class="column l2 s-hide">{{ line_item.price | money }}</div>
+          <div class="column l2 s-hide">{{ line_bold_price | money }}</div>
           <div class="column l2 s7">{{ line_item.quantity }}</div>
-          <div class="column l2 s5 right">{{ line_item.quantity | times: line_item.price | money }}</div>
+          <div class="column l2 s5 right">{{ line_item.quantity | times: line_bold_price | money }}</div>
         </div>
       {% endfor %}
 

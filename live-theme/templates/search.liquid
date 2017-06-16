@@ -59,12 +59,12 @@
         <div class="column {% if item.featured_image or item.image %}l10 m9 s8{% else %}l12{% endif %}">
           <h2 class="h3">{{ item.title | link_to: item.url }}</h2>
 
-          {% if item.price %}
+          {% if bold_price %}
             {% comment %}
               If it has a fprice, it is definitely a product
             {% endcomment %}
             {% assign on_sale = false %}
-            {% if item.compare_at_price > item.price %}
+            {% if item.compare_at_price > bold_price %}
               {% assign on_sale = true %}
             {% endif %}
             {% assign sold_out = true %}
@@ -73,19 +73,19 @@
             {% endif %}
             <p>
               {% if on_sale %}
-                {% if item.price_varies %}
-                  {% assign sale_price = item.price | money %}
+                {% if bold_price_varies %}
+                  {% assign sale_price = bold_price | money %}
                   {{ 'product.on_sale_from_html' | t: price: sale_price }}
                 {% else %}
                   <strong>{{ 'product.on_sale_html' | t: price: sale_price }}</strong>
-                  {{ item.price | money }}
+                  {{ bold_price | money }}
                 {% endif %}
               {% else %}
-                {% if item.price_varies %}
-                  {% assign price = item.price | money %}
+                {% if bold_price_varies %}
+                  {% assign price = bold_price | money %}
                   {{ 'product.priced_from_html' | t: price: price }}
                 {% else %}
-                  {{ item.price | money }}
+                  {{ bold_price | money }}
                 {% endif %}
               {% endif %}
               {% if sold_out %}
