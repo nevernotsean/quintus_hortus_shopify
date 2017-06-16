@@ -3,11 +3,67 @@
     {% capture thisProductColor %}{{ tag | remove: 'color-' }}{% endcapture %}
     {% endif %}
 {% endfor %}
-
 <div class="slide center slide-{{product.handle}} product-slide" data-handle="{{product.handle}}" data-producturl="{{product.url}}" data-product-id="{{product.id}}" data-color="{{ thisProductColor }}">
   <div class="container l" itemscope itemtype="http://schema.org/Product">
-    <div class="product-image">
-        <img src="{{ product.images[0].src | img_url: '1024x1024' }}" alt="{{  product.images[0].alt | escape }}" id="ProductMainImage">
+    <div class="product-circle">
+      <!-- <div class="product-size badge-container hide-options">
+        <button class="badge size-badge">Size</button>
+      </div> -->
+      <div class="product-sizes active">
+        {% for variant in product.variants %}
+          {% if variant.available %}
+            <div class="button-container">
+              <button
+                class="{% if variant == product.selected_or_first_available_variant %}selected{% endif %} alternate badge option-badge"
+                data-title="{{ variant.title }}"
+                data-sku="{{ variant.sku }}"
+                data-id="{{ variant.id }}">{{ variant.title | truncate: 1, "" }}</button>
+            </div>
+          {% else %}
+            <div class="button-container">
+              <button
+                class="soldout disabled badge option-badge"
+                data-title="{{ variant.title }}"
+                data-sku="{{ variant.sku }}"
+                data-id="{{ variant.id }}">{{ variant.title | truncate: 1, "" }}
+                <span class="tooltip">
+                  {{ 'product.sold_out' | t }}
+                </span>
+              </button>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+      <!-- <div class="product-more badge-container">
+        <div class="badge more-badge"><i class="fa fa-2x fa-plus"></i></div>
+      </div> -->
+      <div class="product-price badge-container">
+        <div class="badge price-badge">
+          <i class="fa fa-2x fa-{{ shop.currency | downcase }}"><span>3</span></i>
+        </div>
+      </div>
+      <div class="product-image">
+          <img src="{{ product.images[0].src | img_url: '1024x1024' }}" alt="{{  product.images[0].alt | escape }}" id="ProductMainImage">
+      </div>
+    </div>
+    <div class="product-title">
+      <h1 itemprop="name" style="color: #{{thisProductColor}}">{{ product.title }}</h1>
     </div>
   </div>
 </div>
+<style media="screen">
+  .slide.slide-{{product.handle}} .badge {
+    background: #{{ thisProductColor }} !important;
+    border-color: #{{ thisProductColor }} !important;
+    color: #fff !important;
+  }
+  .slide.slide-{{product.handle}} .badge:hover, .slide.slide-{{product.handle}} .badge.selected {
+    background: #fff !important;
+    border-color: #{{ thisProductColor }} !important;
+    color: #{{ thisProductColor }}  !important;
+  }
+  .slide.slide-{{product.handle}} .badge.price-badge {
+    background: transparent !important;
+    color: #{{thisProductColor}} !important;
+  }
+</style>

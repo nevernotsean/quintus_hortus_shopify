@@ -12,9 +12,8 @@
     {% assign featured_image = current_variant.featured_image | default: product.featured_image %}
 
     <div class="product-circle">
-      <div class="product-image">
+      <!-- <div class="product-image">
           <img src="{{ featured_image | img_url: '1024x1024' }}" alt="{{ featured_image.alt | escape }}" id="ProductMainImage">
-
           {% if product.images.size > 1 %}
             <ul class="inline" id="ProductThumbnailImages">
               {% for image in product.images %}
@@ -26,58 +25,18 @@
               {% endfor %}
             </ul>
           {% endif %}
-      </div>
-      <div class="product-size badge-container hide-options tag-color tag-border-color">
-        <button class="badge size-badge tag-background-color tag-border-color">Size</button>
-        <div class="option-mask">
-          {% for variant in product.variants %}
-            {% if variant.available %}
-              <button
-                class="{% if variant == product.selected_or_first_available_variant %}selected{% endif %} alternate"
-                data-title="{{ variant.title }}"
-                data-sku="{{ variant.sku }}"
-                data-id="{{ variant.id }}">{{ variant.title | truncate: 1, "" }}</button>
-            {% else %}
-              <button
-                class="soldout disabled"
-                data-title="{{ variant.title }}"
-                data-sku="{{ variant.sku }}"
-                data-id="{{ variant.id }}">{{ variant.title | truncate: 1, "" }}
-                <span class="tooltip">
-                  {{ 'product.sold_out' | t }}
-                </span>
-              </button>
-            {% endif %}
-          {% endfor %}
-        </div>
-      </div>
-      <div class="product-more badge-container">
-        <div class="badge more-badge tag-background-color tag-border-color"><i class="fa fa-2x fa-plus"></i></div>
-      </div>
-      <div class="product-price badge-container">
-        <div class="badge price-badge tag-border-color tag-color">
-          <i class="fa fa-2x fa-{{ shop.currency | downcase }}"><span>3</span></i>
-        </div>
-      </div>
-      <div class="product-icon badge-container">
-        <button class="badge icon-badge current-product popup-link tag-border-color" data-popup="#PopupProducts" aria-controls="Cart" aria-expanded="false">
-            <div class="icon-ss {{ product.handle }}"></div>
-        </button>
-      </div>
+      </div> -->
     </div>
 
     <div id="product-form-container" data-init-handle="{{product.handle}}">
       <div class="product-form">
           <div class="product-title hide-title">
-            <div class="title-mask">
-              <h1 itemprop="name" class="tag-color">{{ product.title }}</h1>
-            </div>
+            <h1 itemprop="name">{{ product.title }}</h1>
           </div>
           <div class="product-amount row">
             <div class="column s12 m8 l6 centered">
               <div class="top-label">
-                <span id="price">...</span>
-                <i class="fa fa-{{ shop.currency | downcase }}"></i>
+                <span id="price-label">...</span>
               </div>
               <div class="product-action row">
                 <div class="product-bulk">
@@ -123,10 +82,12 @@
             {% endfor %}
           </select>
 
+          <!-- {{ current_variant.price | money }} sean-->
+
           <span class="hidden">{{ 'product.regular_price' | t }}</span>
 
-          <span id="ProductPrice" class="h2 clearfix" itemprop="price" content="{{ current_variant.price | money }}">
-            {{ current_variant.price }}
+          <span id="ProductPrice" class="h2 clearfix" itemprop="price" content="{{ current_variant.price }}">
+            {{ current_variant.price | money }}
           </span>
 
           {% if on_sale %}

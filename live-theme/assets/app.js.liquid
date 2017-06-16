@@ -244,7 +244,8 @@ concrete.switchVariant = function(options, productContainer) {
     $productPrice.html(Shopify.formatMoney(variant.price, moneyFormat));
 
     // update content attribute for price calculation
-    $productPrice.attr('content', $productPrice.html().substr(1) )
+    //https://stackoverflow.com/questions/2555059/javascript-regular-expressions-replace-non-numeric-characters
+    $productPrice.attr('content', $productPrice.html().replace(/[^0-9\.]+/g, '') )
 
     // Hide the compare at price if the item is not on sale
     if (variant.compare_at_price > variant.price) {
