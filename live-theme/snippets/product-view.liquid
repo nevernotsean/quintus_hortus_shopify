@@ -62,10 +62,11 @@
         <meta itemprop="priceCurrency" content="{{ shop.currency }}">
         <link itemprop="availability" href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
 
-        <form action="/cart/add" method="post" enctype="multipart/form-data" id="AddToCartForm" data-cart-submit>
+        <form action="/cart/add" method="post" enctype="multipart/form-data" id="AddToCartForm" data-cart-submit class="shapp_qb_prod">
 
           <select name="id" id="productSelect" class="product-single__variants">
             {% for variant in product.variants %}
+            {% include 'bold-variant' with variant, hide_action: 'skip'  %}
               {% if variant.available %}
                 <option
                   {% if variant == product.selected_or_first_available_variant %}

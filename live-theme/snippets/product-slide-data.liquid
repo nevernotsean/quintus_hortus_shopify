@@ -11,6 +11,7 @@
       </div> -->
       <div class="product-sizes active">
         {% for variant in product.variants %}
+        {% include 'bold-variant' with variant, hide_action: 'skip'  %}
           {% if variant.available %}
             <div class="button-container">
               <button

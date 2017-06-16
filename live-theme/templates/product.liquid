@@ -1,6 +1,10 @@
 <!-- /templates/product.liquid -->
 {% layout 'fullpage' %}
 
+
+{% include 'bold-product' with product, hide_action: 'break' %}{% if bold_hidden_product %}{% break %}{%endif %}
+
+
 {% assign textColor = '#000' %}
 
 {% for tag in product.tags %}

@@ -42,6 +42,7 @@
 <div class="container l">
   <div class="row">
     {% for product in collection.products %}
+    {% include 'bold-product' with product, hide_action: 'skip' %}
       {% include 'collection-product' %}
     {% else %}
       {% if collection.handle == 'all' and current_tags == '' %}

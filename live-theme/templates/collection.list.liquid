@@ -43,7 +43,8 @@
     <div class="column l9 m12 s12">
 
       {% for product in collection.products %}
-
+      {% include 'bold-product' with product, hide_action: 'skip' %}
+      
         <div class="row">
 
           {% assign on_sale = false %}
