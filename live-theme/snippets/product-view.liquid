@@ -66,7 +66,7 @@
 
           <select name="id" id="productSelect" class="product-single__variants">
             {% for variant in product.variants %}
-            {% include 'bold-variant' with variant, hide_action: 'skip'  %}
+            {% include 'bold-variant' with variant %}
               {% if variant.available %}
                 <option
                   {% if variant == bold_selected_or_first_available_variant %}
@@ -84,6 +84,9 @@
           </select>
 
           <!-- {{ current_variant.price | money }} sean-->
+          <script type="text/javascript">
+            window.selectedVariant = {{ bold_selected_or_first_available_variant | json }}
+          </script>
 
           <span class="hidden">{{ 'product.regular_price' | t }}</span>
 

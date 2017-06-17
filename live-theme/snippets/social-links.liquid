@@ -10,7 +10,7 @@
     {% capture link %}social_{{ social }}_link{% endcapture %}
     {% if settings[link] != blank %}
       <li>
-        <a href="{{ settings[link] }}" title="{{ shop.name }} on {{ title | t }}" itemprop="sameAs">
+        <a target="_blank" href="{{ settings[link] }}" title="{{ shop.name }} on {{ title | t }}" itemprop="sameAs">
           {% if icons %}
             {% include 'icon' with social %}
           {% else %}

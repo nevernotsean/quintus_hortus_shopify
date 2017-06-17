@@ -2295,6 +2295,7 @@ $arrowWidth: 0px;
 
 // single product
 $imageSize: 400px;
+$imageSizeM: 300px;
 $badgeSizeXS: $imageSize / 10;
 $badgeSizeSm: $imageSize / 8;
 $badgeSizeLg: $imageSize / 6;
@@ -2363,9 +2364,19 @@ form#AddToCartForm {
   margin-bottom: 0px;
   margin-top: 85px;
 
+  @include m(){
+    width: $imageSizeM;
+    height: $imageSizeM;
+    margin-top: 35px;
+  }
+
   .product-view & {
     margin-bottom: 85px;
     margin-top: 0px;
+
+    @include m(){
+      margin-bottom: 35px;
+    }
   }
 
   button, .button {
@@ -2446,9 +2457,12 @@ form#AddToCartForm {
       pointer-events: none;
       background: transparent;
       transform: translateY($imageSize/2) rotate($priceRotate + deg);
+      @include m(){
+        transform: translateY($imageSizeM/2) rotate($priceRotate + deg);
+      }
       @include s(){
         transform: translateY($imageSize/4) rotate($priceRotate + deg);
-      };
+      }
       i.fa {
         span {
           font-family: 'sofia_probold', sans-serif;
@@ -2507,6 +2521,26 @@ form#AddToCartForm {
             transform: translateY($imageSize/2) rotate($sizeRotate3 + deg);
           }
         }
+        @include m(){
+          &:nth-child(1){
+            transform: translate(-50%, -50%) rotate(-$sizeRotate1 + 6 + deg);
+            .option-badge{
+              transform: translateY($imageSizeM/2) rotate($sizeRotate1 - 6 + deg);
+            }
+          }
+          &:nth-child(2){
+            transform: translate(-50%, -50%) rotate(-$sizeRotate2 + 3 + deg);
+            .option-badge{
+              transform: translateY($imageSizeM/2) rotate($sizeRotate2 - 3 + deg);
+            }
+          }
+          &:nth-child(3){
+            transform: translate(-50%, -50%) rotate(-$sizeRotate3 + deg);
+            .option-badge{
+              transform: translateY($imageSizeM/2) rotate($sizeRotate3 + deg);
+            }
+          }
+        }
         @include s(){
           &:nth-child(1){
             transform: translate(-50%, -50%) rotate(-$sizeRotate1sm + deg);
@@ -2552,6 +2586,22 @@ form#AddToCartForm {
     }
 }
 
+@include m(){
+  .product-image, .product-circle, .product-image img {
+    width: $imageSizeM;
+    height: $imageSizeM;
+  }
+};
+
+@include s(){
+  .product-image, .product-circle, .product-image img {
+    width: $imageSize / 2;
+    height: $imageSize / 2;
+  }
+};
+
+
+
 @include s(){
   .product-image, .product-circle, .product-image img {
     width: $imageSize / 2;
@@ -2570,6 +2620,7 @@ form#AddToCartForm {
   &.hide-title {
     color: transparent;
     position: absolute;
+    left: -99999px;
   }
 }
 
@@ -2609,7 +2660,10 @@ form#AddToCartForm {
   }
   .fp-prev {
     left: calc(50% - 300px);
-    top: calc(50% - 100px);
+    top: 300px;
+    @include m(){
+      top: 200px;
+    };
     @include s(){
       left: 25px;
       top: 175px;
@@ -2617,7 +2671,10 @@ form#AddToCartForm {
   }
   .fp-next {
     left: calc(50% + 300px);
-    top: calc(50% - 100px);
+    top: 300px;
+    @include m(){
+      top: 200px;
+    };
     @include s(){
       left: calc(100% - 25px);
       top: 175px;

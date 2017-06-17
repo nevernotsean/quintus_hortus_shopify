@@ -208,16 +208,18 @@ var fullpage = {
 		}
 	},
 	productView: {
-		debug: false,
+		debug: true,
 		options: null,
 		$productContainer: [],
 		currentProductHandle: null,
 		productSlides: [],
 		selectOptions: null,
-		selectedSize: null,
+		selectedSize: 'Small',
 		selectedPrice: null,
-		currentQty: null,
+		currentQty: 100,
 		currentBaseprice: null,
+		currentVariantID: window.selectedVariant.id,
+		formOption0: [],
 		init(productContainer) {
 			var self = fullpage.productView
 
@@ -235,17 +237,21 @@ var fullpage = {
 				easing: 'easeOutBounce',
 				fixedElements: '.product-view',
 				controlArrows: false,
-				verticalCentered: false,
+				verticalCentered: false
 			}
 			if (fullpage.container.length) {
 				fullpage.container.fullpage(fullpage.options)
 			}
 
-			if ( $('.fp-responsive').length ) {
-				$.fn.fullpage.setAllowScrolling(false, 'left, right');
+			if ($('.fp-responsive').length) {
+				$.fn.fullpage.setAllowScrolling(false, 'left, right')
 			}
+
+			self.reset(0)
+			self.updateColors(1)
 		},
 		handleAfterLoad: function(anchorLink, index) {
+			var self = fullpage.productView
 			if (fullpage.productView.debug) {
 				console.log('afterLoad')
 			}
@@ -253,10 +259,13 @@ var fullpage = {
 				'.product-slide'
 			)
 
-			fullpage.productView.refresh()
-			setTimeout(function() {
-				fullpage.productView.updateColors(1)
-			}, 00)
+			// move to left and right slide
+			$('.fp-prev').click(function(e) {
+				$.fn.fullpage.moveSlideLeft()
+			})
+			$('.fp-next').click(function(e) {
+				$.fn.fullpage.moveSlideRight()
+			})
 		},
 		handleSlideLeave: function(anchorLink, index, slideIndex, dir, nextIndex) {
 			var nextSlide = $('.slide')[nextIndex]
@@ -265,10 +274,11 @@ var fullpage = {
 				console.log('onSlideLeave')
 			}
 			// reset slide animation
-			$('.animate-title-prev, .animate-title-next').removeClass('animate-title-prev animate-title-next')
+			$('.animate-title-prev, .animate-title-next').removeClass(
+				'animate-title-prev animate-title-next'
+			)
 
 			fullpage.productView.animations.slideChange(nextSlide, dir)
-			fullpage.productView.animations.resetSizes(nextSlide)
 		},
 		handleSlideLoad: function(anchorLink, index, slideAnchor, slideIndex) {
 			var thisSlide = $('.slide')[slideIndex],
@@ -281,24 +291,29 @@ var fullpage = {
 			fullpage.productView.currentProductHandle = $(thisSlide).data('handle')
 
 			fullpage.productView.loadProduct(productUrl, function() {
-				fullpage.productView.refresh()
-
-				setTimeout(function() {
-					fullpage.productView.updateColors(slideIndex)
-				}, 50)
+				// on complete reset the events
+				fullpage.productView.reset(slideIndex)
+				fullpage.productView.updateColors(slideIndex)
 			})
 		},
-		refresh: function() {
+		reset: function(slideIndex) {
 			var self = this
+			Shopify.CartInitFunction()
 			self.getSelectOptions()
-			self.addEventListeners()
-			self.updatePrice()
-			self.updateSelectedSize()
-			self.$productContainer.find('.range input').trigger('input')
+			self.addEventListeners(slideIndex)
+			self.$productContainer.find('.range input').trigger('change input')
 		},
-		addEventListeners: function() {
+		addEventListeners: function(slideIndex) {
 			var self = fullpage.productView,
-				$rangeInput = self.$productContainer.find('.range input')
+				$rangeInput,
+				activeSlide
+
+			if (!slideIndex) {
+				var slideIndex = $('.product-slides.active').index()
+			}
+
+			activeSlide = self.productSlides.eq(slideIndex)
+			$rangeInput = self.$productContainer.find('.range input')
 
 			// sync the quanitities
 			self.$productContainer.find('#Quantity').on('change', function() {
@@ -306,54 +321,58 @@ var fullpage = {
 					.find('#AddToCart')
 					.attr('data-cart-quantity', $(this).val())
 			})
-			self.$productContainer
 
 			// Update the price and position of range, amount and price label
 			$rangeInput.on('input', self.handleRangeInput.bind(self))
 
 			// on range movement settles, change the quantity
-			$rangeInput.on('change', function(e) {
-				var newVal = e.target.value / e.target.step
-				var qtyInput = document.getElementById('Quantity')
-				qtyInput.value = newVal
-				self.$productContainer
-					.find('[data-cart-quantity]')
-					.attr('data-cart-quantity', newVal)
-
-				// self.test(qtyInput.value, newVal);
-			})
+			$rangeInput.on('change', self.handleRangeChange.bind(self))
 
 			// selector changes
-			$('.product-sizes button').click(function(e) {
-				var $this = $(e.target)
-				var id = $this.attr('data-id')
+			$('.product-sizes button').click(self.handleSizeButton.bind(self))
 
-				$('.product-slide.active .product-sizes button.selected')
-					.removeClass('selected')
-
-				$this.addClass('selected')
-
-				self.selectOptions.selectVariant(id)
-				self.selectedSize = $this.attr('title')
-
-				self.updatePrice()
-				self.updateSelectedSize()
-
-				$rangeInput.val($rangeInput.attr('min')).trigger('input')
-			})
 			// submit the form
 			self.$productContainer.find('#submitButton').click(function(e) {
 				e.preventDefault()
+				// self.selectBoldVariation()
 				self.$productContainer.find('#AddToCart').trigger('click')
 				self.$productContainer.find('#AddToCartForm').submit()
 			})
-			// move to left and right slide
-			$('.fp-prev').click(function(e) {
-				$.fn.fullpage.moveSlideLeft()
-			})
-			$('.fp-next').click(function(e) {
-				$.fn.fullpage.moveSlideRight()
-			})
+		},
+		handleSizeButton: function(e) {
+			var self = this,
+				$rangeInput = self.$productContainer.find('.range input')
+
+			var $this = $(e.target)
+			var id = $this.attr('data-id')
+
+			self.selectedSize = $this.data('title')
+
+			self.selectOptions.selectVariant(id)
+
+			self.updateBoldState()
+
+			$rangeInput.val($rangeInput.attr('min')).trigger('input')
+		},
+		handleRangeChange: function(e) {
+			var newVal = e.target.value / e.target.step,
+				qtyInput = document.getElementById('Quantity')
+			qtyInput.value = newVal
+			this.$productContainer
+				.find('[data-cart-quantity]')
+				.attr('data-cart-quantity', newVal)
+
+			this.currentQty = e.target.value
+
+			this.updateBoldState()
+
+			if (fullpage.productView.debug) {
+				console.log(
+					'id=' + this.currentVariantID,
+					'quantity=' + this.currentQty / 100
+				)
+				console.log($('#AddToCartForm').serialize())
+			}
 		},
 		handleRangeInput: function(e) {
 			var self = this
@@ -377,10 +396,6 @@ var fullpage = {
 			self.$productContainer
 				.find('#price-tooltip, #amount-tooltip')
 				.css('left', pctAdjusted + '%')
-
-			// console.log('percent', pct, 'offset: ', offset);
-			// console.log('price', price, 'qty: ', qty);
-			self.updatePrice()
 		},
 		loadProduct: function(productUrl, callback) {
 			var urlSelector = productUrl + ' #product-form-container > *'
@@ -409,7 +424,10 @@ var fullpage = {
 			})
 		},
 		selectCallback: function(variant, selector) {
-			// console.log('Switching variant: ', variant);
+			if (fullpage.productView.debug) {
+				console.log('Switching variant: ', variant)
+			}
+			var self = fullpage.productView
 			concrete.switchVariant(
 				{
 					moneyFormat: window.MoneyFormat,
@@ -417,6 +435,8 @@ var fullpage = {
 				},
 				self.$productContainer
 			)
+			self.currentVariantID = variant.id
+			self.updateSelectedSizeButton()
 		},
 		calculateSocks(grams, size) {
 			if (size == 'Small' || size == 'Medium' || size == 'Large') {
@@ -432,32 +452,77 @@ var fullpage = {
 				return false
 			}
 		},
-		calculatePricePerSock: function() {},
-		updatePrice: function() {
+		selectBoldVariation: function() {
+			var self = this,
+				titleAndQty = self.currentQty == 100
+					? self.selectedSize
+					: self.selectedSize + ' ' + self.currentQty / 100 + '+'
+
+			if (!self.formOption0.length) {
+				self.formOption0 = $('#productSelect-option-0')
+			}
+			self.selectOptions.selectVariant(self.currentVariantID)
+
+			setTimeout(function() {
+				// self.$productContainer.find('#AddToCart').trigger('click')
+				// self.$productContainer.find('#AddToCartForm').submit()
+			}, 100)
+		},
+		updateBoldState: function() {
 			var self = this,
 				priceContainer = self.$productContainer.find('#ProductPrice'),
-				size = self.selectedSize,
+				normalizeQty = self.currentQty / 100,
+				totalPrice,
+				boldVariantsData,
+				boldVariantMatch
+
+			if (window.BoldProduct) {
+				boldVariantData = window.BoldProduct.variants.filter(function(item) {
+					return item.option1 == self.selectedSize
+				})[0]
+
+				if (boldVariantData) {
+					boldVariantMatch = boldVariantData.qb_lookup.levels[normalizeQty]
+
+					self.currentBaseprice = boldVariantMatch.price
+					self.currentVariantID = boldVariantMatch.id
+					self.selectedSize = boldVariantData.option1
+
+					self.selectBoldVariation()
+
+					totalPrice = normalizeQty * self.currentBaseprice
+
+					self.printLabels(totalPrice)
+				} else {
+					console.log('error: self.selectedSize is ', self.selectedSize)
+				}
+			}
+		},
+		printLabels: function(price) {
+			var self = this,
 				sockAmt = self.calculateSocks(self.currentQty, self.selectedSize)
-
-			self.currentBaseprice = priceContainer.attr('content')
-
-			var totalPrice = self.currentQty / 100 * self.currentBaseprice
 
 			self.$productContainer
 				.find('span#price-label')
-				.html(Shopify.formatMoney(totalPrice, window.MoneyFormat))
+				.html(Shopify.formatMoney(price, window.MoneyFormat))
+
 			self.$productContainer
 				.find('.bottom-label span#grams')
 				.html(self.currentQty + 'g')
+
 			self.$productContainer.find('.bottom-label span#count').html(sockAmt)
 		},
-		updateSelectedSize: function() {
-			var self = this,
-				selectedId = $('#productSelect').val()
+		updateSelectedSizeButton: function() {
+			var self = this
 
-			self.selectedSize = $('button[data-id="' + selectedId + '"]').data(
-				'title'
+			$('.product-slide.active .product-sizes button.selected').removeClass(
+				'selected'
 			)
+			$(
+				'.product-slide.active .product-sizes button[data-title="' +
+					self.selectedSize +
+					'"]'
+			).addClass('selected')
 		},
 		updateColors(slideIndex) {
 			var index0 = slideIndex - 1,
@@ -481,13 +546,9 @@ var fullpage = {
 				if (dir == 'left') {
 					$(slide).toggleClass('animate-title-prev')
 				}
-				if (dir == 'right' ){
+				if (dir == 'right') {
 					$(slide).toggleClass('animate-title-next')
 				}
-			},
-			resetSizes: function(slide) {
-				$('.product-sizes button.selected').removeClass('selected')
-				$(slide).find('.product-sizes button:eq(0)').addClass('selected');
 			}
 		}
 	},
@@ -517,23 +578,21 @@ var fullpage = {
 				// afterRender: this.handleRender,
 				easing: 'easeInOutExpo',
 				scrollingSpeed: 1200,
-				responsiveHeight: 700,
 				responsiveWidth: 900,
 				setAllowScrolling: false
 			}
-			if ( window.innerWidth >= 900 ){
+			if (window.innerWidth >= 900) {
 				fullpage.container.fullpage(fullpage.options)
 			}
-		},
-		handleLoad: function () {
 			$(document).on('keypress', this.handleEnter)
-
+		},
+		handleLoad: function() {
 			$('a.nextField').click(function() {
 				$.fn.fullpage.moveSectionDown()
 			})
 		},
 		handleOnLeave: function(index, nextIndex, direction) {
-			if ( $('.fp-responsive').length ){
+			if ($('.fp-responsive').length) {
 				return false
 			}
 			var index0 = index - 1,
@@ -546,6 +605,7 @@ var fullpage = {
 		},
 		handleEnter: function(e) {
 			var key = e.which || e.keyCode
+			console.log(key)
 			if (key === 13 || key === 9) {
 				// 13 is enter
 				e.preventDefault()

@@ -1,9 +1,11 @@
 <!-- /templates/product.liquid -->
 {% layout 'fullpage' %}
 
-
-{% include 'bold-product' with product, hide_action: 'break' %}{% if bold_hidden_product %}{% break %}{%endif %}
-
+<!-- begin bold-product -->
+<script type="text/javascript">
+  window.BoldProduct = {% include 'bold-product' with product, hide_action: 'break', output: 'json' %}{% if bold_hidden_product %}{% break %}{%endif %}
+</script>
+<!-- end bold product -->
 
 {% assign textColor = '#000' %}
 
