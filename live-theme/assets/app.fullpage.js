@@ -208,7 +208,7 @@ var fullpage = {
 		}
 	},
 	productView: {
-		debug: true,
+		debug: false,
 		options: null,
 		$productContainer: [],
 		currentProductHandle: null,
@@ -218,7 +218,7 @@ var fullpage = {
 		selectedPrice: null,
 		currentQty: 100,
 		currentBaseprice: null,
-		currentVariantID: window.selectedVariant.id,
+		currentVariantID: null,
 		formOption0: [],
 		init(productContainer) {
 			var self = fullpage.productView
@@ -227,6 +227,7 @@ var fullpage = {
 
 			self.$productContainer = $(productContainer)
 			self.currentProductHandle = self.$productContainer.data('initHandle')
+			self.currentVariantID = window.selectedVariant.id
 
 			fullpage.options = {
 				afterLoad: this.handleAfterLoad,
@@ -255,6 +256,10 @@ var fullpage = {
 			var self = this
 			self.selectBoldVariation()
 			self.addEventListeners(slideIndex)
+			self.productSlides
+				.eq(slideIndex)
+				.find('.product-sizes button[data-title="Small"]')
+				.click()
 			self.$productContainer.find('.range input').trigger('change input')
 		},
 		handleAfterLoad: function(anchorLink, index) {
@@ -280,6 +285,7 @@ var fullpage = {
 			if (fullpage.productView.debug) {
 				console.log('onSlideLeave')
 			}
+
 			// reset slide animation
 			$('.animate-title-prev, .animate-title-next').removeClass(
 				'animate-title-prev animate-title-next'
