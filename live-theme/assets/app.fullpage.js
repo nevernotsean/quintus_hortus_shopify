@@ -248,7 +248,14 @@ var fullpage = {
 			}
 
 			self.reset(0)
+			self.updateBoldState()
 			self.updateColors(1)
+		},
+		reset: function(slideIndex) {
+			var self = this
+			self.selectBoldVariation()
+			self.addEventListeners(slideIndex)
+			self.$productContainer.find('.range input').trigger('change input')
 		},
 		handleAfterLoad: function(anchorLink, index) {
 			var self = fullpage.productView
@@ -296,12 +303,53 @@ var fullpage = {
 				fullpage.productView.updateColors(slideIndex)
 			})
 		},
-		reset: function(slideIndex) {
-			var self = this
-			Shopify.CartInitFunction()
-			self.getSelectOptions()
-			self.addEventListeners(slideIndex)
-			self.$productContainer.find('.range input').trigger('change input')
+		selectBoldVariation: function() {
+			var self = this,
+				titleAndQty = self.currentQty == 100
+					? self.selectedSize
+					: self.selectedSize + ' ' + self.currentQty / 100 + '+'
+
+			if (fullpage.productView.debug) {
+				console.log('Switching variant: ', self.currentVariantID)
+			}
+
+			$('#productSelect').val(self.currentVariantID)
+			// self.selectOptions.selectVariant(self.currentVariantID)
+		},
+		updateBoldState: function() {
+			var self = this,
+				priceContainer = self.$productContainer.find('#ProductPrice'),
+				normalizeQty = self.currentQty / 100,
+				totalPrice,
+				boldVariantsData,
+				boldVariantMatch
+
+			if (Shopify.BoldProducts) {
+				boldVariantData = self
+					.getCurrentVariant()
+					.variants.filter(function(item) {
+						return item.option1 == self.selectedSize
+					})[0]
+
+				if (boldVariantData) {
+					boldVariantMatch = boldVariantData.qb_lookup.levels[normalizeQty]
+
+					self.currentBaseprice = boldVariantMatch.price
+					self.currentVariantID = boldVariantMatch.id
+					self.selectedSize = boldVariantData.option1
+
+					totalPrice = normalizeQty * self.currentBaseprice
+
+					self.printLabels(totalPrice)
+				} else {
+					console.log('error: self.selectedSize is ', self.selectedSize)
+				}
+			}
+		},
+		getCurrentVariant: function() {
+			return Shopify.BoldProducts.filter(function(item) {
+				return item.handle == fullpage.productView.currentProductHandle
+			})[0]
 		},
 		addEventListeners: function(slideIndex) {
 			var self = fullpage.productView,
@@ -334,7 +382,6 @@ var fullpage = {
 			// submit the form
 			self.$productContainer.find('#submitButton').click(function(e) {
 				e.preventDefault()
-				// self.selectBoldVariation()
 				self.$productContainer.find('#AddToCart').trigger('click')
 				self.$productContainer.find('#AddToCartForm').submit()
 			})
@@ -348,9 +395,11 @@ var fullpage = {
 
 			self.selectedSize = $this.data('title')
 
-			self.selectOptions.selectVariant(id)
-
 			self.updateBoldState()
+
+			self.updateSelectedSizeButton()
+
+			self.selectBoldVariation()
 
 			$rangeInput.val($rangeInput.attr('min')).trigger('input')
 		},
@@ -365,13 +414,10 @@ var fullpage = {
 			this.currentQty = e.target.value
 
 			this.updateBoldState()
+			this.selectBoldVariation()
 
 			if (fullpage.productView.debug) {
-				console.log(
-					'id=' + this.currentVariantID,
-					'quantity=' + this.currentQty / 100
-				)
-				console.log($('#AddToCartForm').serialize())
+				console.log('Form: ' + $('#AddToCartForm').serialize())
 			}
 		},
 		handleRangeInput: function(e) {
@@ -410,34 +456,6 @@ var fullpage = {
 				callback()
 			})
 		},
-		getSelectOptions: function() {
-			var ProductJSON,
-				self = this
-			$.get('/products/' + self.currentProductHandle + '.json', function(
-				productJSON
-			) {
-				self.selectOptions = new Shopify.OptionSelectors('productSelect', {
-					product: productJSON.product,
-					onVariantSelected: self.selectCallback,
-					enableHistoryState: true
-				})
-			})
-		},
-		selectCallback: function(variant, selector) {
-			if (fullpage.productView.debug) {
-				console.log('Switching variant: ', variant)
-			}
-			var self = fullpage.productView
-			concrete.switchVariant(
-				{
-					moneyFormat: window.MoneyFormat,
-					variant: variant
-				},
-				self.$productContainer
-			)
-			self.currentVariantID = variant.id
-			self.updateSelectedSizeButton()
-		},
 		calculateSocks(grams, size) {
 			if (size == 'Small' || size == 'Medium' || size == 'Large') {
 				var weight = {
@@ -450,52 +468,6 @@ var fullpage = {
 				return result
 			} else {
 				return false
-			}
-		},
-		selectBoldVariation: function() {
-			var self = this,
-				titleAndQty = self.currentQty == 100
-					? self.selectedSize
-					: self.selectedSize + ' ' + self.currentQty / 100 + '+'
-
-			if (!self.formOption0.length) {
-				self.formOption0 = $('#productSelect-option-0')
-			}
-			self.selectOptions.selectVariant(self.currentVariantID)
-
-			setTimeout(function() {
-				// self.$productContainer.find('#AddToCart').trigger('click')
-				// self.$productContainer.find('#AddToCartForm').submit()
-			}, 100)
-		},
-		updateBoldState: function() {
-			var self = this,
-				priceContainer = self.$productContainer.find('#ProductPrice'),
-				normalizeQty = self.currentQty / 100,
-				totalPrice,
-				boldVariantsData,
-				boldVariantMatch
-
-			if (window.BoldProduct) {
-				boldVariantData = window.BoldProduct.variants.filter(function(item) {
-					return item.option1 == self.selectedSize
-				})[0]
-
-				if (boldVariantData) {
-					boldVariantMatch = boldVariantData.qb_lookup.levels[normalizeQty]
-
-					self.currentBaseprice = boldVariantMatch.price
-					self.currentVariantID = boldVariantMatch.id
-					self.selectedSize = boldVariantData.option1
-
-					self.selectBoldVariation()
-
-					totalPrice = normalizeQty * self.currentBaseprice
-
-					self.printLabels(totalPrice)
-				} else {
-					console.log('error: self.selectedSize is ', self.selectedSize)
-				}
 			}
 		},
 		printLabels: function(price) {

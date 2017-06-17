@@ -1,3 +1,14 @@
+<!-- begin bold-product -->
+<script type="text/javascript">
+  Shopify.BoldProducts = []
+</script>
+{% for product in collections.socks.products %}
+<script type="text/javascript">
+  Shopify.BoldProducts.push({% include 'bold-product' with product, hide_action: 'break', output: 'json' %}{% if bold_hidden_product %}{% break %}{%endif %})
+</script>
+{% endfor %}
+<!-- end bold product -->
+
 {% assign currentID = product.id %}
 {% assign isSkipping = true %}
 {% for product in collections.socks.products %}
