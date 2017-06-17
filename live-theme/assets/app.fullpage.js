@@ -235,10 +235,11 @@ var fullpage = {
 				afterSlideLoad: this.handleSlideLoad,
 				scrollingSpeed: 500,
 				responsiveWidth: 700,
+				// responsiveHeight: 669,
 				easing: 'easeOutBounce',
 				fixedElements: '.product-view',
 				controlArrows: false,
-				verticalCentered: false
+				verticalCentered: true
 			}
 			if (fullpage.container.length) {
 				fullpage.container.fullpage(fullpage.options)
@@ -247,6 +248,10 @@ var fullpage = {
 			if ($('.fp-responsive').length) {
 				$.fn.fullpage.setAllowScrolling(false, 'left, right')
 			}
+
+			self.handleResize()
+
+			self.optimizedResize.add(self.handleResize)
 
 			self.reset(0)
 			self.updateBoldState()
@@ -261,6 +266,15 @@ var fullpage = {
 				.find('.product-sizes button[data-title="Small"]')
 				.click()
 			self.$productContainer.find('.range input').trigger('change input')
+		},
+		handleResize: function() {
+			if (window.innerHeight <= 640 && !$('body.small-product').length) {
+				$('body').addClass('small-product')
+			}
+
+			if (window.innerHeight > 640 && $('body.small-product').length) {
+				$('body').removeClass('small-product')
+			}
 		},
 		handleAfterLoad: function(anchorLink, index) {
 			var self = fullpage.productView
@@ -291,6 +305,8 @@ var fullpage = {
 				'animate-title-prev animate-title-next'
 			)
 
+			$('body').addClass('product-loading')
+
 			fullpage.productView.animations.slideChange(nextSlide, dir)
 		},
 		handleSlideLoad: function(anchorLink, index, slideAnchor, slideIndex) {
@@ -307,6 +323,9 @@ var fullpage = {
 				// on complete reset the events
 				fullpage.productView.reset(slideIndex)
 				fullpage.productView.updateColors(slideIndex)
+				setTimeout(function() {
+					$('body').removeClass('product-loading')
+				}, 20)
 			})
 		},
 		selectBoldVariation: function() {
@@ -327,22 +346,17 @@ var fullpage = {
 				priceContainer = self.$productContainer.find('#ProductPrice'),
 				normalizeQty = self.currentQty / 100,
 				totalPrice,
-				boldVariantsData,
-				boldVariantMatch
+				variantData
 
-			if (Shopify.BoldProducts) {
-				boldVariantData = self
-					.getCurrentVariant()
-					.variants.filter(function(item) {
-						return item.option1 == self.selectedSize
-					})[0]
+			if (Shopify.Products) {
+				variantData = self.getCurrentVariant().variants.filter(function(item) {
+					return item.option1 == self.selectedSize
+				})[0]
 
-				if (boldVariantData) {
-					boldVariantMatch = boldVariantData.qb_lookup.levels[normalizeQty]
-
-					self.currentBaseprice = boldVariantMatch.price
-					self.currentVariantID = boldVariantMatch.id
-					self.selectedSize = boldVariantData.option1
+				if (variantData) {
+					self.currentBaseprice = variantData.price
+					self.currentVariantID = variantData.id
+					self.selectedSize = variantData.option1
 
 					totalPrice = normalizeQty * self.currentBaseprice
 
@@ -353,7 +367,7 @@ var fullpage = {
 			}
 		},
 		getCurrentVariant: function() {
-			return Shopify.BoldProducts.filter(function(item) {
+			return Shopify.Products.filter(function(item) {
 				return item.handle == fullpage.productView.currentProductHandle
 			})[0]
 		},
@@ -402,10 +416,8 @@ var fullpage = {
 			self.selectedSize = $this.data('title')
 
 			self.updateBoldState()
-
-			self.updateSelectedSizeButton()
-
 			self.selectBoldVariation()
+			self.updateSelectedSizeButton()
 
 			$rangeInput.val($rangeInput.attr('min')).trigger('input')
 		},
@@ -416,8 +428,6 @@ var fullpage = {
 			this.$productContainer
 				.find('[data-cart-quantity]')
 				.attr('data-cart-quantity', newVal)
-
-			this.currentQty = e.target.value
 
 			this.updateBoldState()
 			this.selectBoldVariation()
@@ -430,6 +440,9 @@ var fullpage = {
 			var self = this
 
 			self.currentQty = e.target.value
+
+			this.updateBoldState()
+			this.selectBoldVariation()
 
 			var max = e.target.max,
 				min = e.target.min,
@@ -449,27 +462,85 @@ var fullpage = {
 				.find('#price-tooltip, #amount-tooltip')
 				.css('left', pctAdjusted + '%')
 		},
+		optimizedResize: (function() {
+			var callbacks = [],
+				running = false
+
+			// fired on resize event
+			function resize() {
+				if (!running) {
+					running = true
+
+					if (window.requestAnimationFrame) {
+						window.requestAnimationFrame(runCallbacks)
+					} else {
+						setTimeout(runCallbacks, 66)
+					}
+				}
+			}
+
+			// run the actual callbacks
+			function runCallbacks() {
+				callbacks.forEach(function(callback) {
+					callback()
+				})
+
+				running = false
+			}
+
+			// adds callback to loop
+			function addCallback(callback) {
+				if (callback) {
+					callbacks.push(callback)
+				}
+			}
+
+			return {
+				// public method to add additional callback
+				add: function(callback) {
+					if (!callbacks.length) {
+						window.addEventListener('resize', resize)
+					}
+					addCallback(callback)
+				}
+			}
+		})(),
 		loadProduct: function(productUrl, callback) {
 			var urlSelector = productUrl + ' #product-form-container > *'
 
-			$('#product-form-container').load(urlSelector, function(data) {
-				// console.log('reroute success');
-				window.history.pushState(
-					{ url: '' + productUrl + '' },
-					null,
-					productUrl
-				)
-				callback()
+			$('#product-form-container').load(urlSelector, function(
+				response,
+				status,
+				xhr
+			) {
+				if (status == 'success') {
+					if (fullpage.productView.debug) {
+						console.log('reroute success')
+					}
+					window.history.pushState(
+						{ url: '' + productUrl + '' },
+						null,
+						productUrl
+					)
+					callback()
+				} else if (status == 'error') {
+					window.location = productUrl
+				}
 			})
 		},
-		calculateSocks(grams, size) {
+		calculateSocks(qty, size) {
 			if (size == 'Small' || size == 'Medium' || size == 'Large') {
-				var weight = {
-					Small: 13.85,
-					Medium: 16.85,
-					Large: 21.45
+				// var weight = {
+				// 	Small: 13.85,
+				// 	Medium: 16.85,
+				// 	Large: 21.45
+				// }
+				var amountPer100 = {
+					Small: 8,
+					Medium: 6,
+					Large: 5
 				}
-				var result = Math.round(grams / weight[size])
+				var result = amountPer100[size] * qty / 100
 
 				return result
 			} else {
@@ -562,7 +633,7 @@ var fullpage = {
 			if (window.innerWidth >= 900) {
 				fullpage.container.fullpage(fullpage.options)
 			}
-			$(document).on('keypress', this.handleEnter)
+			$(document).on('keydown', this.handleKeypress)
 		},
 		handleLoad: function() {
 			$('a.nextField').click(function() {
@@ -581,10 +652,10 @@ var fullpage = {
 				return false
 			}
 		},
-		handleEnter: function(e) {
+		handleKeypress: function(e) {
 			var key = e.which || e.keyCode
-			console.log(key)
-			if (key === 13 || key === 9) {
+			// console.log(key)
+			if (key == 13 || key == 9) {
 				// 13 is enter
 				e.preventDefault()
 				$.fn.fullpage.moveSectionDown()

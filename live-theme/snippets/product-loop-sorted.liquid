@@ -1,10 +1,11 @@
 <!-- begin bold-product -->
 <script type="text/javascript">
-  Shopify.BoldProducts = []
+  Shopify.Products = []
 </script>
 {% for product in collections.socks.products %}
 <script type="text/javascript">
-  Shopify.BoldProducts.push({% include 'bold-product' with product, hide_action: 'break', output: 'json' %}{% if bold_hidden_product %}{% break %}{%endif %})
+  // Shopify.BoldProducts.push({% include 'bold-product' with product, hide_action: 'break', output: 'json' %}{% if bold_hidden_product %}{% break %}{%endif %})
+  Shopify.Products.push({{ product | json }})
 </script>
 {% endfor %}
 <!-- end bold product -->
