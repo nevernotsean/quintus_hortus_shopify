@@ -1,7 +1,1 @@
-{% if product.handle == 'carrot' %}
-  {% assign icon = 'carrot-icon.svg' %}
-{% else if product.handle == 'turnip' %}
-  {% assign icon = 'carrot-icon.svg' %}
-{% end if %}
-
-<img src="{{ icon | asset_url }}" alt="">
+<img src="{{ 'carrot-icon.svg' | asset_url }}" alt="">
