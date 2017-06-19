@@ -1204,7 +1204,7 @@ $color3: $purple;
 $color4: $light-purple;
 $color5: $light-purple;
 
-body#combien-de-chaussettes #fullpage {
+body#la-calculette-a-chaussettes #fullpage {
 
   .section{
     background-color: $purple;
@@ -1925,7 +1925,7 @@ $blue: #3c5db9;
 .contentTitle {
   text-transform: uppercase;
 }
-#fabrication-francaise, #le-concept {
+#chaussettes-made-in-france, #le-concept {
   background-position: 25% center;
   #MainContent {
     &:after, &:before {
@@ -1960,7 +1960,7 @@ $blue: #3c5db9;
   }
 }
 .supports-js{
-  #fabrication-francaise, #le-concept {
+  #chaussettes-made-in-france, #le-concept {
     &.ms-responsive {
       .section.active .slide-inner {
         opacity: 1;
@@ -1969,7 +1969,7 @@ $blue: #3c5db9;
   }
 }
 
-#fabrication-francaise {
+#chaussettes-made-in-france {
   .fixed-bg-image, .bg-image {
     // background-image: url({{ "coton-soie-polyester-viscose-acetate.jpg" | asset_url }});
     &.image-1 {
@@ -2454,9 +2454,6 @@ form#AddToCartForm {
       pointer-events: none;
       background: transparent;
       transform: translateY($imageSize/2) rotate($priceRotate + deg);
-      @include s(){
-        transform: translateY($imageSize/4) rotate($priceRotate + deg);
-      }
       i.fa {
         span {
           font-family: 'sofia_probold', sans-serif;
@@ -2516,26 +2513,6 @@ form#AddToCartForm {
             transform: translateY($imageSize/2) rotate($sizeRotate3 + deg);
           }
         }
-        @include s(){
-          &:nth-child(1){
-            transform: translate(-50%, -50%) rotate(-$sizeRotate1sm + deg);
-            .option-badge{
-              transform: translateY($imageSize/4) rotate($sizeRotate1sm + deg);
-            }
-          }
-          &:nth-child(2){
-            transform: translate(-50%, -50%) rotate(-$sizeRotate2sm + deg);
-            .option-badge{
-              transform: translateY($imageSize/4) rotate($sizeRotate2sm + deg);
-            }
-          }
-          &:nth-child(3){
-            transform: translate(-50%, -50%) rotate(-$sizeRotate3sm + deg);
-            .option-badge{
-              transform: translateY($imageSize/4) rotate($sizeRotate3sm + deg);
-            }
-          }
-        }
       }
     }
   }
@@ -2562,10 +2539,33 @@ form#AddToCartForm {
           }
         }
       // }
+      @include s(){
+        &:nth-child(1){
+          transform: translate(-50%, -50%) rotate(-$sizeRotate1sm + deg);
+          .option-badge{
+            transform: translateY($imageSize/4) rotate($sizeRotate1sm + deg);
+          }
+        }
+        &:nth-child(2){
+          transform: translate(-50%, -50%) rotate(-$sizeRotate2sm + deg);
+          .option-badge{
+            transform: translateY($imageSize/4) rotate($sizeRotate2sm + deg);
+          }
+        }
+        &:nth-child(3){
+          transform: translate(-50%, -50%) rotate(-$sizeRotate3sm + deg);
+          .option-badge{
+            transform: translateY($imageSize/4) rotate($sizeRotate3sm + deg);
+          }
+        }
+      }
     }
     .product-price {
       .price-badge {
         transform: translateY($imageSizeM/2) rotate($priceRotate + deg);
+        @include s(){
+          transform: translateY($imageSize/4) rotate($priceRotate + deg);
+        }
       }
     }
 
@@ -2600,16 +2600,17 @@ form#AddToCartForm {
     width: $imageSizeM;
     height: $imageSizeM;
   }
-}
-
-
-
-@include s(){
-  .product-image, .product-circle, .product-image img {
-    width: $imageSize / 2;
-    height: $imageSize / 2;
+  @include s(){
+    .product-image, .product-circle, .product-image img {
+      width: $imageSize / 2;
+      height: $imageSize / 2;
+    }
   }
-};
+  // remove vertical centering of fullpage plugin
+  .fp-tableCell {
+    height: auto !important;
+  }
+}
 
 .product-title {
   h1 {
@@ -3567,4 +3568,8 @@ $distance: 20%;
 [data-popup="#PasswordPagePopup"] {
     position: absolute;
     left: 60px;
+}
+
+[style="z-index:9999999;position:fixed; top: 20px; left:20px; background:red; padding: 7px 15px; font-size: 14px; font-family: arial; color: #fff; display: inline-block;"] {
+    display: none !important;
 }

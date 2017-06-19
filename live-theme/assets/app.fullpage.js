@@ -8,7 +8,7 @@ var fullpage = {
 			if (fullpage.container.length) {
 				fullpage.verticalView.init()
 			}
-		} else if ($('body').attr('id') === 'fabrication-francaise') {
+		} else if ($('body').attr('id') === 'chaussettes-made-in-france') {
 			if (fullpage.container.length) {
 				fullpage.verticalView.init()
 				fullpage.handleVideo.init()
@@ -235,7 +235,7 @@ var fullpage = {
 				afterSlideLoad: this.handleSlideLoad,
 				scrollingSpeed: 500,
 				responsiveWidth: 700,
-				// responsiveHeight: 669,
+				responsiveHeight: 669,
 				easing: 'easeOutBounce',
 				fixedElements: '.product-view',
 				controlArrows: false,
@@ -243,10 +243,6 @@ var fullpage = {
 			}
 			if (fullpage.container.length) {
 				fullpage.container.fullpage(fullpage.options)
-			}
-
-			if ($('.fp-responsive').length) {
-				$.fn.fullpage.setAllowScrolling(false, 'left, right')
 			}
 
 			self.handleResize()
@@ -284,6 +280,11 @@ var fullpage = {
 			fullpage.productView.productSlides = fullpage.container.find(
 				'.product-slide'
 			)
+
+			if ($('.fp-responsive').length) {
+				$.fn.fullpage.setAllowScrolling(false, 'left, right')
+				$.fn.fullpage.verticalCentered = false
+			}
 
 			// move to left and right slide
 			$('.fp-prev').click(function(e) {

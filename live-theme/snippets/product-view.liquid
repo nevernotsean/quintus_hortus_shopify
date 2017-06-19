@@ -1,5 +1,5 @@
 <div class="product-view">
-  <div class="container l" id="product-container" itemscope itemtype="http://schema.org/Product">
+  <div id="product-container" itemscope itemtype="http://schema.org/Product">
     <meta itemprop="url" content="{{ shop.url }}{{ product.url }}">
     <meta itemprop="image" content="{{ product.featured_image.src | img_url: 'master' }}">
 
@@ -33,7 +33,7 @@
           <div class="product-title hide-title">
             <h1 itemprop="name">{{ product.title }}</h1>
           </div>
-          <div class="product-amount row">
+          <div class="product-amount">
             <div class="column s12 m8 l6 centered">
               <div class="top-label">
                 <span id="price-label">{{ product.price | money }}</span>
