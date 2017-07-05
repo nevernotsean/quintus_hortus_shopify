@@ -53,7 +53,7 @@ var fullpage = {
 					responsiveWidth: 900,
 					responsiveExpand: true,
 					responsiveExpandKey:
-						'cXVpbnR1cy1ob3J0dXMubXlzaG9waWZ5LmNvbV83OW5jbVZ6Y0c5dWMybDJaVVY0Y0dGdVpBPT1NM08='
+						'cXVpbnR1c2hvcnR1cy5jb21fSTZHY21WemNHOXVjMmwyWlVWNGNHRnVaQT09UU1N'
 				})
 			} else {
 				fullpage.container.fullpage(fullpage.options)
@@ -147,20 +147,24 @@ var fullpage = {
 	handleVideo: {
 		videoEl: [],
 		init: function() {
-			$('body').append(
-				'<div id="video-container"><div id="close"><i class="fa fa-times fa-3x"></i></div></div>'
-			)
-			$('#video-container').append(
-				'<video playsinline="" preload="metadata">' +
-					'<source type="video/mp4" src="https://player.vimeo.com/external/220257455.hd.mp4?s=4d8accd0776756f6737af75957fc832d4fc21e06&profile_id=169">' +
-					'</video>'
-			)
-			fullpage.handleVideo.videoEl = $('#video-container video')[0]
-			fullpage.handleVideo.videoEl.addEventListener('ended', function() {
-				fullpage.handleVideo.close()
-			})
-			$('#close').click(fullpage.handleVideo.close)
-			$('.videoTrigger').click(this.handleClick)
+			if (window.innerWidth < 768) {
+				$('.videoTrigger').attr('href', 'https://youtu.be/77CrFxVBagM')
+			} else {
+				$('body').append(
+					'<div id="video-container"><div id="close"><i class="fa fa-times fa-3x"></i></div></div>'
+				)
+				$('#video-container').append(
+					'<video playsinline="" preload="metadata">' +
+						'<source type="video/mp4" src="https://player.vimeo.com/external/220257455.hd.mp4?s=4d8accd0776756f6737af75957fc832d4fc21e06&profile_id=169">' +
+						'</video>'
+				)
+				fullpage.handleVideo.videoEl = $('#video-container video')[0]
+				fullpage.handleVideo.videoEl.addEventListener('ended', function() {
+					fullpage.handleVideo.close()
+				})
+				$('#close').click(fullpage.handleVideo.close)
+				$('.videoTrigger').click(this.handleClick)
+			}
 		},
 		handleClick: function() {
 			fullpage.handleVideo.open()
@@ -259,7 +263,7 @@ var fullpage = {
 			self.addEventListeners(slideIndex)
 			self.productSlides
 				.eq(slideIndex)
-				.find('.product-sizes button[data-title="Small"]')
+				.find('.product-sizes button[data-title="Large"]')
 				.click()
 			self.$productContainer.find('.range input').trigger('change input')
 		},

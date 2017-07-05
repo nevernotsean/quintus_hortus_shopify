@@ -15,7 +15,7 @@
           {% if variant.available %}
             <div class="button-container">
               <button
-                class="{% if variant == bold_selected_or_first_available_variant %}selected{% endif %} alternate badge option-badge"
+                class="{% if forloop.last %}selected{% endif %} alternate badge option-badge"
                 data-title="{{ variant.title }}"
                 data-sku="{{ variant.sku }}"
                 data-id="{{ variant.id }}">{{ variant.title | truncate: 1, "" }}</button>

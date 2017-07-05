@@ -289,9 +289,9 @@
             mdAmt = (socks / formObject.household) * formObject.medium * 16.85
             lgAmt = (socks / formObject.household) * formObject.large * 21.45
 
-            var S = Math.round(smAmt / 100) * 100
-            var M = Math.round(mdAmt / 100) * 100
-            var L = Math.round(lgAmt / 100) * 100
+            var S = Math.ceil(smAmt / 100) * 100
+            var M = Math.ceil(mdAmt / 100) * 100
+            var L = Math.ceil(lgAmt / 100) * 100
 
             response = 'Vous avez besoin de <strong>' + socks + '</strong> chaussettes. Il vous faut <strong>' + S + '</strong> gr de taille S, <strong>' + M + '</strong> gr de taille M et <strong>' + L + '</strong> gr de taille L.'
 
