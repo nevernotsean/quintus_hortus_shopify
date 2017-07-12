@@ -1649,7 +1649,12 @@ body {
     padding: 15px;
     background: #fff;
     border-radius: 100px;
-    a { display: inline-block; }
+    a { display: inline-block;
+    img {
+      width: 50px;
+      height: 50px;
+    }
+  }
 }
 //// footer nav
 .theme-footer {
@@ -1879,6 +1884,7 @@ $blue: #3c5db9;
 
     .white-logo {
       max-width: 300px;
+      height: auto;
     }
 
     .button {
@@ -2408,10 +2414,12 @@ form#AddToCartForm {
       padding: 0;
       color: inherit;
       border-color: inherit;
+      position: static;
       i.fa {
-        position: absolute;
-        top: 0;
+        // position: absolute;
         line-height: $badgeSizeSm - 2;
+        position: static;
+        transform: none;
       }
     }
   }
@@ -2664,21 +2672,20 @@ form#AddToCartForm {
   .fp-prev {
     left: calc(50% - 300px);
     top: calc(50% - 50px);
-    @include m(){
-      top: 200px;
-    };
-    @include s(){
-      left: 25px;
-      top: 175px;
-    };
   }
   .fp-next {
     left: calc(50% + 300px);
     top: calc(50% - 50px);
-    @include m(){
-      top: 200px;
-    };
-    @include s(){
+  }
+}
+
+.small-product .product-nav {
+  @include s(){
+    .fp-prev {
+      left: 25px;
+      top: 175px;
+    }
+    .fp-next {
       left: calc(100% - 25px);
       top: 175px;
     }

@@ -223,8 +223,7 @@ var fullpage = {
 		currentQty: 100,
 		currentBaseprice: null,
 		currentVariantID: null,
-		formOption0: [],
-		init(productContainer) {
+		init: function(productContainer) {
 			var self = fullpage.productView
 
 			window.MoneyFormat = $('.MoneyFormat')[0].value
@@ -268,11 +267,9 @@ var fullpage = {
 			self.$productContainer.find('.range input').trigger('change input')
 		},
 		handleResize: function() {
-			if (window.innerHeight <= 640 && !$('body.small-product').length) {
+			if (window.innerWidth <= 600 || window.innerHeight <= 640 ) {
 				$('body').addClass('small-product')
-			}
-
-			if (window.innerHeight > 640 && $('body.small-product').length) {
+			} else {
 				$('body').removeClass('small-product')
 			}
 		},
@@ -396,7 +393,12 @@ var fullpage = {
 			})
 
 			// Update the price and position of range, amount and price label
-			$rangeInput.on('input', self.handleRangeInput.bind(self))
+			$rangeInput.on('input mousemove', self.handleRangeInput.bind(self))
+
+			// // debug IE
+			// $rangeInput.on('mousemove', function(){
+			// 	console.log('range mousemove')
+			// })
 
 			// on range movement settles, change the quantity
 			$rangeInput.on('change', self.handleRangeChange.bind(self))
@@ -424,7 +426,7 @@ var fullpage = {
 			self.selectBoldVariation()
 			self.updateSelectedSizeButton()
 
-			$rangeInput.val($rangeInput.attr('min')).trigger('input')
+			$rangeInput.val($rangeInput.attr('min')).trigger('input').trigger('mousemove')
 		},
 		handleRangeChange: function(e) {
 			var newVal = e.target.value / e.target.step,
@@ -533,7 +535,7 @@ var fullpage = {
 				}
 			})
 		},
-		calculateSocks(qty, size) {
+		calculateSocks: function(qty, size) {
 			if (size == 'Small' || size == 'Medium' || size == 'Large') {
 				// var weight = {
 				// 	Small: 13.85,
@@ -578,16 +580,16 @@ var fullpage = {
 					'"]'
 			).addClass('selected')
 		},
-		updateColors(slideIndex) {
+		updateColors: function(slideIndex) {
 			var index0 = slideIndex - 1,
-				prevI = slideIndex - 1,
-				nextI = slideIndex + 1,
+				prevI = index0 - 1,
+				nextI = index0 + 1,
 				slideCount = fullpage.productView.productSlides.length - 1,
 				pColor,
 				nColor
 
-			prevI = prevI >= 1 ? prevI : slideCount
-			nextI = nextI <= slideCount ? nextI : 0
+			prevI = prevI > 0 ? prevI : slideCount
+			nextI = nextI < slideCount ? nextI : 0
 
 			pColor = fullpage.productView.productSlides.eq(prevI).data('color')
 			nColor = fullpage.productView.productSlides.eq(nextI).data('color')
