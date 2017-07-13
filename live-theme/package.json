@@ -1,0 +1,14 @@
+{
+  "name": "quintus-hortus",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "theme watch -e development",
+    "prod": "theme watch -e production",
+    "upload": "theme upload -e development",
+    "download": "theme download -e development"
+  },
+  "author": "",
+  "license": "ISC"
+}
