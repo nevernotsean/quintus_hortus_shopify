@@ -223,6 +223,10 @@ var fullpage = {
 		currentQty: 100,
 		currentBaseprice: null,
 		currentVariantID: null,
+		circles: {
+			right: [],
+			left: []
+		},
 		init: function(productContainer) {
 			var self = fullpage.productView
 
@@ -236,6 +240,7 @@ var fullpage = {
 				afterLoad: this.handleAfterLoad,
 				onSlideLeave: this.handleSlideLeave,
 				afterSlideLoad: this.handleSlideLoad,
+				slidesNavigation: true,
 				scrollingSpeed: 500,
 				responsiveWidth: 700,
 				responsiveHeight: 669,
@@ -248,13 +253,16 @@ var fullpage = {
 				fullpage.container.fullpage(fullpage.options)
 			}
 
+			fullpage.productView.circles.right = $('.nextCircle')[0]
+			fullpage.productView.circles.left = $('.prevCircle')[0]
+
 			self.handleResize()
 
 			self.optimizedResize.add(self.handleResize)
 
 			self.reset(0)
 			self.updateBoldState()
-			self.updateColors(1)
+			self.updateColors(0)
 		},
 		reset: function(slideIndex) {
 			var self = this
@@ -264,7 +272,7 @@ var fullpage = {
 				.eq(slideIndex)
 				.find('.product-sizes button[data-title="Large"]')
 				.click()
-			self.$productContainer.find('.range input').trigger('change input')
+			self.$productContainer.find('.range input').trigger('input').trigger('change')
 		},
 		handleResize: function() {
 			if (window.innerWidth <= 600 || window.innerHeight <= 640 ) {
@@ -294,6 +302,19 @@ var fullpage = {
 			$('.fp-next').click(function(e) {
 				$.fn.fullpage.moveSlideRight()
 			})
+
+			// show the previous and next circles
+			$('.prevCircle, .nextCircle').addClass('active')
+
+			// color the nav dots
+			self.productSlides.each( function(index){
+				var color = $(this).data('color')
+				$('.fp-slidesNav ul li').eq(index)
+				.find('a')
+				.css('border-color', '#' + color)
+				.find('span')
+				.css('background-color', '#' + color)
+			})
 		},
 		handleSlideLeave: function(anchorLink, index, slideIndex, dir, nextIndex) {
 			var nextSlide = $('.slide')[nextIndex]
@@ -310,6 +331,8 @@ var fullpage = {
 			$('body').addClass('product-loading')
 
 			fullpage.productView.animations.slideChange(nextSlide, dir)
+			fullpage.productView.animations.moveCircles(dir)
+			fullpage.productView.animations.moveCurrentCircle(dir, $(nextSlide).find('.product-circle')[0])
 		},
 		handleSlideLoad: function(anchorLink, index, slideAnchor, slideIndex) {
 			var thisSlide = $('.slide')[slideIndex],
@@ -327,7 +350,7 @@ var fullpage = {
 				fullpage.productView.updateColors(slideIndex)
 				setTimeout(function() {
 					$('body').removeClass('product-loading')
-				}, 20)
+				}, 50)
 			})
 		},
 		selectBoldVariation: function() {
@@ -421,6 +444,10 @@ var fullpage = {
 			var id = $this.attr('data-id')
 
 			self.selectedSize = $this.data('title')
+
+			if (!$this.data('title')) {
+				self.selectedSize = $this.closest('[data-title]').data('title')
+			}
 
 			self.updateBoldState()
 			self.selectBoldVariation()
@@ -580,22 +607,28 @@ var fullpage = {
 					'"]'
 			).addClass('selected')
 		},
-		updateColors: function(slideIndex) {
-			var index0 = slideIndex - 1,
-				prevI = index0 - 1,
-				nextI = index0 + 1,
-				slideCount = fullpage.productView.productSlides.length - 1,
+		updateColors: function(currentSlideIndex) {
+			var prevI = currentSlideIndex - 1,
+				nextI = currentSlideIndex + 1,
+				slideCount = fullpage.productView.productSlides.length,
 				pColor,
 				nColor
 
-			prevI = prevI > 0 ? prevI : slideCount
-			nextI = nextI < slideCount ? nextI : 0
+			// set the previous index to the last item index if negative
+			prevI = prevI < 0 ? slideCount - 1 : prevI
+			// set the next index to the first item if over the limit index
+			nextI = nextI > slideCount - 1 ? 0 : nextI
+
+			// console.log('prevI:', prevI, 'currentSlideIndex:', currentSlideIndex, 'nextI:', nextI)
 
 			pColor = fullpage.productView.productSlides.eq(prevI).data('color')
 			nColor = fullpage.productView.productSlides.eq(nextI).data('color')
 
 			$('#left-arrow-poly').css('stroke', '#' + pColor)
+			$('.prevCircle').css('background', '#' + pColor)
+
 			$('#right-arrow-poly').css('stroke', '#' + nColor)
+			$('.nextCircle').css('background', '#' + nColor)
 		},
 		animations: {
 			slideChange: function(slide, dir) {
@@ -605,6 +638,41 @@ var fullpage = {
 				if (dir == 'right') {
 					$(slide).toggleClass('animate-title-next')
 				}
+			},
+			moveCurrentCircle: function(dir, currentEl){
+				dynamics.animate(currentEl,
+					{ translateX: 0 },
+					{ type: dynamics.spring, duration: 3000, friction: 700, frequency: 500 }
+				);
+			},
+			moveCircles: function(dir) {
+				var animProps = {
+					type: dynamics.easeIn,
+					duration: 100,
+					complete: function(el) {
+						dynamics.animate(el,
+							{
+								translateX: 0, scale: 1
+							},
+							{
+								type: dynamics.spring, duration: 1000, friction: 300
+							}
+						);
+					}
+				}
+
+				dynamics.animate(fullpage.productView.circles.right,
+					{
+						translateX: dir === 'right' ? -fullpage.productView.circles.right.offsetWidth/3 : fullpage.productView.circles.right.offsetWidth/3, scale: 1
+					},
+					animProps
+				);
+				dynamics.animate(fullpage.productView.circles.left,
+					{
+						translateX: dir === 'right' ? -fullpage.productView.circles.left.offsetWidth/3 : fullpage.productView.circles.left.offsetWidth/3, scale: 1
+					},
+					animProps
+				);
 			}
 		}
 	},

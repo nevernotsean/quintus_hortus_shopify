@@ -1,7 +1,7 @@
 <script type="text/javascript">
   jQuery(function() {
     CartJS.init({{ cart | json }}, {
-      'debug': true,
+      'debug': false,
       'requestBodyClass': 'loading',
       'currency': '{{ shop.currency }}',
       'moneyFormat': '{{ shop.money_format }}',

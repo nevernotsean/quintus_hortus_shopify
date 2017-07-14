@@ -5,6 +5,9 @@
 {% endfor %}
 <div class="slide center slide-{{product.handle}} product-slide" data-handle="{{product.handle}}" data-producturl="{{product.url}}" data-product-id="{{product.id}}" data-color="{{ thisProductColor }}">
   <div itemscope itemtype="http://schema.org/Product">
+    <div class="product-title">
+      <h1 itemprop="name" style="color: #{{thisProductColor}}">{{ product.title }}</h1>
+    </div>
     <div class="product-circle">
       <!-- <div class="product-size badge-container hide-options">
         <button class="badge size-badge">Size</button>
@@ -18,7 +21,21 @@
                 class="{% if forloop.last %}selected{% endif %} alternate badge option-badge"
                 data-title="{{ variant.title }}"
                 data-sku="{{ variant.sku }}"
-                data-id="{{ variant.id }}">{{ variant.title | truncate: 1, "" }}</button>
+                data-id="{{ variant.id }}">
+                {% assign size = variant.title | truncate: 1, "" %}
+                <span>{{ size }}</span>
+                <span class="hover" style="font-size: 10px;">
+                  {% if size == 'L' %}
+                    41-46
+                  {% elsif size == 'M'%}
+                    35-40
+                  {% elsif size == 'S' %}
+                    29-34
+                  {% else %}
+                    {{ variant.title }}
+                  {% endif %}
+                </span>
+              </button>
             </div>
           {% else %}
             <div class="button-container">
@@ -38,17 +55,14 @@
       <!-- <div class="product-more badge-container">
         <div class="badge more-badge"><i class="fa fa-2x fa-plus"></i></div>
       </div> -->
-      <div class="product-price badge-container">
+      <!-- <div class="product-price badge-container">
         <div class="badge price-badge">
           <i class="fa fa-2x fa-{{ shop.currency | downcase }}"><span>3</span></i>
         </div>
-      </div>
+      </div> -->
       <div class="product-image">
           <img src="{{ product.images[0].src | img_url: '1024x1024' }}" alt="{{  product.images[0].alt | escape }}" id="ProductMainImage">
       </div>
-    </div>
-    <div class="product-title">
-      <h1 itemprop="name" style="color: #{{thisProductColor}}">{{ product.title }}</h1>
     </div>
   </div>
 </div>
@@ -65,6 +79,9 @@
   }
   .slide.slide-{{product.handle}} .badge.price-badge {
     background: transparent !important;
+    color: #{{thisProductColor}} !important;
+  }
+  .slide.slide-{{product.handle}} #submitbutton:hover {
     color: #{{thisProductColor}} !important;
   }
 </style>

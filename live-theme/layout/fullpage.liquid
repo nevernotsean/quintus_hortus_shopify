@@ -43,6 +43,7 @@
   {% endif %}
 
   <!-- fullPage.js ================================================== -->
+  {{ 'dynamics.js' | asset_url | script_tag }}
   {{ 'jquery.fullPage.min.js' | asset_url | script_tag }}
 
 </head>
@@ -52,7 +53,9 @@
 
     {% include 'theme-header' %}
     <main id="MainContent" role="main">
-      {% comment %}{% include 'theme-breadcrumbs' %}{%endcomment%}
+      {% comment %}
+      {% include 'theme-breadcrumbs' %}
+      {% endcomment %}
       <div id="fullpage">
         {{ content_for_layout }}
       </div>
