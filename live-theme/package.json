@@ -7,6 +7,7 @@
     "dev": "theme watch -e development",
     "prod": "theme watch -e production",
     "upload": "theme upload -e development",
+    "upload--prod": "theme upload -e production",
     "download": "theme download -e development"
   },
   "author": "",
