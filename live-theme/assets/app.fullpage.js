@@ -454,6 +454,8 @@ var fullpage = {
 			self.updateSelectedSizeButton()
 
 			$rangeInput.val($rangeInput.attr('min')).trigger('input').trigger('mousemove')
+
+			$('#Quantity').attr('value','1').attr('data-cart-quantity','1')
 		},
 		handleRangeChange: function(e) {
 			var newVal = e.target.value / e.target.step,
