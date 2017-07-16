@@ -275,11 +275,16 @@ var fullpage = {
 			self.$productContainer.find('.range input').trigger('input').trigger('change')
 		},
 		handleResize: function() {
-			if (window.innerWidth <= 600 || window.innerHeight <= 640 ) {
+			var heightOffset
+			if (window.innerWidth <= 600 || window.innerHeight <= 768 ) {
 				$('body').addClass('small-product')
+				heightOffset = $('#product-form-container').innerHeight() - 130
 			} else {
 				$('body').removeClass('small-product')
+				heightOffset = $('#product-form-container').innerHeight() + 50
 			}
+
+			$('.fp-slides .product-circle').css('margin-bottom', heightOffset)
 		},
 		handleAfterLoad: function(anchorLink, index) {
 			var self = fullpage.productView
