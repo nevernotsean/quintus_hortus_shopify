@@ -2743,16 +2743,10 @@ form#AddToCartForm {
         }
 
         #bar {
-          // position: absolute;
-          // content: "";
           background: $colorBrand;
           width: 0;
           height: 12px;
-          // left: 0;
-          // top: 50%;
           z-index: -1;
-          // transform: translateY(-4px);
-          // border-radius: 20px;
         }
     }
     .product-action {
@@ -2821,6 +2815,7 @@ form#AddToCartForm {
   background: #fff;
   cursor: pointer;
   border: 0 !important;
+  box-shadow: -2px 2px 8px #bba88d;
 }
 
 @mixin rangeTrack {
@@ -2838,14 +2833,14 @@ form#AddToCartForm {
   .range {
     position: relative;
     height: 5px;
-    // margin-right: calc(5% + 10px);
-    // margin-left: 5%;
+    cursor: pointer;
   }
 
   .range input[type=range] {
     -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
     width: 100%; /* Specific width is required for Firefox. */
     background: transparent; /* Otherwise white in Chrome */
+    height: 40px;
 
     // Thumb
     &::-webkit-slider-thumb {
@@ -2859,6 +2854,7 @@ form#AddToCartForm {
 
     &::-ms-thumb {
       @include rangeThumb;
+      box-shadow: none;
     }
 
     // Track
@@ -2872,62 +2868,15 @@ form#AddToCartForm {
 
     &::-ms-track {
       @include rangeTrack;
+      height: 0px;
+      cursor: pointer;
+      margin-top: 7px;
+      border: 10px solid transparent;
     }
 
     &:focus { // override outline/background on focus
       background: none;
       outline: none;
-    }
-
-    &::-ms-track { // A little somethin' somethin' for IE
-      width: 100%;
-      cursor: pointer;
-      background: transparent;
-      border-color: transparent;
-      color: transparent;
-    }
-  }
-
-  // Labels below slider
-  .range-labels {
-    margin: 20px 0;
-    padding: 0;
-    padding-right: 10px;
-    list-style: none;
-    height: 10px;
-    font-weight: bold;
-    // left: 50%;
-    // position: relative;
-
-    li {
-      position: relative;
-      float: left;
-      width: 25%;
-      text-align: left;
-      color: $colorBrand;
-      font-size: 14px;
-      cursor: pointer;
-
-      &:last-child {
-        width: 0;
-      }
-
-      &::before {
-        position: absolute;
-        top: -25px;
-        right: 0;
-        left: 0;
-        // content: "";
-        margin: 0 auto;
-        width: 9px;
-        height: 9px;
-        background: #b2b2b2;
-        border-radius: 50%;
-      }
-    }
-
-    .active {
-      color: inherit;
     }
   }
 }
