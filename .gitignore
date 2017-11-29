@@ -25,3 +25,5 @@ delete.txt
 
 /live-theme/config.yml
 /backup-20170713.zip
+*.ai
+*.crdownload

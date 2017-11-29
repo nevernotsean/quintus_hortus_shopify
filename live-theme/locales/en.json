@@ -381,5 +381,8 @@
       "submit": "Create",
       "cancel": "Return to Store"
     }
+  },
+  "consistent_cart_addon": {
+    "merge_cart_text": "It seems you already have a cart from a previous session. Would you like to merge your previous cart with your current cart?"
   }
 }

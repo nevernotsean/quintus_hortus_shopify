@@ -47,6 +47,8 @@
   {{ 'jquery.multiscroll.extensions.min.js' | asset_url | script_tag }}
   {{ 'jquery.easing.min.js' | asset_url | script_tag }}
 
+
+  {% include 'shogun-head' %}
 </head>
 
 <body id="{{ page_title | handle }}" class="{% if customer %}customer-logged-in {% endif %}template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}{% if collection.template_suffix %} templet-{{ collection.template_suffix }}{% endif %}" >

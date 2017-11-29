@@ -299,8 +299,8 @@ h1, h2, h3, h4, h5, h6,
   display: block;
   margin-bottom: $gutter/3;
 }
-h1, .h1 { font-size: 2rem; }
-h2, .h2 { font-size: 1.5rem; }
+h1, .h1 { font-size: 1.4rem; }
+h2, .h2 { font-size: 1.1rem; }
 h3, .h3 { font-size: 1rem; }
 h4, .h4 { font-size: 0.875rem; }
 h5, .h5 { font-size: 0.875rem; }
@@ -308,7 +308,7 @@ h6, .h6 { font-size: 0.875rem; }
 
 p {
   font-family: 'sofia_promedium', sans-serif;
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   font-weight: $fontRegular;
   line-height: $lineHeight;
   margin-bottom: 1.4rem;
@@ -423,10 +423,10 @@ input[type="submit"],
 input[type="reset"],
 select {
   max-width: 100%;
-  height: $gutter * 1.5;
-  line-height: ($gutter * 1.5 - $borderWeight*2);
-  padding: 0 $gutter/1.5;
-  font-size: 14px;
+  height: $gutter * 1.2;
+  line-height: ($gutter * 1.2 - $borderWeight*2);
+  padding: 0 $gutter/1.2;
+  font-size: 12px;
   color: #fff;
   text-transform: uppercase;
   font-weight: bold;
@@ -561,7 +561,8 @@ a.button {
   max-width: 100%;
   width: 100%;
   margin: auto;
-  padding: 0 $gutter;
+/*   padding: 0 $gutter; */
+  padding: 0;
   &.xl {
     width: $xl;
   }
@@ -1742,7 +1743,7 @@ body {
     max-width: 100vw
   }
 }
-.container { padding: 0; }
+
 #MainContent > .container.page-liquid {
     padding: 100px 0;
 }
@@ -1922,12 +1923,14 @@ $blue: #3c5db9;
     }
 
     p {
-        font-size: 1rem !important;
+      font-size: 1rem !important;
+      display: none;
     }
     .rightSide {
       width: 100%;
       margin-left: 0;
       padding: 0 $border-width;
+      padding-right: 0;
       .white-logo {
         width: auto;
         max-height: 100px;
@@ -1939,6 +1942,7 @@ $blue: #3c5db9;
 // Concept Page & Fabrication Page
 .contentTitle {
   text-transform: uppercase;
+  
 }
 #chaussettes-made-in-france, #le-concept {
   background-position: 25% center;
@@ -2051,12 +2055,14 @@ $blue: #3c5db9;
       padding-right: 60px;
       padding-left: 60px;
       position: relative;
+      
 
       &.text-left {
         text-align: left;
         .rightBody {
           border-left: 4px solid #fff;
           padding-left: 1.5rem;
+          
         }
       }
     }

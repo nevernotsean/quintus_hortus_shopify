@@ -130,7 +130,7 @@
     "quantity": "Quantités",
     "subtotal": "Sous total",
     "checkout": "Régler ma commande",
-    "shipping_at_checkout": "Les frais de livraison sont au tarif fixe de 8€.",
+    "shipping_at_checkout": "Les frais de livraison sont au tarif fixe de 4€.",
     "total": "Total",
     "remove_item": "Supprimer",
     "empty": "Votre panier est vide :(",
@@ -381,5 +381,8 @@
       "submit": "Créer",
       "cancel": "Annuler"
     }
+  },
+  "consistent_cart_addon": {
+    "merge_cart_text": "It seems you already have a cart from a previous session. Would you like to merge your previous cart with your current cart?"
   }
 }

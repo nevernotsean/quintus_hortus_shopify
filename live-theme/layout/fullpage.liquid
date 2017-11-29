@@ -9,6 +9,7 @@
   <meta name="viewport"
         content="width=device-width,initial-scale=1,shrink-to-fit=no">
   <meta name="theme-color" content="{{ settings.color_primary }}">
+  <meta name="google-site-verification" content="O50LrJpCd67h9_iruPoemliPdtgI-UEYMlYoVScHDKk" />
   <title>
     {{ page_title }}
     {% if current_tags %}{% assign meta_tags = current_tags | join: ', ' %}&ndash; {{ 'common.meta.tags' | t: tags: meta_tags }}{% endif %}
@@ -45,7 +46,11 @@
   <!-- fullPage.js ================================================== -->
   {{ 'dynamics.js' | asset_url | script_tag }}
   {{ 'jquery.fullPage.min.js' | asset_url | script_tag }}
+  
+  
 
+
+  {% include 'shogun-head' %}
 </head>
 
 <body id="{{ page_title | handle }}" class="{% if customer %}customer-logged-in {% endif %}template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}{% if collection.template_suffix %} templet-{{ collection.template_suffix }}{% endif %}" >

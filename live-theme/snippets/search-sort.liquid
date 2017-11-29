@@ -1,0 +1,21 @@
+<div>
+  <label for="sort-by">Sort by</label>
+  <select id="sort-by">
+    <option value="">Relevance</option>
+    <option value="price-ascending">Price: Low to High</option>
+    <option value="price-descending">Price: High to Low</option>
+    <option value="title-ascending">A-Z</option>
+    <option value="title-descending">Z-A</option>
+  </select>
+</div>
+<script> 
+if (location.search.length) {
+  console.log(location.search)
+}
+jQuery('#sort-by')
+  .val('{{ collection.sort_by | default: collection.default_sort_by | escape }}')
+  .bind('change', function() {
+    window.location = '/search-' jQuery(this).val();
+    // location.search = jQuery.param(Shopify.queryParams).replace(/\+/g, '%20');
+  });
+</script>
