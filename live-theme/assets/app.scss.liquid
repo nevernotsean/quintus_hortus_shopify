@@ -2432,6 +2432,7 @@ form#AddToCartForm {
   // }
   $moreRotate: 212;
   .product-more {
+    z-index: 99999;
     transform: translate(-50%, -50%) rotate(-$moreRotate + deg);
     .more-badge {
       height: $badgeSizeXS;
@@ -2584,6 +2585,14 @@ form#AddToCartForm {
         transform: translateY($imageSizeM/2) rotate($priceRotate + deg);
         @include s(){
           transform: translateY($imageSize/4) rotate($priceRotate + deg);
+        }
+      }
+    }
+    .product-more {
+      .more-badge {
+        transform: translateY($imageSizeM/2) rotate($moreRotate + deg);
+        @include s(){
+          transform: translateY($imageSize/4) rotate($moreRotate + deg);
         }
       }
     }
