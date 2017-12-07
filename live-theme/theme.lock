@@ -164,15 +164,15 @@ config/settings_data.json:
 config/settings_schema.json:
   development: 2017-11-29T16:55:46+01:00   d8ddfc1a76c6e4203c4e722cbbbde922
 layout/fullpage.liquid:
-  development: 2017-11-29T16:55:44+01:00   02df0ea447520052147b054dc3cf1cc9
+  development: 2017-12-04T01:22:01+01:00   27db424f08f58932de2a590f6987bb4a
 layout/gift_card.liquid:
   development: 2017-11-29T16:55:44+01:00   fda8be4bd4603cb875c9c21e22eba88f
 layout/multiscroll.liquid:
-  development: 2017-11-29T16:55:44+01:00   e416c2943e43d35211e5ce76c76acd07
+  development: 2017-12-04T01:22:03+01:00   2ffc901b05b266aaf5c763c481cfe4a5
 layout/password.liquid:
   development: 2017-11-29T16:55:44+01:00   5a7e1e03cefe1c86aae5094969f589ed
 layout/theme.liquid:
-  development: 2017-11-29T16:55:44+01:00   cf4ce5040ddda6edc1c7057b4fd2b08d
+  development: 2017-12-04T01:22:06+01:00   c790929656e83b5d9ea70ed62627b42a
 layout/theme.shogun.landing.liquid:
   development: 2017-11-29T16:55:44+01:00   c329771d45cce2e3476e09f3c3eb2839
 locales/en.json:
@@ -239,6 +239,8 @@ snippets/popup-demo.liquid:
   development: 2017-11-29T16:55:45+01:00
 snippets/popup-error.liquid:
   development: 2017-11-29T16:55:45+01:00   4032768872c28d35b20c5c1cc8d9ee3d
+snippets/popup-home.liquid:
+  development: 2017-12-04T01:20:27+01:00   215d7847124bac880a62082e96f81155
 snippets/popup-product-details.liquid:
   development: 2017-11-29T17:52:15+01:00   2c5aced7e7a295f7023a4e89d1343502
 snippets/popup-products.liquid:
@@ -330,7 +332,7 @@ templates/customers/reset_password.liquid:
 templates/gift_card.liquid:
   development: 2017-11-29T16:55:46+01:00   f59fc7bad8e682efc09c67b5975ffe9a
 templates/index.liquid:
-  development: 2017-11-29T16:55:46+01:00   84a16d0d2ceb46b4d7e63148b852e119
+  development: 2017-12-04T02:14:48+01:00   bbac9809ff86d0e0bb7cf15c739f3829
 templates/list-collections.liquid:
   development: 2017-11-29T16:55:46+01:00   45894a6eb65ca3c282f5ebe6a64bb17d
 templates/page.contact.liquid:
