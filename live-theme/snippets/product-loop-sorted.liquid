@@ -1,8 +1,11 @@
+{% assign productCollection = product.collections[0].handle %}
+{% assign relatedProducts = collections[productCollection]products %}
+
 <!-- begin bold-product -->
 <script type="text/javascript">
   Shopify.Products = []
 </script>
-{% for product in collections.socks.products %}
+{% for product in relatedProducts %}
 <script type="text/javascript">
   // Shopify.BoldProducts.push({% include 'bold-product' with product, hide_action: 'break', output: 'json' %}{% if bold_hidden_product %}{% break %}{%endif %})
   Shopify.Products.push({{ product | json }})
@@ -12,13 +15,17 @@
 
 {% assign currentID = product.id %}
 {% assign isSkipping = true %}
-{% for product in collections.socks.products %}
+{% for product in relatedProducts %}
     {% if product.id != currentID and isSkipping %}{% continue %}{% endif %}
     {% assign isSkipping = false %}
     {% include 'product-slide-data' %}
 {% endfor %}
 
-{% for product in collections.socks.products %}
+{% for product in relatedProducts %}
   {% if product.id == currentID %}{% break %}{% endif %}
   {% include 'product-slide-data' %}
 {% endfor %}
+
+<script type="text/javascript">
+    //console.log('{{ relatedProducts | json }}')
+</script>

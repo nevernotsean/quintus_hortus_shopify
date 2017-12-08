@@ -248,7 +248,7 @@ snippets/popup-products.liquid:
 snippets/product-icons.liquid:
   development: 2017-11-29T16:55:45+01:00   b9ba3cdd85c1e2054a9bd3c8d4c20c8a
 snippets/product-loop-sorted.liquid:
-  development: 2017-11-29T16:55:45+01:00   0cf7ee68aa3c068b1168e3e33d8013bb
+  development: 2017-12-08T01:19:09+01:00   aa68b7cdfd15aa7051fb0a59721267a9
 snippets/product-slide-data.liquid:
   development: 2017-11-29T17:46:54+01:00   fd258fe417f447832eaa5faaf0b629f2
 snippets/product-slide.liquid:
