@@ -14,17 +14,6 @@
     <div class="product-circle">
       <div class="product-image" style="display: none;">
           <img src="{{ featured_image | img_url: '1024x1024' }}" alt="{{ featured_image.alt | escape }}" id="ProductMainImage">
-          {% if product.images.size > 1 %}
-            <ul class="inline" id="ProductThumbnailImages">
-              {% for image in product.images %}
-                <li>
-                  <a href="{{ image.src | img_url: 'master' }}" class="thumbnail">
-                    <img src="{{ image.src | img_url: 'grande' }}" alt="{{ image.alt | escape }}">
-                  </a>
-                </li>
-              {% endfor %}
-            </ul>
-          {% endif %}
       </div>
       <div class="prevCircle"></div>
       <div class="nextCircle"></div>
@@ -43,7 +32,7 @@
               <div class="product-action row">
                 <div class="product-bulk">
                   <div class="range">
-                    <input type="range" min="100" max="1000" step="100" value="100">
+                    <input type="range" min="1" max="20" step="1" value="1">
                     <span id="bar" class="tag-background-color"></span>
                   </div>
                 </div>
@@ -51,10 +40,9 @@
               </div>
               <div class="bottom-label">
                 <div id="label-text" class="tag-color">
-                  <span id="grams">100g</span>
-                  soit
                   <span id="count">7</span>
                   chaussettes
+                  <span style="">soit <span id="grams">100g</span></span>
                 </div>
               </div>
             </div>

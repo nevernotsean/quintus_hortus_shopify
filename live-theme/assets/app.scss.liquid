@@ -1048,6 +1048,13 @@ body {
   }
 }
 
+// Popup Images
+.side-bar-small {
+  .popup-content {
+    width: 400px;
+  }
+}
+
 /* Toggle Side Menu ==========================================================*/
 
 .theme-nav-toggled {
@@ -2448,13 +2455,17 @@ form#AddToCartForm {
       };
     }
   }
-  $priceRotate: 230;
-  .product-price {
-    transform: translate(-50%, -50%) rotate(-$priceRotate + deg);
-    .price-badge {
-      pointer-events: none;
-      background: transparent;
-      transform: translateY($imageSize/2) rotate($priceRotate + deg);
+  $toprightRotate: 230;
+  .product-topright {
+    z-index: 99999;
+    transform: translate(-50%, -50%) rotate(-$toprightRotate + deg);
+    .topright-badge {
+      // pointer-events: none;
+      // background: transparent;
+      transform: translateY($imageSize/2) rotate($toprightRotate + deg);
+      &:hover {
+        border-style: solid;
+      }
       i.fa {
         span {
           font-family: 'sofia_probold', sans-serif;
@@ -2462,9 +2473,9 @@ form#AddToCartForm {
           line-height: 42px;
           margin-right: 2px;
         }
-        &:before { content: none }
+        // &:before { content: none }
         &:after {
-          content: "\f153";
+          // content: "\f153";
           position: relative;
           font-size: 1rem;
           top: -0.25em;
@@ -2580,11 +2591,11 @@ form#AddToCartForm {
         }
       }
     }
-    .product-price {
-      .price-badge {
-        transform: translateY($imageSizeM/2) rotate($priceRotate + deg);
+    .product-topright {
+      .topright-badge {
+        transform: translateY($imageSizeM/2) rotate($toprightRotate + deg);
         @include s(){
-          transform: translateY($imageSize/4) rotate($priceRotate + deg);
+          transform: translateY($imageSize/4) rotate($toprightRotate + deg);
         }
       }
     }

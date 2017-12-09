@@ -26,6 +26,14 @@
   {% include 'product-slide-data' %}
 {% endfor %}
 
-<script type="text/javascript">
-    //console.log('{{ relatedProducts | json }}')
-</script>
+{% if relatedProducts.size < 2 %}
+<style media="screen">
+  .product-nav {
+    display: none;
+  }
+</style>
+{% endif %}
+
+{% comment %} <script type="text/javascript">
+    //console.log('{{ relatedProducts.size }}')
+</script> {% endcomment %}

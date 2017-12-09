@@ -220,7 +220,7 @@ var fullpage = {
 		selectOptions: null,
 		selectedSize: 'Small',
 		selectedPrice: null,
-		currentQty: 100,
+		currentQty: 1,
 		currentBaseprice: null,
 		currentVariantID: null,
 		circles: {
@@ -360,9 +360,9 @@ var fullpage = {
 		},
 		selectBoldVariation: function() {
 			var self = this,
-				titleAndQty = self.currentQty == 100
+				titleAndQty = self.currentQty == 1
 					? self.selectedSize
-					: self.selectedSize + ' ' + self.currentQty / 100 + '+'
+					: self.selectedSize + ' ' + self.currentQty / 1 + '+'
 
 			if (fullpage.productView.debug) {
 				console.log('Switching variant: ', self.currentVariantID)
@@ -374,7 +374,7 @@ var fullpage = {
 		updateBoldState: function() {
 			var self = this,
 				priceContainer = self.$productContainer.find('#ProductPrice'),
-				normalizeQty = self.currentQty / 100,
+				normalizeQty = self.currentQty / 1,
 				totalPrice,
 				variantData
 
@@ -571,17 +571,18 @@ var fullpage = {
 		},
 		calculateSocks: function(qty, size) {
 			if (size == 'Small' || size == 'Medium' || size == 'Large') {
-				// var weight = {
-				// 	Small: 13.85,
-				// 	Medium: 16.85,
-				// 	Large: 21.45
-				// }
-				var amountPer100 = {
-					Small: 8,
-					Medium: 6,
-					Large: 5
+				var weight = {
+					Small: 13.85,
+					Medium: 16.85,
+					Large: 21.45
 				}
-				var result = amountPer100[size] * qty / 100
+				// var amountPer100 = {
+				// 	Small: 8,
+				// 	Medium: 6,
+				// 	Large: 5
+				// }
+				var result = (weight[size] * qty).toFixed(2)
+				// var result = qty
 
 				return result
 			} else {
@@ -598,9 +599,9 @@ var fullpage = {
 
 			self.$productContainer
 				.find('.bottom-label span#grams')
-				.html(self.currentQty + 'g')
+				.html(sockAmt + 'g')
 
-			self.$productContainer.find('.bottom-label span#count').html(sockAmt)
+			self.$productContainer.find('.bottom-label span#count').html(self.currentQty)
 		},
 		updateSelectedSizeButton: function() {
 			var self = this

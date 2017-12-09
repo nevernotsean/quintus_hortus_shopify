@@ -50,21 +50,38 @@
               </button>
             </div>
           {% endif %}
-        {% endfor %}
+        {% endfor %} 
       </div>
       <div class="product-more badge-container">
         <a href="#" class="popup-link" data-popup="#PopupProductsInfo">
-          <div class="badge more-badge"><i class="fa fa-2x fa-info"></i></div>
+          <div class="badge more-badge"><i class="fa fa-2x fa-question"></i></div>
         </a>
       </div>
-      <!-- <div class="product-price badge-container">
-        <div class="badge price-badge">
-          <i class="fa fa-2x fa-{{ shop.currency | downcase }}"><span>3</span></i>
-        </div>
-      </div> -->
       <div class="product-image">
           <img src="{{ product.images[0].src | img_url: '1024x1024' }}" alt="{{  product.images[0].alt | escape }}" id="ProductMainImage">
       </div>
+      {% if product.images.size > 1 %}
+        <div class="product-topright badge-container">
+          <a href="#" class="popup-link" data-popup="#PopupImages{{product.id}}">
+            <div class="badge topright-badge"><i class="fa fa-2x fa-camera"></i></div>
+          </a>
+        </div>
+        <div id="PopupImages{{product.id}}" class="popup overlay popup-sidebar side-bar-small">
+          <div class="popup-inner">
+            <div class="popup-outside"></div>
+            <div class="popup-content left">
+                <a href="" class="popup-close"><i class="fa fa-times"></i></a>
+                {% for image in product.images %}
+                <div class="column">
+                    <a href="#" data-featherlight="{{ image.src | img_url: 'grande' }}" class="thumbnail">
+                      <img src="{{ image.src | img_url: 'large' }}" alt="{{ image.alt | escape }}">
+                    </a>
+                </div>
+                {% endfor %}
+              </div>
+          </div>
+        </div>
+      {% endif %}
     </div>
   </div>
 </div>
