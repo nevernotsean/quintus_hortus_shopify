@@ -24,11 +24,11 @@ assets/Unconfirmed 829873.crdownload:
 assets/app.endless.js.liquid:
   development: 2017-11-29T16:55:24+01:00   ab0aac6de92adc498b9087788b0c7778
 assets/app.fullpage.js:
-  development: 2017-12-08T01:52:21+01:00   ff213c5b3470d119de4eae32b55c5af9
+  development: 2017-12-09T23:38:40+01:00   f226daaed3d46f18991f46926b0d0002
 assets/app.js.liquid:
   development: 2017-11-29T16:55:25+01:00   ae5cb996f3d649f9a07cfb5552610d40
 assets/app.scss.liquid:
-  development: 2017-12-08T03:58:06+01:00   050505851d4fc4817e65ea63dbde2a4f
+  development: 2017-12-09T23:45:45+01:00   59264377ff6a201be5b8408b6050cf59
 assets/arrow-left:
   development: 2017-11-29T16:55:47+01:00
 assets/arrow-left-white.svg:
@@ -248,7 +248,7 @@ snippets/popup-products.liquid:
 snippets/product-icons.liquid:
   development: 2017-11-29T16:55:45+01:00   b9ba3cdd85c1e2054a9bd3c8d4c20c8a
 snippets/product-loop-sorted.liquid:
-  development: 2017-12-08T04:30:51+01:00   e3132ed8c0851932e0b666e2050403da
+  development: 2017-12-09T23:35:56+01:00   6acbc38a412567af9990698b9b8e5a18
 snippets/product-slide-data.liquid:
   development: 2017-12-08T04:23:57+01:00   d48f46897850aef3f975342a6e32fa60
 snippets/product-slide.liquid:
@@ -256,7 +256,7 @@ snippets/product-slide.liquid:
 snippets/product-sorted-loop.liquid:
   development: 2017-11-29T16:55:45+01:00
 snippets/product-view.liquid:
-  development: 2017-12-08T04:13:21+01:00   3c399cb9522161302ec15d79f9052363
+  development: 2017-12-09T23:10:46+01:00   49061869c20837a24ca5dfbacfd616d8
 snippets/respond.liquid:
   development: 2017-11-29T16:55:45+01:00   ca6abf0635dc2ad8c6bd377f83c79f6b
 snippets/search-form.liquid:
@@ -294,7 +294,7 @@ snippets/theme-nav-main.liquid:
 snippets/theme-nav-secondary.liquid:
   development: 2017-11-29T16:55:45+01:00   3e123da978305116a10838298f28f42a
 snippets/theme-nav-toggled.liquid:
-  development: 2017-11-29T16:55:45+01:00   b33c1d20ddf591ae75152284b4d13465
+  development: 2017-12-09T23:45:56+01:00   0701d0acf19b5b0d6391060e97fa2916
 snippets/url.liquid:
   development: 2017-11-29T16:55:45+01:00   122496c14114ae767bb6a7af21c90d8c
 templates/404.liquid:
@@ -304,11 +304,11 @@ templates/article.liquid:
 templates/blog.grid.liquid:
   development: 2017-11-29T16:55:45+01:00
 templates/blog.liquid:
-  development: 2017-11-29T16:55:45+01:00   786bdba4ce54cd8955f54b1a6af6c76d
+  development: 2017-12-09T23:55:30+01:00   4775ab804289aaa8a5873639d56a093a
 templates/blog.list.liquid:
   development: 2017-11-29T16:55:45+01:00   30d0c9a173cbb14e74f4803de02baec8
 templates/cart.liquid:
-  development: 2017-11-29T16:55:45+01:00   09c6f0f42d08b7c1b66f77195123d20b
+  development: 2017-12-09T23:46:11+01:00   86296b2b265be19ff2f2e7375b7e8b77
 templates/cart.static.liquid:
   development: 2017-11-29T16:55:45+01:00   545d51357969436cdf5184e82b9f15cc
 templates/collection.liquid:

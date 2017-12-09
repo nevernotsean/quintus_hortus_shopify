@@ -572,16 +572,28 @@ var fullpage = {
 		calculateSocks: function(qty, size) {
 			if (size == 'Small' || size == 'Medium' || size == 'Large') {
 				var weight = {
-					Small: 13.85,
-					Medium: 16.85,
-					Large: 21.45
+					socks: {
+						Small: 13.85,
+						Medium: 16.85,
+						Large: 21.45
+					},
+					'special-socks': {
+						Small: 13.85,
+						Medium:  39.90,
+						Large: 46.75
+					},
+					'short-socks': {
+						Small: 13.85,
+						Medium: 11.85,
+						Large: 13.20
+					}
 				}
 				// var amountPer100 = {
 				// 	Small: 8,
 				// 	Medium: 6,
 				// 	Large: 5
 				// }
-				var result = (weight[size] * qty).toFixed(2)
+				var result = (weight[window.ProductCollection][size] * qty).toFixed(2)
 				// var result = qty
 
 				return result
@@ -590,8 +602,12 @@ var fullpage = {
 			}
 		},
 		printLabels: function(price) {
+			
 			var self = this,
-				sockAmt = self.calculateSocks(self.currentQty, self.selectedSize)
+				sockGrams = self.calculateSocks(self.currentQty, self.selectedSize),
+				sockCountLabel = self.currentQty + ' chaussette' 
+				
+				sockCountLabel = self.currentQty < 2 ? sockCountLabel : sockCountLabel + 's'
 
 			self.$productContainer
 				.find('span#price-label')
@@ -599,9 +615,9 @@ var fullpage = {
 
 			self.$productContainer
 				.find('.bottom-label span#grams')
-				.html(sockAmt + 'g')
+				.html(sockGrams + 'g')
 
-			self.$productContainer.find('.bottom-label span#count').html(self.currentQty)
+			self.$productContainer.find('.bottom-label span#count').html(sockCountLabel)
 		},
 		updateSelectedSizeButton: function() {
 			var self = this
